@@ -1,5 +1,5 @@
-# TODO +back can be a useful feature for fine-grained consonantal place distinctions
-base    consonant   [+cons,-syl,-son,-cont,-delrel,-lat,-nas,-voi,-sg,-cg,-pharyngeal,-laryngeal,-cor,-dorsal,-lab,-hi,-lo,-round,-velaric,-long]
+# TODO +back can be a useful feature for fine-grained consonantal place distinctions (Hall actually uses it!)
+base    consonant   [+cons,-syl,-son,-cont,-delrel,-lat,-nas,-voi,-sg,-cg,-pharyngeal,-laryngeal,-cor,-dorsal,-lab,-hi,-lo,-back,-round,-velaric,-long]
 aspiration  aspirated   [+sg]
 sibilancy   sibilant    []
 creakiness  creaky  [+cg]
@@ -8,24 +8,24 @@ release with-lateral-release
 release with-mid-central-vowel-release
 release with-nasal-release
 ejection    ejective    [+cg]
-place   alveolar    [+ant,+cor,-distr]   # TODO +strid for fricatives and affricates
+place   alveolar    [+ant,+cor,-distr]   fricative||affricate:[+strid]
 place   alveolo-palatal [+cor,-ant,+distr,+dorsal,+hi]
 place   bilabial    [+lab]
 place   dental  [+cor,+ant,+distr]
 place   epiglottal  [+lo]  # TODO discuss!
-place   glottal [+lo,+laryngeal]    # +cg for glottal stop
+place   glottal [+lo,+laryngeal]    stop:[+cg]
 place   labial  [+lab]
 place   linguolabial    [+cor,+ant,-distr,+lab]  # TODO maybe +distr?
-place   labio-palatal   [+cor,-ant,+distr,+hi,+dorsal]  # TODO does labio-... equal +round or +lab?
-place   labio-velar
-place   labio-dental        # TODO +strid for fricatives and affricates
+place   labio-palatal   [+cor,-ant,+distr,+hi,+dorsal,+round]  # TODO does labio-... equal +round or +lab?
+place   labio-velar [+round,+hi,+dorsal,+back]
+place   labio-dental    [+lab]        fricative||affricate:[+strid]
 place   palatal [+cor,-ant,+distr,+hi,+dorsal]  # TODO maybe palatal sounds should rather be -hi (opposed to palatal-velar)?
-place   palatal-velar   [+cor,-ant,+distr,+hi,+dorsal]
-place   pharyngeal  [+pharyngeal,+lo]
-place   post-alveolar   [+cor,-ant,+distr]   # TODO +strid for fricatives and affricates
-place   retroflex   [+cor,-ant,=distr,+hi]   # TODO does Zsiga say anything about retroflexes? => no, check hall & discuss w Kellen
-place   uvular  [+strid,+dorsal,+lo]    # TODO +strid for fricatives and affricates
-place   velar   [+dorsal,+hi]
+place   palatal-velar   [+cor,-ant,+distr,+hi,+dorsal,+back]  # Hall uses back for velar and uvular consonants
+place   pharyngeal  [+pharyngeal,+lo,+back]
+place   post-alveolar   [+cor,-ant,+distr]   fricative||affricate:[+strid]
+place   retroflex   [+cor,-ant,-distr]   # TODO does Zsiga say anything about retroflexes? => no, check hall & discuss w Kellen
+place   uvular  [+dorsal,+lo,+back]    fricative||affricate:[+strid]
+place   velar   [+dorsal,+hi,+back]
 pharyngealization   pharyngealized  [+pharyngeal]
 voicing devoiced    [-voi]
 voicing revoiced    [+voi]
@@ -35,7 +35,7 @@ preceding   pre-glottalized [+cg,+lo]   # TODO discuss +lo
 preceding   pre-labialized  [+round,+hi,+dorsal]
 preceding   pre-nasalized   [+nas]
 preceding   pre-palatalized [+hi]
-labialization   labialized  [+round,+hi,+dorsal]
+labialization   labialized  [+round,+hi,+dorsal,+back]
 syllabicity syllabic    [+syl]
 palatalization  labio-palatalized   [+round,+hi,+dorsal]    # TODO is the same as labialized...
 palatalization  palatalized [+hi]
@@ -47,10 +47,10 @@ stress  primary-stress  []
 stress  secondary-stress    []
 laterality  lateral [+lat]
 velarization    velarized   [+dorsal,+hi]
-manner  affricate   [+delrel]
-manner  approximant [-cons,+cont,+son]  # TODO -cons only if not lateral
+manner  affricate   [+delrel,-strid]
+manner  approximant [+cont,+son]  !lateral:[-cons]
 manner  click   [+velaric]
-manner  fricative   [+cont]
+manner  fricative   [+cont,-strid]
 manner  implosive
 manner  nasal   [+nas,+son]
 manner  nasal-click [+nas,+velaric]
