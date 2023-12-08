@@ -1,7 +1,7 @@
 import re
-from pyclts import CLTS
 from src.clts2vec.utils.io import load_features
 from os import path
+from clts2vec.features import clts_features, clts_feature_values, binary_features
 
 
 consonants_file = path.join("resources/features/consonants.tsv")
@@ -107,7 +107,7 @@ def vec_to_feature_set(vector):
     feature_set = set()
 
     for i, value in enumerate(vector):
-        feature_name = f_list[i]
+        feature_name = binary_features[i]
         if value == 1:
             feature_set.add(f"+{feature_name}")
         elif value == -1:
@@ -134,7 +134,7 @@ if __name__ == "__main__":
                             v = 1
                         elif tr[0] == "-":
                             v = -1
-                    break
+                        break
                 trans_dict[bin_feature] = v
             new_value_dict[feature_value] = trans_dict
             clts_feature_values[feature_value] = {
@@ -214,7 +214,7 @@ if __name__ == "__main__":
                     output += indent_lvl * "\t"
         last_char = c
 
-    with open("features.py", "w") as f:
+    with open("featuresss.py", "w") as f:
         f.write(output)
 
 
