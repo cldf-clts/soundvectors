@@ -1,6 +1,6 @@
 import sys
 
-from clts2vec.features import generate_feature_vector, vec_to_feature_set
+from clts2vec.translate import generate_feature_vector, vec_to_feature_set
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
