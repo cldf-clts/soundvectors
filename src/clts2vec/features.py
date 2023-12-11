@@ -1,5 +1,5 @@
 binary_features = ['cons', 'syl', 'son', 'cont', 'delrel', 'lat', 'nas', 'voi', 'sg', 'cg', 'pharyngeal', 'laryngeal',
-                   'cor', 'dorsal', 'lab', 'hi', 'lo', 'back', 'round', 'velaric', 'long', 'ant', 'distr', 'strid']
+                   'cor', 'dorsal', 'lab', 'hi', 'lo', 'back', 'front', 'tense', 'round', 'velaric', 'long', 'ant', 'distr', 'strid']
 
 clts_feature_hierarchy = {
     'type': 0,
@@ -16,6 +16,10 @@ clts_features = {
 			'cons': 1, 'syl': -1, 'son': -1, 'cont': -1, 'delrel': -1, 'lat': -1, 'nas': -1, 'voi': -1, 'sg': -1, 'cg': -1, 
 			'pharyngeal': -1, 'laryngeal': -1, 'cor': -1, 'dorsal': -1, 'lab': -1, 'hi': -1, 'lo': -1, 'back': -1, 'round': -1, 
 			'velaric': -1, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
+		}, 'vowel': {
+			'cons': -1, 'syl': 1, 'son': 1, 'cont': 1, 'delrel': 0, 'lat': -1, 'nas': -1, 'voi': 1, 'sg': -1, 'cg': -1,
+			'pharyngeal': -1, 'laryngeal': -1, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': -1, 'lo': -1, 'back': -1, 'front': -1,
+			'tense': -1, 'round': -1, 'velaric': -1, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
 		}
 	},
 	'aspiration': {
@@ -225,6 +229,11 @@ clts_features = {
 			'cons': 0, 'syl': 1, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+		},
+		'non-syllabic': {
+			'cons': 0, 'syl': -1, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0,
+			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0,
+			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		}
 	},
 	'palatalization': {
@@ -261,6 +270,16 @@ clts_features = {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 1, 'ant': 0, 'distr': 0, 'strid': 0
+		},
+		'ultra-long': {
+			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0,
+			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0,
+			'velaric': 0, 'long': 1, 'ant': 0, 'distr': 0, 'strid': 0
+		},
+		'ultra-short': {
+			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0,
+			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0,
+			'velaric': 0, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
 		}
 	},
 	'stress': {
@@ -406,6 +425,54 @@ clts_features = {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+		}
+	},
+	'centrality': {
+		'back': {
+			'back': 1
+		},
+		'central': {},
+		'front': {
+			'front': 1
+		},
+		'near-back': {
+			'back': 1
+		},
+		'near-front': {
+			'front': 1
+		}
+	},
+	'rhotacization': {
+		'rhotacized': {}
+	},
+	'height': {
+		'close': {
+			'hi': 1, 'tense': 1
+		},
+		'close-mid': {
+			'tense': 1
+		},
+		'mid': {},
+		'near-close': {
+			'hi': 1
+		},
+		'near-open': {
+			'lo': 1
+		},
+		'open': {
+			'lo': 1, 'tense': 1
+		},
+		'open-mid': {}
+	},
+	'friction': {
+		'with-friction': {}
+	},
+	'roundedness': {
+		'rounded': {
+			'round': 1
+		},
+		'unrounded': {
+			'round': -1
 		}
 	}
 }
