@@ -1,11 +1,15 @@
 binary_features = ['cons', 'syl', 'son', 'cont', 'delrel', 'lat', 'nas', 'voi', 'sg', 'cg', 'pharyngeal', 'laryngeal',
-                   'cor', 'dorsal', 'lab', 'hi', 'lo', 'back', 'front', 'tense', 'round', 'velaric', 'long', 'ant', 'distr', 'strid']
+                   'cor', 'dorsal', 'lab', 'hi', 'lo', 'back', 'front', 'tense', 'round', 'velaric', 'long', 'ant', 'distr', 'strid',
+				   'hitone', 'hireg', 'loreg', 'rising', 'falling', 'contour']
 
 clts_feature_hierarchy = {
-    'type': 0,
-    'manner': 1,
-    'place': 2,
-    'phonation': 2
+	'type': 0,
+	'manner': 1,
+	'height': 1,
+	'roundedness': 1,
+	'centrality': 1,
+	'place': 2,
+	'phonation': 2
 }
 
 max_hierarchy_level = max(clts_feature_hierarchy.values()) + 1
@@ -20,6 +24,8 @@ clts_features = {
 			'cons': -1, 'syl': 1, 'son': 1, 'cont': 1, 'delrel': 0, 'lat': -1, 'nas': -1, 'voi': 1, 'sg': -1, 'cg': -1,
 			'pharyngeal': -1, 'laryngeal': -1, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': -1, 'lo': -1, 'back': -1, 'front': -1,
 			'tense': -1, 'round': -1, 'velaric': -1, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
+		}, 'tone': {
+			'hitone': -1, 'hireg': -1, 'loreg': -1, 'rising': -1, 'falling': -1, 'contour': -1
 		}
 	},
 	'aspiration': {
@@ -474,6 +480,34 @@ clts_features = {
 		'unrounded': {
 			'round': -1
 		}
+	},
+	'start': {
+		'from-high': {
+			'hireg': 1, 'hitone': 1
+		},
+		'from-low': {
+			'loreg': 1
+		},
+		'from-mid': {},
+		'from-mid-high': {
+			'hireg': 1
+		},
+		'from-mid-low': {
+			'loreg': 1, 'hitone': 1
+		}
+	},
+	'contour': {
+		'contour': {
+			'contour': 1
+		},
+		'falling': {
+			'falling': 1
+		},
+		'rising': {
+			'rising': 1
+		},
+		'flat': {},
+		'short': {}
 	}
 }
 
@@ -510,5 +544,65 @@ joint_feature_definitions = {
 	},
 	('fricative', 'uvular'): {
 		'strid': 1
+	},
+	('contour', 'from-high', 'via-mid-high'): {
+		'falling': 1
+	},
+	('contour', 'from-high', 'via-mid'): {
+		'falling': 1
+	},
+	('contour', 'from-high', 'via-mid-low'): {
+		'falling': 1
+	},
+	('contour', 'from-high', 'via-low'): {
+		'falling': 1
+	},
+	('contour', 'from-mid-high', 'via-high'): {
+		'rising': 1
+	},
+	('contour', 'from-mid-high', 'via-mid'): {
+		'falling': 1
+	},
+	('contour', 'from-mid-high', 'via-mid-low'): {
+		'falling': 1
+	},
+	('contour', 'from-mid-high', 'via-low'): {
+		'falling': 1
+	},
+	('contour', 'from-mid', 'via-high'): {
+		'rising': 1
+	},
+	('contour', 'from-mid', 'via-mid-high'): {
+		'rising': 1
+	},
+	('contour', 'from-mid', 'via-mid-low'): {
+		'falling': 1
+	},
+	('contour', 'from-mid', 'via-low'): {
+		'falling': 1
+	},
+	('contour', 'from-mid-low', 'via-high'): {
+		'rising': 1
+	},
+	('contour', 'from-mid-low', 'via-mid-high'): {
+		'rising': 1
+	},
+	('contour', 'from-mid-low', 'via-mid'): {
+		'rising': 1
+	},
+	('contour', 'from-mid-low', 'via-low'): {
+		'falling': 1
+	},
+	('contour', 'from-low', 'via-high'): {
+		'rising': 1
+	},
+	('contour', 'from-low', 'via-mid-high'): {
+		'rising': 1
+	},
+	('contour', 'from-low', 'via-mid'): {
+		'rising': 1
+	},
+	('contour', 'from-low', 'via-mid-low'): {
+		'rising': 1
 	}
 }
