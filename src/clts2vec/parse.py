@@ -1,17 +1,25 @@
 from clts2vec.features import *
 
 
-def parse(sound):
+def parse(sound, vectorize=True):
     base_vec = {f: 0 for f in binary_features}
     primary_features, secondary_features = get_primary_and_secondary_features(sound.featureset)
 
     for feature in primary_features:
         base_vec = apply_feature(feature, base_vec)
 
+    # diphthongs take their core vowel features from their first vowel,
+    # diphthong-specific features are then applied afterwards
+    if sound.type == "diphthong":
+        base_vec = parse(sound.from_sound, vectorize=False)
+
     base_vec = apply_joint_feature_definitions(sound, base_vec)
 
     for feature in secondary_features:
         base_vec = apply_feature(feature, base_vec)
+
+    if not vectorize:
+        return base_vec
 
     return [base_vec[f] for f in binary_features]
 

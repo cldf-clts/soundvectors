@@ -1,6 +1,7 @@
 binary_features = ['cons', 'syl', 'son', 'cont', 'delrel', 'lat', 'nas', 'voi', 'sg', 'cg', 'pharyngeal', 'laryngeal',
                    'cor', 'dorsal', 'lab', 'hi', 'lo', 'back', 'front', 'tense', 'round', 'velaric', 'long', 'ant', 'distr', 'strid',
-				   'hitone', 'hireg', 'loreg', 'rising', 'falling', 'contour']
+				   'hitone', 'hireg', 'loreg', 'rising', 'falling', 'contour', 'backshift', 'frontshift', 'opening',
+				   'closing', 'centering', 'longdistance', 'secondrounded']
 
 clts_feature_hierarchy = {
 	'type': 0,
@@ -26,6 +27,8 @@ clts_features = {
 			'tense': -1, 'round': -1, 'velaric': -1, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
 		}, 'tone': {
 			'hitone': -1, 'hireg': -1, 'loreg': -1, 'rising': -1, 'falling': -1, 'contour': -1
+		}, 'diphthong': {
+			'backshift': -1, 'frontshift': -1, 'opening': -1, 'closing': -1, 'centering': -1, 'longdistance': -1, 'secondrounded': -1
 		}
 	},
 	'aspiration': {
@@ -508,6 +511,14 @@ clts_features = {
 		},
 		'flat': {},
 		'short': {}
+	},
+	'to_roundedness': {
+		'to_rounded': {
+			'secondrounded': 1
+		},
+		'to_unrounded': {
+			'secondrounded': -1
+		}
 	}
 }
 
@@ -604,5 +615,182 @@ joint_feature_definitions = {
 	},
 	('contour', 'from-low', 'via-mid-low'): {
 		'rising': 1
+	},
+	('from_front', 'to_near-front'): {
+		'backshift': 1
+	},
+	('from_near-front', 'to_front'): {
+		'frontshift': 1
+	},
+	('from_front', 'to_central'): {
+		'backshift': 1
+	},
+	('from_central', 'to_front'): {
+		'frontshift': 1
+	},
+	('from_front', 'to_near-back'): {
+		'backshift': 1
+	},
+	('from_near-back', 'to_front'): {
+		'frontshift': 1
+	},
+	('from_front', 'to_back'): {
+		'backshift': 1
+	},
+	('from_back', 'to_front'): {
+		'frontshift': 1
+	},
+	('from_near-front', 'to_central'): {
+		'backshift': 1
+	},
+	('from_central', 'to_near-front'): {
+		'frontshift': 1
+	},
+	('from_near-front', 'to_near-back'): {
+		'backshift': 1
+	},
+	('from_near-back', 'to_near-front'): {
+		'frontshift': 1
+	},
+	('from_near-front', 'to_back'): {
+		'backshift': 1
+	},
+	('from_back', 'to_near-front'): {
+		'frontshift': 1
+	},
+	('from_central', 'to_near-back'): {
+		'backshift': 1
+	},
+	('from_near-back', 'to_central'): {
+		'frontshift': 1
+	},
+	('from_central', 'to_back'): {
+		'backshift': 1
+	},
+	('from_back', 'to_central'): {
+		'frontshift': 1
+	},
+	('from_near-back', 'to_back'): {
+		'backshift': 1
+	},
+	('from_back', 'to_near-back'): {
+		'frontshift': 1
+	},
+	('from_close', 'to_close-mid'): {
+		'opening': 1, 'centering': 1
+	},
+	('from_close-mid', 'to_close'): {
+		'closing': 1
+	},
+	('from_close', 'to_mid'): {
+		'opening': 1
+	},
+	('from_mid', 'to_close'): {
+		'closing': 1
+	},
+	('from_close', 'to_open-mid'): {
+		'opening': 1
+	},
+	('from_open-mid', 'to_close'): {
+		'closing': 1, 'longdistance': 1
+	},
+	('from_close', 'to_near-open'): {
+		'opening': 1, 'centering': 1, 'longdistance': 1
+	},
+	('from_near-open', 'to_close'): {
+		'closing': 1, 'longdistance': 1
+	},
+	('from_close', 'to_open'): {
+		'opening': 1, 'longdistance': 1
+	},
+	('from_open', 'to_close'): {
+		'closing': 1, 'longdistance': 1
+	},
+	('from_near-close', 'to_mid'): {
+		'opening': 1
+	},
+	('from_mid', 'to_near-close'): {
+		'closing': 1, 'centering': 1
+	},
+	('from_near-close', 'to_open-mid'): {
+		'opening': 1
+	},
+	('from_open-mid', 'to_near-close'): {
+		'closing': 1, 'centering': 1
+	},
+	('from_near-close', 'to_near-open'): {
+		'opening': 1, 'centering': 1
+	},
+	('from_near-open', 'to_near-close'): {
+		'closing': 1, 'centering': 1
+	},
+	('from_near-close', 'to_open'): {
+		'opening': 1, 'longdistance': 1
+	},
+	('from_open', 'to_near-close'): {
+		'closing': 1, 'centering': 1, 'longdistance': 1
+	},
+	('from_close-mid', 'to_open-mid'): {
+		'opening': 1
+	},
+	('from_open-mid', 'to_close-mid'): {
+		'closing': 1
+	},
+	('from_close-mid', 'to_near-open'): {
+		'opening': 1, 'centering': 1
+	},
+	('from_near-open', 'to_close-mid'): {
+		'closing': 1
+	},
+	('from_close-mid', 'to_open'): {
+		'opening': 1, 'longdistance': 1
+	},
+	('from_open', 'to_close-mid'): {
+		'closing': 1
+	},
+	('from_mid', 'to_near-open'): {
+		'opening': 1, 'centering': 1
+	},
+	('from_near-open', 'to_mid'): {
+		'closing': 1
+	},
+	('from_mid', 'to_open'): {
+		'opening': 1
+	},
+	('from_open', 'to_mid'): {
+		'closing': 1
+	},
+	('from_open-mid', 'to_open'): {
+		'opening': 1
+	},
+	('from_open', 'to_open-mid'): {
+		'closing': 1, 'centering': 1
+	},
+	('from_close', 'to_near-close'): {
+		'centering': 1
+	},
+	('from_close-mid', 'to_near-close'): {
+		'centering': 1
+	},
+	('from_open-mid', 'to_near-open'): {
+		'centering': 1
+	},
+	('from_open', 'to_near-open'): {
+		'centering': 1
+	},
+	('to_mid', 'to_central'): {
+		'centering': 1
+	},
+	('to_close-mid', 'to_central'): {
+		'centering': 1
+	},
+	('to_open-mid', 'to_central'): {
+		'centering': 1
+	},
+	('from_near-close', 'to_close-mid'): {
+		'centering': 1
+	},
+	('from_near-open', 'to_open-mid'): {
+		'centering': 1
 	}
 }

@@ -1,17 +1,38 @@
+import sys
 from collections import defaultdict
 from tabulate import tabulate
 from pyclts import CLTS
 from clts2vec.parse import parse
 from clts2vec.translate import vec_to_feature_set
 
-bipa = CLTS().bipa
+from distfeat import DistFeat
+
+clts = CLTS()
+bipa = clts.bipa
 simple_vowels = []
+all_sounds = []
+
+df = DistFeat()
+#df.grapheme2features("ãː")
+df.grapheme2features("bʲ")
 
 with open("resources/sounds.tsv") as f:
     for line in f:
         sound = line.split("\t")[4]
-        if bipa[sound].type == 'tone':
+        all_sounds.append(sound)
+        if bipa[sound].type == 'diphthong':
             simple_vowels.append(sound)
+
+encoded_sounds = 0
+
+for s in all_sounds:
+    try:
+        df.grapheme2features(s)
+        encoded_sounds += 1
+    except KeyError:
+        pass
+
+print(f"Could encode {encoded_sounds} of {len(all_sounds)} sounds.")
 
 sounds_by_vec = defaultdict(list)
 

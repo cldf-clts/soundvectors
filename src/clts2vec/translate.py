@@ -116,6 +116,46 @@ def vec_to_feature_set(vector):
     return frozenset(feature_set)
 
 
+def format_dict_str(d, var_name=None):
+    output = ""
+
+    if var_name:
+        output += f"{var_name} = "
+
+    indent_lvl = 0
+    dict_str = str(d)
+
+    last_char = ""
+    while dict_str:
+        c = dict_str[0]
+        dict_str = dict_str[1:]
+
+        if c == "{":
+            indent_lvl += 1
+            output += c
+            output += "\n"
+            output += indent_lvl * "\t"
+        elif c == "}":
+            indent_lvl -= 1
+            output += "\n"
+            output += indent_lvl * "\t"
+            output += c
+        elif c == ",":
+            output += c
+            if last_char == "}":
+                output += "\n"
+                output += indent_lvl * "\t"
+        else:
+            if not (c == " " and (output.endswith("\t") or output.endswith("\n"))):
+                output += c
+                if dict_str.startswith("'pharyngeal':") or dict_str.startswith("'velaric':"):
+                    output += "\n"
+                    output += indent_lvl * "\t"
+        last_char = c
+
+    return output
+
+
 if __name__ == "__main__":
     output = f"binary_features = {str(f_list)}\n\n"
 
@@ -146,75 +186,9 @@ if __name__ == "__main__":
     # output += f"clts_features = {str(clts_features)}\n\n"
     # output += f"clts_feature_values = {str(clts_feature_values)}\n\n"
 
-    output += "clts_features = "
-
-    indent_lvl = 0
-    clts_features_str = str(clts_features)
-
-    last_char = ""
-    while clts_features_str:
-        c = clts_features_str[0]
-        clts_features_str = clts_features_str[1:]
-
-        if c == "{":
-            indent_lvl += 1
-            output += c
-            output += "\n"
-            output += indent_lvl * "\t"
-        elif c == "}":
-            indent_lvl -= 1
-            output += "\n"
-            output += indent_lvl * "\t"
-            output += c
-        elif c == ",":
-            output += c
-            if last_char == "}":
-                output += "\n"
-                output += indent_lvl * "\t"
-        else:
-            if not (c == " " and (output.endswith("\t") or output.endswith("\n"))):
-                output += c
-                if clts_features_str.startswith("'pharyngeal':") or clts_features_str.startswith("'velaric':"):
-                    output += "\n"
-                    output += indent_lvl * "\t"
-        last_char = c
+    output = format_dict_str(clts_features, var_name="clts_features")
 
     output += "\n\n"
 
-    output += "clts_feature_values = "
-
-    indent_lvl = 0
-    clts_features_str = str(clts_feature_values)
-
-    last_char = ""
-    while clts_features_str:
-        c = clts_features_str[0]
-        clts_features_str = clts_features_str[1:]
-
-        if c == "{":
-            indent_lvl += 1
-            output += c
-            output += "\n"
-            output += indent_lvl * "\t"
-        elif c == "}":
-            indent_lvl -= 1
-            output += "\n"
-            output += indent_lvl * "\t"
-            output += c
-        elif c == ",":
-            output += c
-            if last_char == "}":
-                output += "\n"
-                output += indent_lvl * "\t"
-        else:
-            if not (c == " " and (output.endswith("\t") or output.endswith("\n"))):
-                output += c
-                if clts_features_str.startswith("'pharyngeal':") or clts_features_str.startswith("'velaric':"):
-                    output += "\n"
-                    output += indent_lvl * "\t"
-        last_char = c
-
     with open("featuresss.py", "w") as f:
         f.write(output)
-
-
