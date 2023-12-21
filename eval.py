@@ -2,6 +2,7 @@ import sys
 
 from clts2vec.parse import parse
 from clts2vec.translate import vec_to_str
+from clts2vec.features import clts_features
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
@@ -30,7 +31,6 @@ sounds = defaultdict(list)
 missing = 0
 
 for s in clts_sounds:
-    clts_features = clts.bipa[s].featureset
     try:
         vector = parse(clts.bipa[s])
         # art_feature_set = vec_to_feature_set(vector)
@@ -55,4 +55,14 @@ confused_sounds = {k: v for k, v in sounds.items() if len(v) > 1}
 table = []
 for k, v in sorted(confused_sounds.items(), key=lambda x: len(x[1]), reverse=True)[:20]:
     table += [[len(v), vec_to_str(list(k)), " ".join(v)]]
+print(tabulate(table))
+
+# get CLTS features with no translation so far (aka that do not modify the feature vector)
+table = []
+for clts_feature, feature_dict in clts_features.items():
+    for feature_value, value_dict in feature_dict.items():
+        if set(value_dict.values()) == {0}:
+            table.append([clts_feature, feature_value])
+
+print("CLTS features with null mappings:")
 print(tabulate(table))
