@@ -1,6 +1,8 @@
 from clts2vec.features import *
 
 
+# TODO to handle consonant clusters with conflicting features (e.g. phonation in [kg])?
+
 def parse(sound, vectorize=True):
     base_vec = {f: 0 for f in binary_features}
     primary_features, secondary_features = get_primary_and_secondary_features(sound.featureset)
@@ -12,6 +14,16 @@ def parse(sound, vectorize=True):
     # diphthong-specific features are then applied afterwards
     if sound.type == "diphthong":
         base_vec = parse(sound.from_sound, vectorize=False)
+    elif sound.type == "cluster":
+        from_vec = parse(sound.from_sound, vectorize=False)
+        to_vec = parse(sound.to_sound, vectorize=False)
+        for f in binary_features:
+            if from_vec[f] == 1 or to_vec[f] == 1:
+                base_vec[f] = 1
+            elif from_vec[f] == -1 or to_vec[f] == -1:
+                base_vec[f] = -1
+            else:
+                base_vec[f] = 0
 
     base_vec = apply_joint_feature_definitions(sound, base_vec)
 
@@ -29,7 +41,19 @@ def order_features(featureset):
         clts_feature_values.get(x, {"domain": ""})["domain"], max_hierarchy_level))
 
 
+def split_compound_features(featureset):
+    split_features = []
+
+    for f in featureset:
+        split_features.extend(f.split("-and-"))
+
+    return split_features
+
+
 def get_primary_and_secondary_features(featureset):
+    # split compound features first
+    featureset = split_compound_features(featureset)
+
     primary_features, secondary_features = [], []
 
     for feature in featureset:

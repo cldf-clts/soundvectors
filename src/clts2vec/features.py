@@ -59,7 +59,7 @@ clts_features = {
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},
 		'with-lateral-release': {
-			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
+			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 1, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0,
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},
@@ -69,7 +69,7 @@ clts_features = {
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},
 		'with-nasal-release': {
-			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
+			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 1, 'voi': 0, 'sg': 0, 'cg': 0,
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		}
@@ -203,6 +203,11 @@ clts_features = {
 		'pre-aspirated': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 1, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
+			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+		},
+		'pre-breathy-aspirated': {
+			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 1, 'cg': 0,
+			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0,
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},
 		'pre-glottalized': {
@@ -359,7 +364,7 @@ clts_features = {
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},
 		'tap': {
-			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
+			'cons': 0, 'syl': 0, 'son': 1, 'cont': -1, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0,
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},

@@ -1,6 +1,7 @@
 import sys
 
 from clts2vec.parse import parse
+from clts2vec.translate import vec_to_str
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
@@ -53,5 +54,5 @@ confused_sounds = {k: v for k, v in sounds.items() if len(v) > 1}
 
 table = []
 for k, v in sorted(confused_sounds.items(), key=lambda x: len(x[1]), reverse=True)[:20]:
-    table += [[len(v), " ".join(v)]]
+    table += [[len(v), vec_to_str(list(k)), " ".join(v)]]
 print(tabulate(table))
