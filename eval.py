@@ -2,7 +2,7 @@ import sys
 
 from clts2vec.parse import parse
 from clts2vec.translate import vec_to_str
-from clts2vec.features import clts_features
+from clts2vec.features import clts_features, joint_feature_definitions
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
@@ -11,6 +11,8 @@ sys.path.append("src")
 
 clts_sounds = []
 clts = CLTS()
+
+all_clts_features = defaultdict(set)  # map feature to set of values
 
 header = True
 
@@ -32,9 +34,13 @@ missing = 0
 
 for s in clts_sounds:
     try:
-        vector = parse(clts.bipa[s])
+        clts_sound = clts.bipa[s]
+        vector = parse(clts_sound)
         # art_feature_set = vec_to_feature_set(vector)
         sounds[tuple(vector)].append(s)
+        for k, v in clts_sound.featuredict.items():
+            if v:
+                all_clts_features[k].add(v)
     except:
         missing += 1
 
@@ -59,10 +65,13 @@ print(tabulate(table))
 
 # get CLTS features with no translation so far (aka that do not modify the feature vector)
 table = []
-for clts_feature, feature_dict in clts_features.items():
-    for feature_value, value_dict in feature_dict.items():
-        if set(value_dict.values()) == {0}:
-            table.append([clts_feature, feature_value])
+for feature, value_set in all_clts_features.items():
+    if feature.startswith("from_") or feature.startswith("to_"):
+        continue
+    for value in value_set:
+        binary_features = clts_features.get(feature, dict()).get(value, [0])
+        if set(binary_features) == {0}:
+            table.append([feature, value])
 
 print("CLTS features with null mappings:")
 print(tabulate(table))

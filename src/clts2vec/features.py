@@ -344,7 +344,7 @@ clts_features = {
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': -1
 		},
 		'implosive': {
-			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
+			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 1,
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
 			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
 		},
@@ -487,6 +487,14 @@ clts_features = {
 		},
 		'unrounded': {
 			'round': -1
+		}
+	},
+	'rounding': {
+		'less-rounded': {
+			'round': 1
+		},
+		'more-rounded': {
+			'round': 1
 		}
 	},
 	'start': {
