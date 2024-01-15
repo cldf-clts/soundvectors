@@ -1,13 +1,10 @@
-import sys
-
 from clts2vec.parse import parse
 from clts2vec.translate import vec_to_str
 from clts2vec.features import clts_features, joint_feature_definitions
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
-
-sys.path.append("src")
+from pathlib import Path
 
 clts_sounds = []
 clts = CLTS()
@@ -16,7 +13,7 @@ all_clts_features = defaultdict(set)  # map feature to set of values
 
 header = True
 
-with (open("resources/sounds.tsv") as f):
+with (open(Path(__file__).parent / "resources/sounds.tsv") as f):
     for line in f:
         if header:
             header = False
@@ -60,7 +57,7 @@ confused_sounds = {k: v for k, v in sounds.items() if len(v) > 1}
 
 table = []
 for k, v in sorted(confused_sounds.items(), key=lambda x: len(x[1]), reverse=True)[:20]:
-    table += [[len(v), vec_to_str(list(k)), " ".join(v)]]
+    table += [[len(v), " ".join(v), vec_to_str(list(k))]]
 print(tabulate(table))
 
 # get CLTS features with no translation so far (aka that do not modify the feature vector)

@@ -28,7 +28,7 @@ setup(
     platforms='any',
     python_requires='>=3.6',
     install_requires=[
-        "newick",
+        "pyclts",
     ],
     extras_require={
         'dev': ['black', 'wheel', 'twine'],

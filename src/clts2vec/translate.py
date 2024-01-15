@@ -1,10 +1,10 @@
 import re
 from src.clts2vec.utils.io import load_features
-from os import path
+from pathlib import Path
 from clts2vec.features import clts_features, clts_feature_values, binary_features
 
 
-consonants_file = path.join("resources/features/consonants.tsv")
+consonants_file = Path(__file__).parent.parent.parent / "resources/features/consonants.tsv"
 f_map, flat_f_map, conditions, f_list = load_features(consonants_file)
 
 
