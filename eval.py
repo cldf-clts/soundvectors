@@ -4,27 +4,17 @@ from clts2vec.features import clts_features, joint_feature_definitions
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
-from pathlib import Path
+from csvw.dsv import UnicodeDictReader
 
 clts_sounds = []
 clts = CLTS()
 
 all_clts_features = defaultdict(set)  # map feature to set of values
 
-header = True
-
-with (open(Path(__file__).parent / "resources/sounds.tsv") as f):
-    for line in f:
-        if header:
-            header = False
-            continue
-        sound = line.split("\t")[4]
-        sound_meta = clts.bipa[sound]
-
-        # if (sound_meta.type == "consonant" and sound_meta.manner != "tap" and sound_meta.manner != "implosive"
-         #       and (len(sound) == 1 or (sound_meta.manner == "affricate") and len(sound) == 2)):
+with UnicodeDictReader(clts.repos / "data" / "sounds.tsv", delimiter="\t") as reader:
+    for line in reader:
+        sound = line["GRAPHEME"]
         clts_sounds.append(sound)
-
 
 sounds = defaultdict(list)
 missing = 0
@@ -33,8 +23,7 @@ for s in clts_sounds:
     try:
         clts_sound = clts.bipa[s]
         vector = parse(clts_sound)
-        # art_feature_set = vec_to_feature_set(vector)
-        sounds[tuple(vector)].append(s)
+        sounds[vector].append(s)
         for k, v in clts_sound.featuredict.items():
             if v:
                 all_clts_features[k].add(v)

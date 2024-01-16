@@ -33,7 +33,7 @@ def parse(sound, vectorize=True):
     if not vectorize:
         return base_vec
 
-    return [base_vec[f] for f in binary_features]
+    return tuple([base_vec[f] for f in binary_features])
 
 
 def order_features(featureset):
