@@ -1,9 +1,14 @@
 from clts2vec.features import *
-
+from pyclts import CLTS
 
 # TODO to handle consonant clusters with conflicting features (e.g. phonation in [kg])?
 
+
 def parse(sound, vectorize=True):
+    # if a string is passed, try analyzing it as an IPA symbol.
+    if isinstance(sound, str):
+        sound = CLTS().bipa[sound]
+
     base_vec = {f: 0 for f in binary_features}
     primary_features, secondary_features = get_primary_and_secondary_features(sound.featureset)
 

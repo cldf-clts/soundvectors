@@ -31,7 +31,7 @@ setup(
         "pyclts",
     ],
     extras_require={
-        'dev': ['black', 'wheel', 'twine', 'cltoolkit'],
+        'dev': ['cltoolkit', 'scikit-learn', 'seaborn'],
         'test': [
             'pytest>=4.3',
             'pytest-cov',
