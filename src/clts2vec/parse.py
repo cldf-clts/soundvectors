@@ -14,6 +14,12 @@ def parse(sound, vectorize=True):
     # diphthong-specific features are then applied afterwards
     if sound.type == "diphthong":
         base_vec = parse(sound.from_sound, vectorize=False)
+        # assign [+long] if second part of the diphthong is long
+        if sound.to_sound.duration:
+            base_vec = apply_positive_features(sound.to_sound.duration, base_vec)
+        # assign [+nas] if second part of the diphthong is nasalized
+        if sound.to_sound.nasalization:
+            base_vec = apply_positive_features(sound.to_sound.nasalization, base_vec)
     elif sound.type == "cluster":
         from_vec = parse(sound.from_sound, vectorize=False)
         to_vec = parse(sound.to_sound, vectorize=False)
@@ -69,6 +75,15 @@ def apply_feature(feature, base_vec):
     bin_feature_vec = clts_feature_values.get(feature, {"features": {}})["features"]
     for k, v in bin_feature_vec.items():
         if v in [1, -1]:
+            base_vec[k] = v
+
+    return base_vec
+
+
+def apply_positive_features(feature, base_vec):
+    bin_feature_vec = clts_feature_values.get(feature, {"features": {}})["features"]
+    for k, v in bin_feature_vec.items():
+        if v == 1:
             base_vec[k] = v
 
     return base_vec
