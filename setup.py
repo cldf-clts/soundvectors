@@ -31,7 +31,7 @@ setup(
         "pyclts",
     ],
     extras_require={
-        'dev': ['black', 'wheel', 'twine'],
+        'dev': ['black', 'wheel', 'twine', 'cltoolkit'],
         'test': [
             'pytest>=4.3',
             'pytest-cov',
