@@ -31,7 +31,7 @@ setup(
         "pyclts",
     ],
     extras_require={
-        'dev': ['cltoolkit', 'scikit-learn', 'seaborn'],
+        'dev': ['cltoolkit', 'scikit-learn', 'seaborn', 'numpy', 'matplotlib'],
         'test': [
             'pytest>=4.3',
             'pytest-cov',
