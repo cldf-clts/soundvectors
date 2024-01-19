@@ -7,8 +7,8 @@ wl = Wordlist.from_cldf(Path(__file__).parent.parent / "resources/eval/northeura
 colors = ["red", "darkgreen", "darkblue"]
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
-lang = "ekk"
-sounds = ["k", "g̊", "k̥"]
+lang = "ket"
+sounds = ["ç", "ɕ"]
 ##########################################
 
 
