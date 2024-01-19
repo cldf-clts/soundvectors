@@ -1,30 +1,39 @@
 from lingpy import *
+from pathlib import Path
 from tabulate import tabulate
 
-wl = Wordlist("../resources/nelex-europe.tsv")
+wl = Wordlist.from_cldf(Path(__file__).parent.parent / "resources/eval/northeuralex/cldf/cldf-metadata.json")
 
-spanish = []
+colors = ["red", "darkgreen", "darkblue"]
+
+### DECLARE IMPORTANT INFORMATION HERE ###
+lang = "ekk"
+sounds = ["k", "g̊", "k̥"]
+##########################################
+
+
+relevant_forms = []
 for idx, language, concept, tokens in wl.iter_rows(
         "doculect", "concept", "tokens"):
-    if language == "Spanish":
-        if "m" in tokens or "ɱ" in tokens:
-            spanish += [[concept, tokens]]
-
-spanish = sorted(
-        spanish,
-        key=lambda x: (1 if "m" in x[1] else 0, x[0]))
+    if language == lang:
+        if set(tokens).intersection(set(sounds)):
+            relevant_forms += [[concept, tokens]]
 
 # align data
 cline = []
-for concept, tokens in spanish:
-    if "m" in tokens:
-        idx = [i for i, t in zip(range(len(tokens)), tokens) if t == "m"][0]
-    else:
-        idx = [i for i, t in zip(range(len(tokens)), tokens) if t == "ɱ"][0]
-    before, after = tokens[:idx], tokens[idx + 1:]
-    cline += [[concept, " ".join(before), "red" if tokens[idx] == "m" else "darkgreen", tokens[idx], " ".join(after)]]
+for concept, tokens in relevant_forms:
+    for i, t in enumerate(tokens):
+        if t in sounds:
+            before, after = tokens[:i], tokens[i + 1:]
+            cline += [[concept, " ".join(before), colors[sounds.index(t)], t, " ".join(after)]]
 
-with open("html-representation.html", "w") as f:
+cline = sorted(
+        cline,
+        key=lambda x: (sounds.index(x[3]), x[0]))
+
+outfile = Path(__file__).parent / f"clines/{lang}.html"
+
+with open(outfile, "w") as f:
     f.write('<html><meta charset="utf-8"><body>')
     f.write("<table>")
     for a, b, c, d, e in cline:
