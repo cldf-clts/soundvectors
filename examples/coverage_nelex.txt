@@ -1,0 +1,84 @@
+defaultdict(<class 'list'>, {0: ['Finnish', 'North Karelian', 'Olonets Karelian', 'Veps', 'Livonian', 'Southern Sami', 'Lule Sami', 'Inari Sami', 'Meadow Mari', 'Komi-Zyrian', 'Hungarian', 'Northern Khanty', 'Nganasan', 'Western Farsi', 'Ossetian', 'Armenian', 'Modern Greek', 'Standard Albanian', 'Bulgarian', 'Croatian', 'Slovene', 'Slovak', 'Czech', 'Polish', 'Ukrainian', 'Belarusian', 'Latvian', 'Icelandic', 'Norwegian (Bokmål)', 'Swedish', 'Danish', 'German', 'English', 'Irish', 'Welsh', 'Breton', 'Latin', 'French', 'Portuguese', 'Romanian', 'Turkish', 'North Azerbaijani', 'Northern Uzbek', 'Kazakh', 'Bashkir', 'Tatar', 'Sakha', 'Khalkha Mongolian', 'Buryat', 'Kalmyk', 'Evenki', 'Manchu', 'Northern Yukaghir', 'Southern Yukaghir', 'Chukchi', 'Nivkh', 'Hokkaido Ainu', 'Kalaallisut', 'Kannada', 'Malayalam', 'Tamil', 'Telugu', 'Burushaski', 'Georgian', 'Basque', 'Abkhaz', 'Tsez', 'Lak', 'Lezgian', 'Dargwa', 'Standard Arabic', 'Modern Hebrew'], 4: ['Estonian', 'Avar'], 2: ['Northern Sami', 'Hill Mari', 'Udmurt', 'Komi-Permyak', 'Northern Selkup', 'Tundra Nenets', 'Forest Enets', 'Nanai', 'Ket', 'Chechen'], 6: ['Skolt Sami', 'Dutch'], 7: ['Kildin Sami'], 1: ['Moksha', 'Erzya', 'Northern Mansi', 'Bengali', 'Hindi', 'Northern Pashto', 'Northern Kurdish', 'Russian', 'Catalan', 'Spanish', 'Italian', 'Chuvash', 'Itelmen', 'Aleut', 'Central Siberian Yupik', 'Adyghe', 'Mandarin Chinese'], 3: ['Lithuanian', 'Korean'], 5: ['Japanese']})
+Number of languages with at most <n> confused sounds (from 107 in total):
+-  ---
+0   72
+1   89
+2   99
+3  101
+4  103
+-  ---
+Sounds with the same feature representation:
+----------------------  --------
+Estonian                k g̊ k̥
+Estonian                p b̥
+Estonian                t d̥
+Northern Sami           i í
+Northern Sami           e ē
+Skolt Sami              ʎ ʎʲ
+Skolt Sami              ɲ ɲʲ
+Skolt Sami              ʎː ʎʲː
+Skolt Sami              cçʲ cç
+Skolt Sami              ʝʲː ʝː
+Skolt Sami              ʝ ʝʲ
+Kildin Sami             ʎ ʎʲ
+Kildin Sami             ʎː ʎ̻ː
+Kildin Sami             kʰ ʰk
+Kildin Sami             ç ɕ ɕʲ
+Kildin Sami             tɕ tɕʲ
+Kildin Sami             çː ɕː
+Hill Mari               i í
+Hill Mari               e é
+Moksha                  tɕ tɕʲ
+Erzya                   tɕ tɕʲ
+Udmurt                  tɕ tɕʲ
+Udmurt                  dʑʲ dʑ
+Komi-Permyak            c cʲ
+Komi-Permyak            tɕ tɕʲ
+Northern Mansi          ɲ ɲʲ
+Northern Selkup         ʎ ʎʲ
+Northern Selkup         ɲ ɲʲ
+Tundra Nenets           i ī
+Tundra Nenets           ɲ ɲʲ
+Forest Enets            ɲ ɲʲ
+Forest Enets            ɕ ɕʲ
+Bengali                 i ī
+Hindi                   ʊ ʊ̄
+Northern Pashto         a á
+Northern Kurdish        o ô
+Russian                 ɔː ɔˑ
+Lithuanian              æː æˑ
+Lithuanian              eː eˑ
+Lithuanian              o ò
+Dutch                   uː uˑ
+Dutch                   iː iˑ
+Dutch                   yː yˑ
+Dutch                   oː oˑ
+Dutch                   f v̥
+Dutch                   eː eˑ
+Catalan                 m ɱ
+Spanish                 m ɱ
+Italian                 m ɱ
+Chuvash                 a à
+Nanai                   i i̟
+Nanai                   iː i̟ː
+Ket                     j jʲ
+Ket                     ç ɕ
+Itelmen                 ɕː ɕʲː
+Korean                  k k̚
+Korean                  p p̚
+Korean                  t t̚
+Japanese                k k̚
+Japanese                p p̚
+Japanese                t t̚
+Japanese                d d̚
+Japanese                ç ɕ
+Aleut                   i í
+Central Siberian Yupik  k g̊
+Adyghe                  a á
+Avar                    i í ī
+Avar                    e é
+Avar                    a á
+Chechen                 o ō
+Chechen                 e ē
+Mandarin Chinese        o ô
+----------------------  --------

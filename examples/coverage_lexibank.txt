@@ -1,0 +1,270 @@
+Number of languages with at most <n> confused sounds (from 2682 in total):
+-  ----
+0  2155
+1  2336
+2  2416
+3  2460
+4  2616
+-  ----
+Sounds with the same feature representation:
+-----------  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+a a˞         Ergong, Ersu (Ganluo), Kasem, Luoba (Sulung) [Puroik], Qiang (Mawo), Yekhee, rGyalrong (Ganzi Danba Badi Munashan), rGyalrong (Jinchuan Erkai)
+a á         AWETI, Adyghe, Araweté, Asu G.22, Avar, Basaa A.43a, Bemba M.42, Bukusu E.31c, Chiriguano, Gawwada, Guajá, GuaraniMbya, Guarayo, Guayaki, Jòòle of Joole Manga, Kinyamwezi F22, Koyo C.24, Lega D.25, Nheengatu, Northern Pashto, Rumanyo (Gciriku) K.38, Sirionó, Tarahumara, Tembé, Tswana S.30, Tupinambá, Warazu, Xeta, Yao P.21, Yuki
+a ā         MAWE
+a ă         BahnarPleiku, Burmish_Xiandao, Hruso Aka Jamiri, Irafu, La Chí Bản Díu, Monpa Changprong, Monpa Dirang, Monpa Kalaktang, Namrei Nabolang, Sartang Darbu 2, Semnam Bal, Sherdukpen Rupa, Ópata
+a ă a̠      Burmish_Bola
+a ä         Ngwaxi, Njanye, moresada, musak
+a ǎ         Chin_Hakha
+a a̠         Alo, Azha, Azhe, E Lolo, Guilin, Kopo (Gepo), Kua-nsi (Hedong), Kuansi, Lawu, Lipo, Loloish_Lisu, Luowu Nisu, Maang, Mangdi, Mongi, Narsu (NW Nisu), Naso, Qingyun, Sani, Sanni (Sanie), Sodi, Taliu, Tangkhul, Toloza, Yijiacun, Yino
+ai ai̯       Lawu
+ai a̠i       Maang, Qingyun
+ao a̠o       Qingyun
+aː aˑ        Angavae (Dixon Reef), Na:ti (Windua)
+aː a˞ː       Buli, Gwari
+aː áː       Mayo
+ã ã̄       Bihari
+ã ã̠       Kuansi
+ãː ã́ː     Navajo
+a̰ á̰       Munga Doso
+b bˢ         Miyako
+b b̚         Obokuitai, Sikaritai, Waritai
+bʰ bʱ        Marathi
+b̥ p         Estonian, Ingrian, Lushai, T-Shink 3
+c ȶ          Luoba (Sulung) [Puroik]
+cç cçʲ     Skolt Sami
+cç tɕ       Qiangic_Zhaba, rGyalrong_Daofu
+cçʰ tɕʰ     Qiangic_Zhaba, rGyalrong_Daofu
+cʰ ʰc        Nyagrong Minyag (Ganzi Xinlong)
+ç ɕ         Alsea, Burmish_Xiandao, Kuansi, Nyagrong Minyag (Ganzi Xinlong), Qiangic_Zhaba, Tibetan_Lhasa, Trung [Dulong], rGyalrong (Jinchuan Guaninqiao Wobzi), rGyalrong_Daofu
+çʰ ɕʰ ʰɕ    Nyagrong Minyag (Ganzi Xinlong)
+d dʳ         Butmas-Tur (Butmas), Larevat, Wetamut
+d d̚         Eritai, Obokuitai, Sikaritai
+d d̺         TibetoKinauri_Byangsi
+dzʰ dzʱ      Kiranti_Bahing
+dʰ dʱ        Khaling, Marathi, Newar
+d̥ t         Estonian, Ingrian, T-Shink 3, Xeta, Y-Safedorak 1
+e e˞         Agwagwune, Aja-Gbe, Akan (Asante), Alege, Anaang, Asu, Baatonum, Baba, Bafaw-Balong, Baga-Koba, Bagirmi, Bai (Bijiang), Bai (Dali), Bakundu-Balue, Bakwé, Balanta-Soofa, Bambara, Bamenyam, Bamun, Bandi, Bangolan, Bassa, Bassa-Kontagora, Baynunk-Gujaxer, Begbere-Ejar, Biafada, Boko, Bokyi, Bolo, Buduma, Buli, Central Teke (Ebo), Chichewa / Nyanja, Chuwabo, Cinda-Regi-Tiyal, Cross River Mbembe, Dangme, Dewoin, Dibo, Dimbong, Duala, Duwai, Ebira, Edo, Eloyi, Fon-Gbe, Fula (Kano-Katsina-Bororo), Gola, Gurmancema, Gwari, Ham, Hassaniya, Ife, Igala, Igbo, Ihieʋe, Isekiri, Izon, Jaad (Badiaranke), Jalonke, Jarawa, Joola-Banjal, Joola-Fogny, Jukun Takum, Kabiye, Kanembu, Kanuri (Manga), Kanyok, Kasem, Kikongo, Klao, Kono, Kota, Kpan, Kpelle (Guinea), Kupa, Kutep, Lamnsoq, Landuma, Loko, Loma, Luoba (Sulung) [Puroik], Ləkpa, Mandinka, Maninka-Kankan, Manjaku-Tame, Mankanya, Mano (Mann), Maxi-Gbe, Mbangala, Mbere, Mbo, Mbundu, Mende, Mengaka, Mungaka, Mòoré, Nalu, Ngemba, Nomaande, Northern Teke, Nsongo, Nupe-Tako, Oloma, Pepel, Pulaar (Futa Tooro), Pular (Fuuta Jalon), Qiang (Mawo), Saharan Arabic, Sama, Sei, Seki, Sherbro, Shuwa (Chadian Arabic), Sisaala-Tumulung, So, Songhay (Koyra Chiini), Soninke, Southern Grebo, Southern Kisi, Southern Ngom, Susu, Suundi, Tamasheq, Tem, Temne, Tikar, Tiv, Trung [Dulong], Tsishingini, Tsonga, Umbundu, Urhobo, Vai, Vute, West-Central Limba, Western Teke (Laali), Western Teke (Tsaayi), Wolof, Xwela-Gbe, Yala, Yamba, Yekhee, Yeskwa, Yom (Pila), Yombe, Yoruba, Yukuben, rGyalrong (Ganzi Danba Badi Munashan), rGyalrong (Jinchuan Erkai)
+e é         Avar, Chiriguano, Hill Mari, LeeLau, Nheengatu, Parakanã, Sirionó, Tembé, Tupinambá, Warazu, Yuki
+e ē         Chechen, Northern Sami
+e ĕ         Bugun Bichom, Bugun Kaspi, Bugun Namphri, Bugun Singchung, Bugun Wangho, Hruso Aka Jamiri, Khmer Siem Reap, Monpa Changprong, Sartang Darbu 2, Sherdukpen Rupa, Ópata
+e ë         Xeta, sausi
+e ě         Chin_Hakha, Lower Sorbian
+e e̠         Alo, Cahuilla, Cora, E Lolo, Lawu, Lipo, Loloish_Lisu, Luowu Nisu, Maang, Mangdi, Narsu (NW Nisu), Naso, Sanni (Sanie), Tarahumara, Toloza, Tubar
+ei e̠i       Maang
+eˀ e˞ˀ       rGyalrong (Ganzi Danba Badi Munashan)
+eː eˑ        Lithuanian
+eː e˞ː       Agwagwune, Aja-Gbe, Akan (Asante), Alege, Anaang, Asu, Baatonum, Baba, Bafaw-Balong, Baga-Koba, Bagirmi, Bakundu-Balue, Bakwé, Balanta-Soofa, Bambara, Bamenyam, Bamun, Bandi, Bangolan, Bassa, Bassa-Kontagora, Baynunk-Gujaxer, Begbere-Ejar, Biafada, Boko, Bokyi, Bolo, Buduma, Buli, Central Teke (Ebo), Chichewa / Nyanja, Chuwabo, Cinda-Regi-Tiyal, Cross River Mbembe, Dewoin, Dibo, Dimbong, Duala, Ebira, Edo, Eloyi, Fon-Gbe, Fula (Kano-Katsina-Bororo), Gola, Gurmancema, Gwari, Ham, Hassaniya, Ife, Igala, Igbo, Ihieʋe, Isekiri, Izon, Jaad (Badiaranke), Jalonke, Jarawa, Joola-Banjal, Joola-Fogny, Jukun Takum, Kabiye, Kanembu, Kanuri (Manga), Kanyok, Kasem, Kikongo, Klao, Kono, Kota, Kpan, Kpelle (Guinea), Kupa, Kutep, Lamnsoq, Landuma, Loko, Loma, Ləkpa, Mandinka, Maninka-Kankan, Manjaku-Tame, Mankanya, Mano (Mann), Maxi-Gbe, Mbangala, Mbere, Mbo, Mbundu, Mende, Mengaka, Mungaka, Mòoré, Nalu, Ngemba, Nomaande, Northern Teke, Nsongo, Nupe-Tako, Oloma, Pepel, Pulaar (Futa Tooro), Pular (Fuuta Jalon), Ruwund, Saharan Arabic, Sama, Sei, Seki, Sherbro, Shuwa (Chadian Arabic), Sisaala-Tumulung, So, Songhay (Koyra Chiini), Soninke, Southern Grebo, Southern Kisi, Southern Ngom, Susu, Suundi, Tamasheq, Tem, Temne, Tikar, Tiv, Tsishingini, Tsonga, Umbundu, Urhobo, Vai, Vute, West-Central Limba, Western Teke (Laali), Western Teke (Tsaayi), Wolof, Xwela-Gbe, Yala, Yamba, Yekhee, Yeskwa, Yom (Pila), Yombe, Yoruba, Yukuben
+ẽ ẽ˞       Bai (Bijiang)
+ẽ ẽ̠       Loloish_Lisu, Luowu Nisu
+e̞ ɛ         Cofán
+e̞ ɛ ɛ̠      N Nisu
+f v̥         Lotha
+g g̚         Eritai, Sikaritai
+gʰ gʱ        Akolet, Chuanqiandian, Northeast Yunnan, Marathi, Nduke, Piva, Roinji, Saipan Carolinian, Sudest, Ulithian, Waropen
+g̊ k         Central Siberian Yupik, Ingrian, T-Shink 3
+g̊ k k̥      Estonian
+h h̥         Hruso Aka Jamiri, Monpa Changprong, Monpa Dirang, Sartang Darbu 2, Sherdukpen Rupa
+i i˞         Buduma, Sisaala-Tumulung, rGyalrong (Jinchuan Erkai)
+i ì         Futuna, East, Luangiua, Marquesan, Nengone, Rapanui (Easter Island), Rarotongan, Uvea, East
+i í         Aleut, Chiriguano, Gawwada, Guajá, Guarayo, Hill Mari, Kayabí, Kokama, Munga Doso, Nheengatu, Northern Sami, Suansu, Tembé, Tupinambá, Warazu
+i í î      Burak, Maɣdi
+i í ī      Avar
+i í i̠      Tubar
+i î         Basaa A.43a, Kya̰k, LeeLau, Rumanyo (Gciriku) K.38
+i ī         Arosi (Tawatana Village), Bengali, Bezhta, Dori'o, Langalanga, Lau, Mbaelelea, Oroha, Pukapuka, To'ambaita, Tundra Nenets, Wampar
+i ĭ         Hruso Aka Jamiri, Kagoshima, Khakas, La Chí Bản Díu, Monpa Changprong, Monpa Dirang, Monpa Kalaktang, Namrei Nabolang, Semnam Bal, Sherdukpen Rupa
+i ï         Numfor, Sudest, Trung [Dulong]
+i i̟         Nanai
+i i̠         Alo, Azha, Azhe, Cahuilla, Cora, Cupeño, E Lolo, Eudeve, Guarijío, Haoni, Kopo (Gepo), Kuansi, Lawu, Lipo, Loloish_Lisu, Luiseño, Luowu Nisu, Maang, Mangdi, Mayo, Mongi, N Nisu, Narsu (NW Nisu), Naso, Nersu, Pima de Onavas, Sanni (Sanie), Shuizhuping, Sodi, Taliu, Tarahumara, Toloza, Up: Phola, Yijiacun, Yino
+iː i̟ː       Nanai
+j̥ʲː j̥ː     Kildin Saami
+k kk         Garo_Garo, Tibeto_Kinauri_Rongpo
+k kˠ         Mkaang
+k k̚         Korean, Nakai, Setaman (Seltamin Dialect), Sikaritai, Yaqay (Kogo Dialect)
+kpʷ pʷ       Koro, Lakona
+kʰ kˠʰ       Mkaang
+kʰ ʰk        Nyagrong Minyag (Ganzi Xinlong)
+kʼ ɠ̥        Edo
+m mb         AWETI, Amonda, Asurini Xingu, Chiriguano, Emerillon, Guajá, GuaraniMbya, Guarayo, Guayaki, Nheengatu, Nitita (Khatbol), Nombotkote (Usus - Melkin), Parintintin, Saramaccan, Sirionó, Tupinambá, UrubuKaapor, Xeta
+m mp         MAWE
+m ɱ          Catalan, Khumi, Kua-nsi (Hedong), Kuansi, Nyagrong Minyag (Ganzi Xinlong), Sodi, Trung [Dulong]
+m ⁿm         Angavae (Dixon Reef)
+mʷ ŋmʷ       Lemerig
+n nd         Amonda, Chiriguano, Emerillon, Guajajara, GuaraniMbya, Guarayo, Nheengatu, Parintintin, Saramaccan, Sirionó, Tupinambá, UrubuKaapor
+n n̺         TibetoKinauri_Byangsi
+o o˞         Agwagwune, Aja-Gbe, Akan (Asante), Alege, Anaang, Asu, Baatonum, Baba, Bafaw-Balong, Baga-Koba, Bagirmi, Bakundu-Balue, Bakwé, Balanta-Soofa, Bambara, Bamenyam, Bamun, Bandi, Bangolan, Bassa, Bassa-Kontagora, Baynunk-Gujaxer, Begbere-Ejar, Biafada, Boko, Bokyi, Bolo, Buduma, Buli, Central Teke (Ebo), Chichewa / Nyanja, Chuwabo, Cinda-Regi-Tiyal, Cross River Mbembe, Dangme, Dewoin, Dibo, Dimbong, Duala, Duwai, Ebira, Edo, Eloyi, Fon-Gbe, Fula (Kano-Katsina-Bororo), Gola, Gurmancema, Gwari, Ham, Hassaniya, Ife, Igala, Igbo, Ihieʋe, Isekiri, Izon, Jaad (Badiaranke), Jalonke, Jarawa, Joola-Banjal, Joola-Fogny, Jukun Takum, Kabiye, Kanembu, Kanuri (Manga), Kanyok, Kasem, Kikongo, Klao, Kono, Kota, Kpan, Kpelle (Guinea), Kupa, Kutep, Lamnsoq, Landuma, Loko, Loma, Ləkpa, Mandinka, Maninka-Kankan, Manjaku-Tame, Mankanya, Mano (Mann), Maxi-Gbe, Mbangala, Mbere, Mbo, Mbundu, Mende, Mengaka, Mungaka, Mòoré, Nalu, Ngemba, Nomaande, Northern Teke, Nsongo, Nupe-Tako, Oloma, Pepel, Pulaar (Futa Tooro), Pular (Fuuta Jalon), Saharan Arabic, Sama, Sei, Seki, Sherbro, Shuwa (Chadian Arabic), Sisaala-Tumulung, So, Songhay (Koyra Chiini), Soninke, Southern Grebo, Southern Kisi, Southern Ngom, Susu, Suundi, Tamasheq, Tem, Temne, Tikar, Tiv, Tsishingini, Tsonga, Umbundu, Urhobo, Vai, Vute, West-Central Limba, Western Teke (Laali), Western Teke (Tsaayi), Wolof, Xwela-Gbe, Yala, Yamba, Yekhee, Yeskwa, Yom (Pila), Yombe, Yoruba, Yukuben, rGyalrong (Jinchuan Erkai)
+o ò         Lithuanian
+o ó         Chiriguano, Guajá, Tembé, Tupinambá, Warazu
+o ó ô      Basaa A.43a
+o ô         Maɣdi, Munga Doso, Northern Kurdish, Rumanyo (Gciriku) K.38
+o ō         Chechen
+o ŏ         Bit, Bugun Namphri, Hruso Aka Jamiri, Khmer Siem Reap, Monpa Kalaktang, Sartang Darbu 2, Semnam Bal, Ópata
+o ö         Ap Ma, Asmat, Central (Keenakap, Namen Dialect), Chenapian, Kobon, Mandobo Atas, Old Japanese, Ömie
+o ǒ         Chin_Hakha
+o o̠         Azhe, E Lolo, Kopo (Gepo), Kuansi, Lawu, Limi, Lipo, Loloish_Lisu, Luowu Nisu, Mangdi, N Nisu, Narsu (NW Nisu), Naso, Nipu, Qingyun, Sanni (Sanie), Sodi, Taliu, Toloza, Yijiacun, Yino
+oɐ oɜ        Du'an Gaoling
+oː o˞ː       Agwagwune, Aja-Gbe, Akan (Asante), Alege, Anaang, Asu, Baatonum, Baba, Bafaw-Balong, Baga-Koba, Bagirmi, Bakundu-Balue, Bakwé, Balanta-Soofa, Bambara, Bamenyam, Bamun, Bandi, Bangolan, Bassa, Baynunk-Gujaxer, Begbere-Ejar, Biafada, Boko, Bokyi, Bolo, Buduma, Buli, Central Teke (Ebo), Chichewa / Nyanja, Chuwabo, Cinda-Regi-Tiyal, Cross River Mbembe, Dangme, Dewoin, Dibo, Dimbong, Duala, Duwai, Ebira, Edo, Eloyi, Fon-Gbe, Fula (Kano-Katsina-Bororo), Gola, Gurmancema, Gwari, Ham, Hassaniya, Ife, Igala, Igbo, Ihieʋe, Isekiri, Izon, Jaad (Badiaranke), Jalonke, Jarawa, Joola-Banjal, Joola-Fogny, Jukun Takum, Kabiye, Kanyok, Kasem, Kikongo, Klao, Kono, Kota, Kpan, Kpelle (Guinea), Kupa, Kutep, Lamnsoq, Landuma, Loko, Loma, Ləkpa, Mandinka, Maninka-Kankan, Manjaku-Tame, Mankanya, Mano (Mann), Maxi-Gbe, Mbangala, Mbere, Mbo, Mbundu, Mende, Mengaka, Mungaka, Mòoré, Nalu, Ngemba, Nomaande, Northern Teke, Nsongo, Nupe-Tako, Oloma, Pepel, Pulaar (Futa Tooro), Pular (Fuuta Jalon), Ruwund, Sama, Sei, Seki, Sherbro, Sisaala-Tumulung, So, Songhay (Koyra Chiini), Soninke, Southern Grebo, Southern Kisi, Southern Ngom, Susu, Suundi, Tamasheq, Tem, Temne, Tikar, Tiv, Tsishingini, Tsonga, Umbundu, Urhobo, Vai, Vute, West-Central Limba, Western Teke (Laali), Western Teke (Tsaayi), Wolof, Xwela-Gbe, Yala, Yamba, Yekhee, Yeskwa, Yom (Pila), Yombe, Yoruba, Yukuben
+o̞ ɔ         Toaripi
+p pˢ         JruLaven, Khaonh, Miyako
+p p̚         Korean, Korowai, Nakai, Setaman (Seltamin Dialect), Tangko, Wambon, Yaqay (Kogo Dialect), rGyalrong (Jinchuan Erkai)
+pʰ ʰp        Nyagrong Minyag (Ganzi Xinlong), Poapoã, rGyalrong (Ganzi Danba Badi Munashan)
+q q̚         Wambon
+qʰ ʰq        Nyagrong Minyag (Ganzi Xinlong)
+s z̥         Y-Safedorak 1
+sʰ ʰs        Nyagrong Minyag (Ganzi Xinlong), rGyalrong (Ganzi Danba Badi Munashan)
+s̪ θ         Karok, Korowai
+t tt         Tarifiyt Berber
+t tʳ         Lakona, Mpotovoro, Nume, Tasmate, Toga, Wetamut, Wusi (Valui)
+t t̚         Ambakich (Agurant Dialect), Doutai, Korean, Nakai, Sikaritai, Wambon, rGyalrong (Jinchuan Erkai)
+t t̺         TibetoKinauri_Byangsi
+tsʰ ʰts      Nyagrong Minyag (Ganzi Xinlong), rGyalrong (Ganzi Danba Badi Munashan)
+ts̪ tθ       Nazimabad (Upper Sust) , Skardu Balti, Uyum Nagar, Yasin Center
+ts̪ʰ tθʰ     Uyum Nagar, Yasin Center
+tɕ tɕʲ       Moksha
+tʃʰ tʃ̠ʰ     Mangdi
+tʰ t̺ʰ       TibetoKinauri_Byangsi
+tʰ ʰt        Nyagrong Minyag (Ganzi Xinlong), rGyalrong (Ganzi Danba Badi Munashan)
+tⁿ ⁿt        Angavae (Dixon Reef)
+u u˞         Qiang (Mawo), Trung [Dulong], Yoruba, rGyalrong (Jinchuan Erkai)
+u ù         Maɣdi, Munga Doso, TibetoKinauri_Byangsi
+u ù û      Burak
+u ù ǔ      Chin_Hakha
+u ú         Chiriguano, Gawwada, Jòòle of Joole Manga, Kokama, Nheengatu, Omagua, Suansu, Tupinambá, Warazu, Xeta, Yuki
+u ū         'Are'are (Ma'asupa Village), Anuta, Blablanga, Dori'o, Fagani (Rihu'a), Fataleka, Futuna-Aniwa, Ghari (Tandai), Kwai, Laghu (Samasodu), Langalanga, Lau, Longgu, Malango, Mangareva, Mbaelelea, Mbaengguu, Mono (Alu), Nengone, Nggao (Poro), Niue, Nukuoro, Oroha, Pukapuka, Rarotongan, Rotuman, Samoan, Santa Catalina, Sengga, Sikaiana, Tahitian, Tanimbili, Tawaroga, To'ambaita, Wampar
+u ŭ         Haku, Hruso Aka Jamiri, Irafu, Kagoshima, Khmer Siem Reap, La Chí Bản Díu, Monpa Changprong, Monpa Dirang, Monpa Kalaktang, Sartang Darbu 2, Semnam Bal, Sherdukpen Rupa, Tübatulabal, Ópata
+u ü         Oroqen
+u u̠         Alo, Azha, Azhe, Cahuilla, Cora, Diaocao, Kopo (Gepo), Kuansi, Lawu, Lipo, Loloish_Lisu, Luowu Nisu, Maang, Mangdi, N Nisu, Narsu (NW Nisu), Naso, Sanni (Sanie), Sodi, Taliu, Toloza, Tubar, Up: Phola, Yijiacun, Yino
+u u̠ ʮ       E Lolo
+uː úː       Mayo
+uː u̠ː       Guarijío
+ṵ ṵ̈       Dza of Kaigama
+v v̠         Haoni
+wʰ wʱ        Maori, Ulithian
+y y̆         Monpa Changprong
+y y̠         Azha
+z z̟         Tokano, Yaweyuha
+² ²²         Burmese (Spoken Rangoon), Chuanqiandian, Central Guizhou, Dongnu, Limi, She, Yi (Mile), rGyalrong (Maerkang Caodeng (B))
+²³ ²⁴        Diaocao, Qingyun
+²³ ²⁴ ²⁵     Guilin, Lashi, Maru
+²¹² ²¹⁴      Vietnamese
+²¹³ ²¹⁴      Rongcheng
+²⁴ ²⁵        Mangdi, Tuoluo
+³ ³³         Baheng, West, Bana, Dongnu, Haoni, Luowu Nisu, Mongi, Qiandong, North, Qiangic_Zhaba, She, Sinitic_Jieyang, Yi (Nanhua), Yi (Xide), Younuo
+³ ³³ ⁰       Sinitic_Beijing, Tuoluo, Xiangxi, East
+³² ³¹        Du'an Gaoling, Haoni, Heqing, Jixi, Lashi, Lipo, Luzhai Luzhai, Maru, Qiliqiao, Shuizhuping, Xiangxi, West, Younuo
+³³ ⁰         Guilin, Kim Mun, Mien, Numao, Nunu, Shenyang, Yangjiang
+³³⁴ ³⁴ ³⁵    Rongcheng
+³⁴ ³⁵        Kim Mun, Lashi, Limi, Maru, Shuizhuping, Xincheng Beigeng
+¹ ¹¹         Loudi, White Hmong
+¹² ¹³        Shanghai
+¹³ ¹⁵        Bugan, Tibetan (Lhasa)
+æ æ˞         Luoba (Sulung) [Puroik]
+æ æ̠         Up: Phola
+æː æˑ        Lithuanian
+ø ø̠         Qingyun
+ŋ ŋg         Tupinambá
+ŋ ŋ̃         Lawu
+ŋg ŋk        Malagasy
+œ œ̠         Azha
+ȵ ȵʲ         Skardu Balti
+ȵ ɲ          Achang (Longchuan), Bai (Bijiang), Bai (Dali), Burmese (Spoken Rangoon), Ergong, Ersu (Ganluo), Guiqiong, Luoba (Sulung) [Puroik], Nu (Bijiang) [Nusu], Pumi (Taoba), Qiang (Taoping), Trung [Dulong], Tujia, Yi (Mojiang), Yi (Nanhua), Yi (Xide), Zhaba [Queyu]
+ȵ̊ ɲ̊        Achang (Longchuan), Burmese (Spoken Rangoon)
+ɐ ɐ˞         rGyalrong (Ganzi Danba Badi Munashan)
+ɐˀ ɐ˞ˀ       rGyalrong (Ganzi Danba Badi Munashan)
+ɑ ɑ˞         Nu (Bijiang) [Nusu], Qiang (Mawo), Trung [Dulong]
+ɑ ɑ˞ ɑ̈      rGyalrong (Jinchuan Erkai)
+ɑ ɑ̠         Cahuilla, Cupeño, Loloish_Lisu, Luowu Nisu, Maang, Mangdi, Mayo, Taliu, Tarahumara, Toloza, Tubar, Up: Phola
+ɑ ɑ̠ ɑ̠̄     Luiseño
+ɑ ɑ̠̄        Tongva
+ɑː ɑˑ        Nazimabad (Upper Sust) , Uyum Nagar, Yasin Center
+ɑ̟ ɑ̠        N Nisu
+ɔ ɔ˞         Luoba (Sulung) [Puroik], Nu (Bijiang) [Nusu], Trung [Dulong]
+ɔ ɔ̀         Burak, Loo of Galdemaru, TibetoKinauri_Byangsi
+ɔ ɔ̆         Bit, Burmish_Bola, Burmish_Xiandao, La Chí Bản Díu, Semnam Bal
+ɔ ɔ̠         Alo, Azha, Maang, Naso, Up: Phola
+ɔː ɔˑ        T-Shink 3
+ɔː ɔ̀ː       Penange
+ɔ̃ ɔ̃̆       Semnam Bal
+ɕ ɕʲ         Forest Enets
+ɕʰ ʰɕ        rGyalrong (Ganzi Danba Badi Munashan)
+ɕʲː ɕː       Itelmen
+ɖʰ ɖʱ        Marathi
+ə ə˞         Enqi, Ersu (Ganluo), Guiyang, Luoba (Sulung) [Puroik], Nu (Bijiang) [Nusu], Qiang (Mawo), Sinitic_Beijing, Tawaroga, Tuoluo, rGyalrong (Ganzi Danba Badi Munashan), rGyalrong (Jinchuan Erkai)
+ə ə˞ ə̠ ə̠˞  Sanni (Sanie)
+ə ə́         Dza of Kaigama, Jòòle of Joole Manga, Loo of Galdemaru
+ə ə̆         Bugun Bichom, Bugun Kaspi, Bugun Namphri, Bugun Singchung, Bugun Wangho, Hruso Aka Jamiri, Khmer Siem Reap, Monpa Changprong, Namrei Nabolang, Sartang Darbu 2, Semnam Bal, Sherdukpen Rupa
+ə ə̆ ə̠      Burmish_Bola
+ə ə̠         Cupeño, Lipo, Qingyun, Yijiacun
+ə ɜ          Aghu-Tharrnggala, Du'an Gaoling, Komyandaret, Korowai, Luzhai Luzhai, Mindiri, Mkaang, Nasarian (Wileven tu), Shanglin Tanghong, Tsaukambo, Wanggom, Xincheng Beigeng
+əˀ ə˞ˀ       rGyalrong (Ganzi Danba Badi Munashan)
+ə˞ ə̠˞       Alo, Luowu Nisu, Naso
+ɛ ɛ˞         Ergong, Luoba (Sulung) [Puroik], rGyalrong (Jinchuan Erkai)
+ɛ ɛ˞ ɛ̠ ɛ̠˞  E Lolo, Luowu Nisu
+ɛ ɛ̀         Jòòle of Joole Manga, TibetoKinauri_Byangsi
+ɛ ɛ̀ ɛ́      Burak, Kya̰k
+ɛ ɛ́         Loo of Galdemaru
+ɛ ɛ̠         Azha, Azhe, Haoni, Lipo, Loloish_Lisu, Mangdi, Narsu (NW Nisu), Naso, Qingyun, Toloza, Up: Phola, Yijiacun
+ɛ̀ ɛ́        Maɣdi
+ɛ̃ ɛ̃˞       Shuizhuping
+ɛ̃ ɛ̠̃       Loloish_Lisu
+ɞ ɞ̠         Azha
+ɟ ɟʲ         Qiangic_Zhaba, rGyalrong_Daofu
+ɢʰ ɢʱ        Chuanqiandian, Northeast Yunnan
+ɤ ɤ̆         La Chí Bản Díu
+ɤ ɤ̠         Alo, Kopo (Gepo), Kuansi, Lipo, Luowu Nisu, N Nisu, Narsu (NW Nisu), Sani, Taliu, Toloza
+ɨ ɨ́         Rabha
+ɨ ɨ̄         Kildin Saami
+ɨ ɨ̠         Azha, Kuansi, Mangdi, Up: Phola, Yijiacun
+ɨ ɨ̠ ʅ       Qingyun
+ɨ ʅ          Limi, Shuizhuping
+ɨ̃ ʅ̃        Shuizhuping
+ɪ ɪ˞         rGyalrong (Jinchuan Erkai)
+ɪ ɪ̠         Azhe, Kopo (Gepo), Maang, Narsu (NW Nisu), Sodi, Yino
+ɬ ɬ̥         Ahtena, Chinook, Kuman
+ɯ ɯ˞         rGyalrong (Jinchuan Erkai)
+ɯ ɯ˞ ɿ       Trung [Dulong]
+ɯ ɯ̠         Alo, Azha, Loloish_Lisu, Naso, Sanni (Sanie), Sodi, Up: Phola, Yino
+ɯ ɯ̠ ɿ       Lipo
+ɯ ɯ̠ ɿ ɿ̠    Azhe, E Lolo, Kuansi, Luowu Nisu, N Nisu
+ɯ ɿ          Black Lahu, Burmish_Xiandao, Chaozhou, Chuanqiandian, Northeast Yunnan, Chuanqiandian, Southern Guizhou, Deng_Yidu, Diaocao, Enqi, Ergong, Eryuan, Hani-Qiepu, Heqing, Hlepho, Jianchuan, Kua-nsi (Hedong), Lahu, Lanping, Laowu Nisu, Limi, Lisu, Luobenzhuo, Nanjing, Naxi (Yongning), Numao, Nunu, Qiliqiao, S. Muji, Sinitic_Beijing, Xiangxi, East, Xiangyun, Yi (Nanhua), Yi (Xide), Yunlong
+ɯ ɿ ɿ̠       Haoni, Kazhuo
+ɯi ɯ̠i       Maang
+ɯ̃ ɿ̃        Heqing
+ɲ ɲɟ         Saramaccan
+ɲ ɲʲ         Forest Enets, Northern Mansi, Northern Selkup, Skolt Sami, Tundra Nenets
+ɲ ⁿɲ         Nyagrong Minyag (Ganzi Xinlong)
+ɿ ɿ̠         Lawu
+ʅ ʅ̠         Luowu Nisu, N Nisu
+ʈʂʰ ʰʈʂ      rGyalrong (Ganzi Danba Badi Munashan)
+ʈʰ ʰʈ        Nyagrong Minyag (Ganzi Xinlong)
+ʉ ʉ̠         Azha, Qingyun
+ʊ ʊ˞         rGyalrong (Jinchuan Erkai)
+ʊ ʊ̀         Kinyamwezi F22, Lega D.25, Tswana S.30
+ʊ ʊ́         Dza of Kaigama
+ʌ ʌ́ ʌ̂      Dza of Kaigama
+ʌ ʌ̠         Azha
+ʌ̰ ʌ̰́       Dza of Kaigama
+ʎ ʎʲ         Northern Selkup, Skolt Sami
+ʎʲː ʎː       Skolt Sami
+ʑ ʝ          E Lolo, Kuansi, Lawu, Limi, rGyalrong (Jinchuan Erkai)
+ʔ ʔ̚         rGyalrong (Jinchuan Erkai)
+ʔ ʔ̥         Uppu (Kyin Dwe)
+ʝ ʝʲ         Skolt Sami
+ʝʲː ʝː       Skolt Sami
+⁴ ⁴⁴         Baheng, West, Bana, Lisu, Tuoluo, Zhaozhuang Bai, rGyalrong (Maerkang Caodeng (B))
+⁴² ⁴³        Chuanqiandian, Central Guizhou, Ega, Enqi, Shuizhuping
+⁴² ⁴³ ⁴¹     Lashi, Maru
+⁴² ⁴¹        Numao, Yijiacun
+⁴³ ⁴³³       Du'an Gaoling
+⁴³ ⁴¹        La Chí Bản Díu
+⁵ ⁵⁵         Haoni, Luobuohe, Eastern, Mien, Pumi (Taoba), Sinitic_Jieyang, Sinitic_Xingning, Trung [Dulong], Xiangxi, East, Yi (Mile), rGyalrong (Maerkang Caodeng (B))
+⁵² ⁵³        Burmese (Spoken Rangoon), Chaozhou, Chuanqiandian, Southern Guizhou, Dongnu, Qingyun, Tibetan_Lhasa
+⁵² ⁵³ ⁵¹     Lipo
+⁵² ⁵³ ⁵¹ ⁵⁴  Lashi, Maru
+⁵³ ⁵¹        Burmish_Bola, Burmish_Xiandao, Kim Mun, Mangdi, Shuizhuping, Sinitic_Beijing
+⁵³ ⁵¹ ⁵⁵³    Mang
+⁵³ ⁵⁴        Black Lahu, Lahu, Luzhai Luzhai, Taiyuan, Younuo, rGyalrong (Maerkang Caodeng (B))
+ⁿb ⁿbʳ       Nitita (Khatbol)
+ⁿbʰ ⁿbʱ      Chuanqiandian, Northeast Yunnan
+ⁿd ⁿdʳ       Angavae (Dixon Reef), Aulua (Netimb), Avok (Avok) 162-99, Axamb (Small Island-Brisbane) 162-89, Burmbar (Fartavo), Butmas-Tur (Butmas), Larevat, Mbwenelang (Xoli), Morouas, Na:ti (Windua), Nasarian (Wileven tu), Nasvang (Farun) 162-93, Navwien 162-87, Neverver (Lingarak - Sakan), Nisvai (Blacksands), Nitita (Khatbol), Nombotkote (Usus - Melkin), Pangkumu (Datisman), Polonombauk, Port Sandwich (Lamap 1), Tambotalo, Tirax (Mae B), Uliveo (Lurtes) 162-107, V'ënen Taut (Leviamp)
+-----------  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

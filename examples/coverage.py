@@ -6,8 +6,8 @@ from clts2vec.parse import parse
 from collections import defaultdict
 from tabulate import tabulate
 
-data_dir = Path(__file__).parent.parent / "resources" / "eval" / "northeuralex"
-metadata_file = data_dir / "cldf" / "cldf-metadata.json"
+data_dir = Path(__file__).parent.parent / "resources" / "eval" / "lexibank-analysed"
+metadata_file = data_dir / "cldf" / "wordlist-metadata.json"
 
 vec_to_sound_per_language = {}
 sound_inventory_sizes = {}
@@ -26,6 +26,13 @@ for language in wl.languages:
         vec_to_sounds[sound_vec].append(sound.grapheme)
 
     vec_to_sound_per_language[language_name] = vec_to_sounds
+
+equivalence_classes_to_langs = defaultdict(list)
+
+for lang, vec_to_sounds in vec_to_sound_per_language.items():
+    for sounds in vec_to_sounds.values():
+        if len(sounds) > 1:
+            equivalence_classes_to_langs[frozenset(sounds)].append(lang)
 
 duplets_per_lang = {}
 langs_per_duplet_num = defaultdict(list)
@@ -49,10 +56,17 @@ print(tabulate(table))
 
 table = []
 
+"""
 for lang, vec_to_sounds in vec_to_sound_per_language.items():
     for sounds in vec_to_sounds.values():
         if len(sounds) > 1:
             table.append([lang, " ".join(sounds)])
+"""
+
+for eq_class, langs in equivalence_classes_to_langs.items():
+    table.append([" ".join(sorted(list(eq_class))), ", ".join(sorted(langs))])
+
+table = sorted(table, key=lambda x: x[0])
 
 print("Sounds with the same feature representation:")
 print(tabulate(table))
