@@ -15,7 +15,7 @@ sound_inventory_sizes = {}
 wl = Wordlist([Dataset.from_metadata(metadata_file)], ts=CLTS().bipa)
 
 for language in wl.languages:
-    language_name = language.name
+    language_name = language.id
     sound_inventory = language.sound_inventory.sounds
     sound_inventory_sizes[language_name] = len(sound_inventory)
 
