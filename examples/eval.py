@@ -1,6 +1,6 @@
 from clts2vec.parse import parse
-from clts2vec.translate import vec_to_str
-from clts2vec.features import clts_features, joint_feature_definitions
+from clts2vec.utils import vec_to_str
+from clts2vec.features import clts_features
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict

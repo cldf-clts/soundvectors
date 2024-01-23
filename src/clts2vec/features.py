@@ -479,7 +479,9 @@ clts_features = {
 		'open-mid': {}
 	},
 	'friction': {
-		'with-friction': {}
+		'with-friction': {
+			'son': -1
+		}
 	},
 	'roundedness': {
 		'rounded': {
@@ -807,3 +809,8 @@ joint_feature_definitions = {
 		'centering': 1
 	}
 }
+
+# TODO might want to specify consonantal place of articulation features (cor, dorsal) for fishhooks
+
+# this dictionary should allow users to define custom mappings, directly from sound to feature set.
+custom_features = {}

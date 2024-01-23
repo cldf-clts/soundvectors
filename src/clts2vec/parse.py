@@ -3,6 +3,8 @@ from pyclts import CLTS
 
 # TODO to handle consonant clusters with conflicting features (e.g. phonation in [kg])?
 
+__all__ = ["parse"]
+
 
 def parse(sound, vectorize=True):
     # if a string is passed, try analyzing it as an IPA symbol.
@@ -10,10 +12,10 @@ def parse(sound, vectorize=True):
         sound = CLTS().bipa[sound]
 
     base_vec = {f: 0 for f in binary_features}
-    primary_features, secondary_features = get_primary_and_secondary_features(sound.featureset)
+    primary_features, secondary_features = __get_primary_and_secondary_features(sound.featureset)
 
     for feature in primary_features:
-        base_vec = apply_feature(feature, base_vec)
+        base_vec = __apply_feature(feature, base_vec)
 
     # diphthongs take their core vowel features from their first vowel,
     # diphthong-specific features are then applied afterwards
@@ -21,10 +23,10 @@ def parse(sound, vectorize=True):
         base_vec = parse(sound.from_sound, vectorize=False)
         # assign [+long] if second part of the diphthong is long
         if sound.to_sound.duration:
-            base_vec = apply_positive_features(sound.to_sound.duration, base_vec)
+            base_vec = __apply_positive_features(sound.to_sound.duration, base_vec)
         # assign [+nas] if second part of the diphthong is nasalized
         if sound.to_sound.nasalization:
-            base_vec = apply_positive_features(sound.to_sound.nasalization, base_vec)
+            base_vec = __apply_positive_features(sound.to_sound.nasalization, base_vec)
     elif sound.type == "cluster":
         from_vec = parse(sound.from_sound, vectorize=False)
         to_vec = parse(sound.to_sound, vectorize=False)
@@ -36,10 +38,10 @@ def parse(sound, vectorize=True):
             else:
                 base_vec[f] = 0
 
-    base_vec = apply_joint_feature_definitions(sound, base_vec)
+    base_vec = __apply_joint_feature_definitions(sound, base_vec)
 
     for feature in secondary_features:
-        base_vec = apply_feature(feature, base_vec)
+        base_vec = __apply_feature(feature, base_vec)
 
     if not vectorize:
         return base_vec
@@ -47,12 +49,12 @@ def parse(sound, vectorize=True):
     return tuple([base_vec[f] for f in binary_features])
 
 
-def order_features(featureset):
+def __order_features(featureset):
     return sorted(featureset, key=lambda x: clts_feature_hierarchy.get(
         clts_feature_values.get(x, {"domain": ""})["domain"], max_hierarchy_level))
 
 
-def split_compound_features(featureset):
+def __split_compound_features(featureset):
     split_features = []
 
     for f in featureset:
@@ -61,9 +63,9 @@ def split_compound_features(featureset):
     return split_features
 
 
-def get_primary_and_secondary_features(featureset):
+def __get_primary_and_secondary_features(featureset):
     # split compound features first
-    featureset = split_compound_features(featureset)
+    featureset = __split_compound_features(featureset)
 
     primary_features, secondary_features = [], []
 
@@ -73,10 +75,10 @@ def get_primary_and_secondary_features(featureset):
         else:
             secondary_features.append(feature)
 
-    return order_features(primary_features), secondary_features
+    return __order_features(primary_features), secondary_features
 
 
-def apply_feature(feature, base_vec):
+def __apply_feature(feature, base_vec):
     bin_feature_vec = clts_feature_values.get(feature, {"features": {}})["features"]
     for k, v in bin_feature_vec.items():
         if v in [1, -1]:
@@ -85,7 +87,7 @@ def apply_feature(feature, base_vec):
     return base_vec
 
 
-def apply_positive_features(feature, base_vec):
+def __apply_positive_features(feature, base_vec):
     bin_feature_vec = clts_feature_values.get(feature, {"features": {}})["features"]
     for k, v in bin_feature_vec.items():
         if v == 1:
@@ -94,7 +96,7 @@ def apply_positive_features(feature, base_vec):
     return base_vec
 
 
-def apply_joint_feature_definitions(sound, base_vec):
+def __apply_joint_feature_definitions(sound, base_vec):
     for features, bin_feature_vec in joint_feature_definitions.items():
         if set(features).issubset(sound.featureset):
             for k, v in bin_feature_vec.items():
