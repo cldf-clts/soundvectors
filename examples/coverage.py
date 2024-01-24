@@ -6,8 +6,12 @@ from clts2vec.parse import parse
 from collections import defaultdict
 from tabulate import tabulate
 
-data_dir = Path(__file__).parent.parent / "resources" / "eval" / "lexibank-analysed"
-metadata_file = data_dir / "cldf" / "wordlist-metadata.json"
+DATA = "lexibank-analysed"
+
+metadata_fn = "wordlist-metadata.json" if DATA == "lexibank-analysed" else "cldf-metadata.json"
+
+data_dir = Path(__file__).parent.parent / "eval" / DATA
+metadata_file = data_dir / "cldf" / metadata_fn
 
 vec_to_sound_per_language = {}
 sound_inventory_sizes = {}
@@ -22,8 +26,12 @@ for language in wl.languages:
     vec_to_sounds = defaultdict(list)
 
     for sound in sound_inventory:
+        # normalize string representation of sound via CLTS
         sound_vec = parse(sound.obj)
-        vec_to_sounds[sound_vec].append(sound.grapheme)
+        if hasattr(sound.obj, "s"):
+            vec_to_sounds[sound_vec].append(sound.obj.s)
+        else:
+            vec_to_sounds[sound_vec].append(sound.grapheme)
 
     vec_to_sound_per_language[language_name] = vec_to_sounds
 
@@ -46,11 +54,11 @@ for lang, size in sound_inventory_sizes.items():
 table = []
 num_duplets = 0
 
-for i in range(5):
+for i in range(10):
     num_duplets += len(langs_per_duplet_num.get(i, []))
     table.append([i, num_duplets])
 
-print(langs_per_duplet_num)
+# print(langs_per_duplet_num)
 print(f"Number of languages with at most <n> confused sounds (from {len(sound_inventory_sizes)} in total):")
 print(tabulate(table))
 

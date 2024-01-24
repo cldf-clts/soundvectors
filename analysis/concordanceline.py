@@ -1,10 +1,10 @@
 from lingpy import *
 from pathlib import Path
-from tqdm import tqdm
 from pyclts import CLTS
+from pyclts.models import Sound
 from tabulate import tabulate
 
-wl = Wordlist.from_cldf(Path(__file__).parent.parent / "resources/eval/lexibank-analysed/cldf/wordlist-metadata.json")
+wl = Wordlist.from_cldf(Path(__file__).parent.parent / "eval/lexibank-analysed/cldf/wordlist-metadata.json")
 print("Loaded data.")
 
 colors = ["red", "darkgreen", "darkblue"]
@@ -12,17 +12,24 @@ colors = ["red", "darkgreen", "darkblue"]
 bipa = CLTS().bipa
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
-langs = ['johanssonsoundsymbolic-Alsea', 'naganorgyalrongic-JinchuanGuaninqiaorGyalrong', 'naganorgyalrongic-NyagrongMinyag', 'sagartst-Daofu', 'sagartst-Lhasa', 'sagartst-Xiandao', 'sagartst-Zhaba', 'suntb-Trung', 'yangyi-Kuansi']
-sounds = ["ç", "ɕ"]
-sounds = [bipa[s] for s in sounds]
+# langs = ['johanssonsoundsymbolic-Alsea', 'naganorgyalrongic-JinchuanGuaninqiaorGyalrong', 'naganorgyalrongic-NyagrongMinyag', 'sagartst-Daofu', 'sagartst-Lhasa', 'sagartst-Xiandao', 'sagartst-Zhaba', 'suntb-Trung', 'yangyi-Kuansi']
+langs = ['northeuralex-gld']
+sounds = ["i̟", "i"]
+sounds = [bipa[s].s for s in sounds]
 ##########################################
 
 
 relevant_forms = []
-for idx, language, concept, tokens in tqdm(wl.iter_rows(
-        "doculect", "concept", "tokens")):
+for idx, language, concept, tokens in wl.iter_rows(
+        "doculect", "concept", "tokens"):
     if language in langs:
-        tokens = [bipa[s] for s in tokens]
+        clts_tokens = []
+        for t in tokens:
+            try:
+                clts_tokens.append(bipa[t].s)
+            except AttributeError:
+                clts_tokens.append(t)
+        tokens = clts_tokens
         if set(tokens).intersection(set(sounds)):
             relevant_forms += [[language, concept, tokens]]
 
@@ -38,7 +45,7 @@ cline = sorted(
         cline,
         key=lambda x: (x[0], sounds.index(x[4]), x[1]))
 
-outfile = Path(__file__).parent / f"clines/palat/unvoiced_fricatives.html"
+outfile = Path(__file__).parent / f"clines/gld.html"
 
 with open(outfile, "w") as f:
     f.write('<html><meta charset="utf-8"><body>')

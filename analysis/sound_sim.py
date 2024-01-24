@@ -21,7 +21,6 @@ def plot(func):
     return inner
 
 
-# preliminary test only on consonants
 def chunk_parse(sounds):
     return [parse(s) for s in sounds]
 
