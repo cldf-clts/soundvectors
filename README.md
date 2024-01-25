@@ -10,7 +10,21 @@ Make sure you have cloned into this repository, and `clts2vec` is your current w
 clts2vec$ pip install -e .
 ```
 
-If you wish to reproduce the evaluation from our paper, you also need to download the evaluation data from Lexibank. For this, simply run:
+You also need to initialize a local copy of CLTS:
+
+```
+clts2vec$ make init
+```
+
+### Requirements for running the evaluation
+
+If you wish to reproduce the evaluation from our paper, you require some additional dependencies that are not required by the core package. To install them, run:
+
+```
+clts2vec$ pip install -e .[dev]
+```
+
+You also need to download the evaluation data from Lexibank. For this, simply run:
 
 ```
 clts2vec$ make download
@@ -45,4 +59,12 @@ A more readable string representation of the feature vector can be obtained with
 
 ## Evaluation
 
-The `eval` directory provides the code that was used for the Evaluation section in the paper. If you wish to reproduce our results reported in the paper, make sure that you have installed the dependencies and downloaded the data (see above). Then, you can simply run all evaluation scripts - with each file corresponding to a subsection of the paper with the same name.
+The `eval` directory provides the code that was used for the Evaluation section in the paper. If you wish to reproduce our results reported in the paper, make sure that you have installed the dependencies and downloaded the data (see above). Then, you can simply run all evaluation scripts - with each file corresponding to a subsection of the paper with the same name:
+
+```bash
+$ cd eval
+$ python vector_similarities.py  # 4.1 & 4.2
+$ python equivalence_classes.py  # 4.3
+$ python distinctiveness.py  # 4.4
+$ python concordanceline.py  # 4.4
+```
