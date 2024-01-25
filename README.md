@@ -4,7 +4,7 @@ This lightweight Python package provides a robust tool for translating sounds in
 
 ## Installation
 
-Make sure you have cloned into this repository, and `clts2vec` is your current working repository. Then, you can simply install all dependencies by running:
+Make sure you have cloned into this repository, and `clts2vec` is your current working repository. We assume that you have set up a fresh virtual environment that you are working on. Then, you can simply install all dependencies by running:
 
 ```
 clts2vec$ pip install -e .
