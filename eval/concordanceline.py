@@ -1,13 +1,14 @@
 from lingpy import *
 from pathlib import Path
 from pyclts import CLTS
+from clts2vec.parse import PATH_TO_CLTS
 
 wl = Wordlist.from_cldf(Path(__file__).parent / "lexibank-analysed/cldf/wordlist-metadata.json")
 print("Loaded data.")
 
 colors = ["red", "darkgreen", "darkblue"]
 
-bipa = CLTS().bipa
+bipa = CLTS(PATH_TO_CLTS).bipa
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
 langs = ['northeuralex-gld']

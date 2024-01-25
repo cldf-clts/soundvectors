@@ -1,15 +1,15 @@
 from clts2vec.features import *
 from pyclts import CLTS
+from pathlib import Path
 
-# TODO to handle consonant clusters with conflicting features (e.g. phonation in [kg])?
-
-__all__ = ["parse"]
+__all__ = ["parse", "PATH_TO_CLTS"]
+PATH_TO_CLTS = Path(__file__).parent.parent.parent / "clts"
 
 
 def parse(sound, vectorize=True):
     # if a string is passed, try analyzing it as an IPA symbol.
     if isinstance(sound, str):
-        sound = CLTS().bipa[sound]
+        sound = CLTS(PATH_TO_CLTS).bipa[sound]
 
     base_vec = {f: 0 for f in binary_features}
     primary_features, secondary_features = __get_primary_and_secondary_features(sound.featureset)

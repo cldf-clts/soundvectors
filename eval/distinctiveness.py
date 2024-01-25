@@ -2,7 +2,7 @@ from cltoolkit import Wordlist
 from pyclts import CLTS
 from pycldf import Dataset
 from pathlib import Path
-from clts2vec.parse import parse
+from clts2vec.parse import parse, PATH_TO_CLTS
 from collections import defaultdict
 from tabulate import tabulate
 
@@ -16,7 +16,7 @@ metadata_file = data_dir / "cldf" / metadata_fn
 vec_to_sound_per_language = {}
 sound_inventory_sizes = {}
 
-wl = Wordlist([Dataset.from_metadata(metadata_file)], ts=CLTS().bipa)
+wl = Wordlist([Dataset.from_metadata(metadata_file)], ts=CLTS(PATH_TO_CLTS).bipa)
 
 for language in wl.languages:
     language_name = language.id
