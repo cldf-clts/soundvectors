@@ -1,10 +1,8 @@
 from lingpy import *
 from pathlib import Path
 from pyclts import CLTS
-from pyclts.models import Sound
-from tabulate import tabulate
 
-wl = Wordlist.from_cldf(Path(__file__).parent.parent / "eval/lexibank-analysed/cldf/wordlist-metadata.json")
+wl = Wordlist.from_cldf(Path(__file__).parent / "lexibank-analysed/cldf/wordlist-metadata.json")
 print("Loaded data.")
 
 colors = ["red", "darkgreen", "darkblue"]
@@ -12,7 +10,6 @@ colors = ["red", "darkgreen", "darkblue"]
 bipa = CLTS().bipa
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
-# langs = ['johanssonsoundsymbolic-Alsea', 'naganorgyalrongic-JinchuanGuaninqiaorGyalrong', 'naganorgyalrongic-NyagrongMinyag', 'sagartst-Daofu', 'sagartst-Lhasa', 'sagartst-Xiandao', 'sagartst-Zhaba', 'suntb-Trung', 'yangyi-Kuansi']
 langs = ['northeuralex-gld']
 sounds = ["i̟", "i"]
 sounds = [bipa[s].s for s in sounds]

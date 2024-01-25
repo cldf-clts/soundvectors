@@ -10,7 +10,7 @@ DATA = "lexibank-analysed"
 
 metadata_fn = "wordlist-metadata.json" if DATA == "lexibank-analysed" else "cldf-metadata.json"
 
-data_dir = Path(__file__).parent.parent / "eval" / DATA
+data_dir = Path(__file__).parent / DATA
 metadata_file = data_dir / "cldf" / metadata_fn
 
 vec_to_sound_per_language = {}
@@ -56,20 +56,12 @@ num_duplets = 0
 
 for i in range(10):
     num_duplets += len(langs_per_duplet_num.get(i, []))
-    table.append([i, num_duplets])
+    table.append([i, num_duplets, f"{(num_duplets / len(vec_to_sound_per_language)):.3f}"])
 
-# print(langs_per_duplet_num)
 print(f"Number of languages with at most <n> confused sounds (from {len(sound_inventory_sizes)} in total):")
 print(tabulate(table))
 
 table = []
-
-"""
-for lang, vec_to_sounds in vec_to_sound_per_language.items():
-    for sounds in vec_to_sounds.values():
-        if len(sounds) > 1:
-            table.append([lang, " ".join(sounds)])
-"""
 
 for eq_class, langs in equivalence_classes_to_langs.items():
     table.append([" ".join(sorted(list(eq_class))), ", ".join(sorted(langs))])

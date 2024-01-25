@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='clts2vec',
-    version='0.0.1',
+    version='0.1.0',
     license='Apache 2.0',
     description='Adding phonological feature vectors to CLTS',
     long_description=open('README.md').read(),

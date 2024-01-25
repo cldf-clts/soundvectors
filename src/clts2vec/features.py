@@ -19,8 +19,8 @@ clts_features = {
 	'type': {
 		'consonant': {
 			'cons': 1, 'syl': -1, 'son': -1, 'cont': -1, 'delrel': -1, 'lat': -1, 'nas': -1, 'voi': -1, 'sg': -1, 'cg': -1, 
-			'pharyngeal': -1, 'laryngeal': -1, 'cor': -1, 'dorsal': -1, 'lab': -1, 'hi': -1, 'lo': -1, 'back': -1, 'round': -1, 
-			'velaric': -1, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
+			'pharyngeal': -1, 'laryngeal': -1, 'cor': -1, 'dorsal': -1, 'lab': -1, 'hi': -1, 'lo': -1, 'back': -1, 'front': -1,
+			'round': -1, 'velaric': -1, 'long': -1, 'ant': 0, 'distr': 0, 'strid': 0
 		}, 'vowel': {
 			'cons': -1, 'syl': 1, 'son': 1, 'cont': 1, 'delrel': 0, 'lat': -1, 'nas': -1, 'voi': 1, 'sg': -1, 'cg': -1,
 			'pharyngeal': -1, 'laryngeal': -1, 'cor': 0, 'dorsal': 0, 'lab': 0, 'hi': -1, 'lo': -1, 'back': -1, 'front': -1,
@@ -85,22 +85,22 @@ clts_features = {
 		'alveolar': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 1, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': 1, 'distr': -1, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 1, 'distr': -1, 'strid': 0, 'front': 1
 		},
 		'alveolo-palatal': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 1, 'dorsal': 1, 'lab': 0, 'hi': 1, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': -1, 'distr': 1, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': -1, 'distr': 1, 'strid': 0, 'front': 1
 		},
 		'bilabial': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 1, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0, 'front': 1
 		},
 		'dental': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 1, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': 1, 'distr': 1, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 1, 'distr': 1, 'strid': 0, 'front': 1
 		},
 		'epiglottal': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
@@ -115,27 +115,27 @@ clts_features = {
 		'labial': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 1, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0, 'front': 1
 		},
 		'linguolabial': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 1, 'dorsal': 0, 'lab': 1, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': 1, 'distr': -1, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 1, 'distr': -1, 'strid': 0, 'front': 1
 		},
 		'labio-palatal': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 1, 'dorsal': 1, 'lab': 0, 'hi': 1, 'lo': 0, 'back': 0, 'round': 1, 
-			'velaric': 0, 'long': 0, 'ant': -1, 'distr': 1, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': -1, 'distr': 1, 'strid': 0, 'front': 1
 		},
 		'labio-velar': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 1, 'lab': 0, 'hi': 1, 'lo': 0, 'back': 1, 'round': 1, 
-			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0, 'front': 1
 		},
 		'labio-dental': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 0, 'dorsal': 0, 'lab': 1, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': 0, 'distr': 0, 'strid': 0, 'front': 1
 		},
 		'palatal': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
@@ -155,7 +155,7 @@ clts_features = {
 		'post-alveolar': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
 			'pharyngeal': 0, 'laryngeal': 0, 'cor': 1, 'dorsal': 0, 'lab': 0, 'hi': 0, 'lo': 0, 'back': 0, 'round': 0, 
-			'velaric': 0, 'long': 0, 'ant': -1, 'distr': 1, 'strid': 0
+			'velaric': 0, 'long': 0, 'ant': -1, 'distr': 1, 'strid': 0, 'front': 1
 		},
 		'retroflex': {
 			'cons': 0, 'syl': 0, 'son': 0, 'cont': 0, 'delrel': 0, 'lat': 0, 'nas': 0, 'voi': 0, 'sg': 0, 'cg': 0, 
@@ -809,8 +809,3 @@ joint_feature_definitions = {
 		'centering': 1
 	}
 }
-
-# TODO might want to specify consonantal place of articulation features (cor, dorsal) for fishhooks
-
-# this dictionary should allow users to define custom mappings, directly from sound to feature set.
-custom_features = {}
