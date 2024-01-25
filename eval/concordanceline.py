@@ -3,19 +3,17 @@ from pathlib import Path
 from pyclts import CLTS
 from clts2vec.parse import PATH_TO_CLTS
 
-wl = Wordlist.from_cldf(Path(__file__).parent / "lexibank-analysed/cldf/wordlist-metadata.json")
-print("Loaded data.")
-
-colors = ["red", "darkgreen", "darkblue"]
-
-bipa = CLTS(PATH_TO_CLTS).bipa
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
-langs = ['northeuralex-gld']
-sounds = ["i̟", "i"]
-sounds = [bipa[s].s for s in sounds]
+langs = ['northeuralex-spa']
+sounds = ["ɱ", "m"]
+outfile = Path(__file__).parent / f"clines/spa2.html"
 ##########################################
 
+wl = Wordlist.from_cldf(Path(__file__).parent / "lexibank-analysed/cldf/wordlist-metadata.json")
+colors = ["red", "darkgreen", "darkblue"]
+bipa = CLTS(PATH_TO_CLTS).bipa
+sounds = [bipa[s].s for s in sounds]
 
 relevant_forms = []
 for idx, language, concept, tokens in wl.iter_rows(
@@ -42,8 +40,6 @@ for language, concept, tokens in relevant_forms:
 cline = sorted(
         cline,
         key=lambda x: (x[0], sounds.index(x[4]), x[1]))
-
-outfile = Path(__file__).parent / f"clines/gld.html"
 
 with open(outfile, "w") as f:
     f.write('<html><meta charset="utf-8"><body>')
