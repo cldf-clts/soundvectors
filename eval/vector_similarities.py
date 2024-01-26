@@ -16,8 +16,8 @@ core_vowels = ["i", "iː", "ĩ", "ɪ", "e", "eː", "ɛ", "a", "aː", "ã",
 def plot(func):
     def inner(*args):
         plt.cla()
+        plt.clf()
         func(*args)
-        plt.show()
     return inner
 
 
@@ -26,32 +26,39 @@ def chunk_parse(sounds):
 
 
 @plot
-def cos_similarity_heatmap(vectors, sounds):
+def cos_similarity_heatmap(vectors, sounds, name):
     sim_matrix = cosine_similarity(vectors)
     heatmap(sim_matrix, xticklabels=sounds, yticklabels=sounds)
+    plt.savefig(name)
 
 
 @plot
-def plot_pca(vectors, sounds):
+def plot_pca(vectors, sounds, name):
     pca = PCA(n_components=2)
     res = pca.fit_transform(vectors)
     plt.scatter(*np.swapaxes(res, 0, 1))
     for sound, coordinates in zip(sounds, res):
         plt.annotate(sound, coordinates)
+    plt.savefig(name)
 
 
 @plot
-def plot_tsne(vectors, sounds):
+def plot_tsne(vectors, sounds, name):
     tsne = TSNE(n_components=2, perplexity=5)
     res = tsne.fit_transform(np.array(vectors))
     plt.scatter(*np.swapaxes(res, 0, 1))
     for sound, coordinates in zip(sounds, res):
         plt.annotate(sound, coordinates)
+    plt.savefig(name)
+       
 
 
 if __name__ == "__main__":
-    for sample in [core_vowels, core_consonants, core_vowels + core_consonants]:
+    for sample, name in [
+            (core_vowels, "corev"), 
+            (core_consonants, "corec"), 
+            (core_vowels + core_consonants, "corecv")]:
         vecs = chunk_parse(sample)
-        cos_similarity_heatmap(vecs, sample)
-        plot_pca(vecs, sample)
-        plot_tsne(vecs, sample)
+        cos_similarity_heatmap(vecs, sample, name + "-cos.pdf")
+        plot_pca(vecs, sample, name + "-pca.pdf")
+        plot_tsne(vecs, sample, name + "-tsne.pdf")
