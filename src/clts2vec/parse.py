@@ -1,93 +1,128 @@
-from clts2vec.features import *
-from pyclts import CLTS
-from pathlib import Path
+"""
+Base script for handling CLTS vectorization.
+"""
+from clts2vec.features import (
+        clts_feature_values, joint_feature_definitions, 
+        clts_feature_hierarchy, max_hierarchy_level, binary_features)
 
-__all__ = ["parse", "PATH_TO_CLTS"]
-PATH_TO_CLTS = Path(__file__).parent.parent.parent / "clts"
 
+class CLTS2Vec:
 
-def parse(sound, vectorize=True):
-    # if a string is passed, try analyzing it as an IPA symbol.
-    if isinstance(sound, str):
-        sound = CLTS(PATH_TO_CLTS).bipa[sound]
+    feature_values = clts_feature_values
+    binary_features = binary_features
+    joint_defs = joint_feature_definitions
+    feature_hierarchy = clts_feature_hierarchy
 
-    base_vec = {f: 0 for f in binary_features}
-    primary_features, secondary_features = __get_primary_and_secondary_features(sound.featureset)
+    def __init__(self):
 
-    for feature in primary_features:
-        base_vec = __apply_feature(feature, base_vec)
+        pass
 
-    # diphthongs take their core vowel features from their first vowel,
-    # diphthong-specific features are then applied afterwards
-    if sound.type == "diphthong":
-        first_segment_vec = parse(sound.from_sound, vectorize=False)
-        for k, v in first_segment_vec.items():
-            if v in [-1, 1]:
-                base_vec[k] = v
-        # assign [+long] if second part of the diphthong is long
-        if sound.to_sound.duration:
-            base_vec = __apply_positive_features(sound.to_sound.duration, base_vec)
-        # assign [+nas] if second part of the diphthong is nasalized
-        if sound.to_sound.nasalization:
-            base_vec = __apply_positive_features(sound.to_sound.nasalization, base_vec)
-    elif sound.type == "cluster":
-        from_vec = parse(sound.from_sound, vectorize=False)
-        to_vec = parse(sound.to_sound, vectorize=False)
-        for f in binary_features:
-            if from_vec[f] == 1 or to_vec[f] == 1:
-                base_vec[f] = 1
-            elif from_vec[f] == -1 or to_vec[f] == -1:
-                base_vec[f] = -1
+    def _get_features(self, featureset):
+        
+        primary_features, secondary_features = [], []
+        for feature in featureset:
+            if self.feature_values.get(
+                    feature, {"domain": ""}
+                    )["domain"] in self.feature_hierarchy:
+                primary_features.append(feature)
             else:
-                base_vec[f] = 0
+                secondary_features.append(feature)
+        primary_features = sorted(
+                primary_features,
+                key=lambda x: self.feature_hierarchy.get(
+                    self.feature_values.get(
+                        x, {"domain": ""})["domain"], 
+                    max_hierarchy_level))
 
-    base_vec = __apply_joint_feature_definitions(sound, base_vec)
+        return primary_features, secondary_features
 
-    for feature in secondary_features:
-        base_vec = __apply_feature(feature, base_vec)
+    def _apply_feature(self, feature, base_vec):
+        bin_feature_vec = self.feature_values.get(
+                feature, {"features": {}})["features"]
+        for k, v in bin_feature_vec.items():
+            if v in [1, -1]:
+                base_vec[k] = v
 
-    if not vectorize:
-        return base_vec
+    def _apply_joint_feature_defs(self, sound_features, base_vec):
+        for features, bin_feature_vec in self.joint_defs.items():
+            if set(features).issubset(set(sound_features)):
+                for k, v in bin_feature_vec.items():
+                    if v in [1, -1]:
+                        base_vec[k] = v
 
-    return tuple([base_vec[f] for f in binary_features])
-
-
-def __order_features(featureset):
-    return sorted(featureset, key=lambda x: clts_feature_hierarchy.get(
-        clts_feature_values.get(x, {"domain": ""})["domain"], max_hierarchy_level))
-
-
-def __split_compound_features(featureset):
-    split_features = []
-
-    for f in featureset:
-        split_features.extend(f.split("-and-"))
-
-    return split_features
-
-
-def __get_primary_and_secondary_features(featureset):
-    # split compound features first
-    featureset = __split_compound_features(featureset)
-
-    primary_features, secondary_features = [], []
-
-    for feature in featureset:
-        if clts_feature_values.get(feature, {"domain": ""})["domain"] in clts_feature_hierarchy:
-            primary_features.append(feature)
-        else:
-            secondary_features.append(feature)
-
-    return __order_features(primary_features), secondary_features
+    def __apply_positive_features(self, feature, base_vec):
+        bin_feature_vec = self.feature_values.get(
+                feature, {"features": {}})["features"]
+        for k, v in bin_feature_vec.items():
+            if v == 1:
+                base_vec[k] = v
 
 
-def __apply_feature(feature, base_vec):
-    bin_feature_vec = clts_feature_values.get(feature, {"features": {}})["features"]
-    for k, v in bin_feature_vec.items():
-        if v in [1, -1]:
-            base_vec[k] = v
+    def __call__(self, sound):
+        return self._parse(sound)
 
-    return base_vec
+    def parse(self, sound, vectorize=True):
+        
+        base_vec = {f: 0 for f in self.binary_features}
+
+        # check if sound is diphthong
+        complex_sound = False
+        
+        if sound.endswith(" diphthong"):
+            sound_to_sound = sound[sound.index(" to ") + 4: -10] + " vowel"
+            sound = sound[5: sound.index(" to ")] + " vowel"
+            complex_sound = "diphthong"
+
+        elif sound.endswith(" cluster"):
+            sound_to_sound = sound[sound.index(" to ") + 4: -8] + " consonant"
+            sound = sound[5: sound.index(" to ")] + " consonant"
+            complex_sound = "cluster"
+
+        features = [f for df in sound.split() for f in df.split("-and-")][:-1]
+
+        primary_features, secondary_features = self._get_features(features)
+
+        for feature in primary_features:
+            self._apply_feature(feature, base_vec)
+
+        ## diphthongs take their core vowel features from their first vowel,
+        ## diphthong-specific features are then applied afterwards
+        if complex_sound == "diphthong":
+            print(sound_to_sound)
+            # assign [+long] if second part of the diphthong is long
+            #if sound.to_sound.duration:
+            #    base_vec = _apply_positive_features(sound.to_sound.duration, base_vec)
+            # assign [+nas] if second part of the diphthong is nasalized
+            if " nasalized " in sound_to_sound:
+                self._apply_positive_features("nasalized", base_vec)
+        elif complex_sound == "cluster":
+            from_vec = self.parse(sound, vectorize=False)
+            to_vec = self.parse(sound_to_sound, vectorize=False)
+            for f in binary_features:
+                if from_vec[f] == 1 or to_vec[f] == 1:
+                    base_vec[f] = 1
+                elif from_vec[f] == -1 or to_vec[f] == -1:
+                    base_vec[f] = -1
+                else:
+                    base_vec[f] = 0
+
+        self._apply_joint_feature_defs(features, base_vec)
+
+        for feature in secondary_features:
+            self._apply_feature(feature, base_vec)
+
+        if not vectorize:
+            return base_vec
+
+        return tuple([base_vec[f] for f in binary_features])
+
+
+
+
+
+
+
+
 
 
 def __apply_positive_features(feature, base_vec):
@@ -99,11 +134,3 @@ def __apply_positive_features(feature, base_vec):
     return base_vec
 
 
-def __apply_joint_feature_definitions(sound, base_vec):
-    for features, bin_feature_vec in joint_feature_definitions.items():
-        if set(features).issubset(sound.featureset):
-            for k, v in bin_feature_vec.items():
-                if v in [1, -1]:
-                    base_vec[k] = v
-
-    return base_vec
