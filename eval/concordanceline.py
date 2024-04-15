@@ -5,9 +5,9 @@ from clts2vec.parse import PATH_TO_CLTS
 
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
-langs = ['northeuralex-spa']
-sounds = ["ɱ", "m"]
-outfile = Path(__file__).parent / f"clines/spa2.html"
+langs = ['northeuralex-kor']
+sounds = ["t", "t̚"]
+outfile = Path(__file__).parent / f"clines/kor.html"
 ##########################################
 
 wl = Wordlist.from_cldf(Path(__file__).parent / "lexibank-analysed/cldf/wordlist-metadata.json")
