@@ -20,7 +20,10 @@ def parse(sound, vectorize=True):
     # diphthongs take their core vowel features from their first vowel,
     # diphthong-specific features are then applied afterwards
     if sound.type == "diphthong":
-        base_vec = parse(sound.from_sound, vectorize=False)
+        first_segment_vec = parse(sound.from_sound, vectorize=False)
+        for k, v in first_segment_vec.items():
+            if v in [-1, 1]:
+                base_vec[k] = v
         # assign [+long] if second part of the diphthong is long
         if sound.to_sound.duration:
             base_vec = __apply_positive_features(sound.to_sound.duration, base_vec)

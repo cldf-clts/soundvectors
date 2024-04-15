@@ -22,3 +22,7 @@ print(f"Are the two obtained vectors identical?\n{vec == vec2}\n\n")
 # To make the vector more readable, you can use the vec_to_str convenience method.
 vec_str = vec_to_str(vec)
 print(f"Vector string for [t]: \n{vec_str}\n\n")
+
+# Instead of a tuple, you can also retrieve the vector as a dictionary (with the features as keys)
+vec_dict = parse("t", vectorize=False)
+print(vec_dict)
