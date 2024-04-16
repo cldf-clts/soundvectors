@@ -1,5 +1,5 @@
 
-# Releasing pytular
+# Releasing clts2vec
 
 - Do platform test via tox:
 ```

@@ -26,8 +26,9 @@ setup(
     zip_safe=False,
     platforms='any',
     python_requires='>=3.6',
+    install_requires=[],
     extras_require={
-        'dev': ["pyclts", 'cltoolkit', 'scikit-learn', 'seaborn', 'numpy', 'matplotlib', 'lingpy'],
+        'dev': ['pyclts', 'cltoolkit', 'scikit-learn', 'seaborn', 'numpy', 'matplotlib', 'lingpy'],
         'test': [
             "linse>=0.1.0",
             'pytest>=4.3',

@@ -1,19 +1,15 @@
 # CLTS2Vec
 
-This lightweight Python package provides a robust tool for translating sounds into phonological feature vectors. It is described in detail in our submitted paper "A Generative System for Translating Sounds to Phonological Feature Vectors".
+This lightweight Python package provides a robust tool for translating sounds into phonological feature vectors. It is described in detail in our study "A Generative System for Translating Sounds to Phonological Feature Vectors". If you use the package, we ask you kindly to cite this paper.
+
+> Rubehn, Arne, Jessica Nieder, and Johann-Mattis List (2024): A Generative System for Translating Sounds to Phonological Feature Vectors. +++
 
 ## Installation
 
-Make sure you have cloned into this repository, and `clts2vec` is your current working repository. We assume that you have set up a fresh virtual environment that you are working on. Then, you can simply install all dependencies by running:
+You can install clts2vec via `pip`.
 
 ```
-clts2vec$ pip install -e .
-```
-
-You also need to initialize a local copy of CLTS:
-
-```
-clts2vec$ make init
+pip install clts2vec
 ```
 
 ### Requirements for running the evaluation
@@ -21,7 +17,7 @@ clts2vec$ make init
 If you wish to reproduce the evaluation from our paper, you require some additional dependencies that are not required by the core package. To install them, run:
 
 ```
-clts2vec$ pip install -e .[dev]
+$ pip install -e .[dev]
 ```
 
 You also need to download the evaluation data from Lexibank. For this, simply run:
