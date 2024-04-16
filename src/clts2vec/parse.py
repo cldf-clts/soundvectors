@@ -13,14 +13,11 @@ def is_valid_sound(sound):
 
     @note: We expect a string à la "voiced bilabial stop consonant"
     """
-    try:
-        if (sound.endswith(" consonant") or sound.endswith(" vowel") or
-                sound.endswith(" tone") or sound.endswith(" diphthong") or
-                sound.endswith(" cluster")):
-            return True
-        return False
-    except AttributeError:
-        return False
+    if isinstance(sound, str) and (sound.endswith(" consonant") or sound.endswith(" vowel") or
+                                   sound.endswith(" tone") or sound.endswith(" diphthong") or
+                                   sound.endswith(" cluster")):
+        return True
+    return False
 
 
 class Vector(OrderedDict):
@@ -79,8 +76,6 @@ class CLTS2Vec:
         """
         Try to retrieve the sound name from CLTS or `linse`.
         """
-        if not sound:
-            raise ValueError("Invalid sound encountered.")
         if hasattr(sound, "name") and is_valid_sound(sound.name):
             return sound.name
         if self.ts:
@@ -115,7 +110,6 @@ class CLTS2Vec:
 
         # check if sound is diphthong or complex
         complex_sound = False
-        sound_to_sound = ""
         if sound.endswith(" diphthong"):
             self._apply_feature("diphthong", base_vec)
             sound_to_sound = sound[sound.index(" to ") + 4: -10] + " vowel"
