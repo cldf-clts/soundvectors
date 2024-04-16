@@ -1,28 +1,30 @@
-from clts2vec.parse import parse, PATH_TO_CLTS
-from clts2vec.utils import vec_to_str
+from clts2vec.parse import CLTS2Vec, Vector
 from pyclts import CLTS
 
 """
 A very simple example of how to work with this package.
 """
 
+bipa = CLTS().bipa
+c2v = CLTS2Vec(ts=bipa)
+
 # You can parse any valid IPA string to obtain a feature vector.
-vec = parse("t")
+vec = c2v.get_vec("t")
 print(f"Parsed vector for [t]: \n{vec}\n\n")
 
 # Instead of a string, you can also pass a CLTS Sound object.
-bipa = CLTS(PATH_TO_CLTS).bipa
 t = bipa["t"]
-vec2 = parse(t)
+vec2 = c2v.get_vec(t)
 print(f"Parsed vector for the CLTS Sound object derived from [t]: \n{vec}\n\n")
 
 # The two obtained vectors are identical
 print(f"Are the two obtained vectors identical?\n{vec == vec2}\n\n")
 
-# To make the vector more readable, you can use the vec_to_str convenience method.
-vec_str = vec_to_str(vec)
-print(f"Vector string for [t]: \n{vec_str}\n\n")
+# Instead of a tuple, you can also retrieve the vector as a dictionary-like object (with the features as keys)
+vec_obj = c2v.get_vec("t", vectorize=False)
+print(vec_obj)
 
-# Instead of a tuple, you can also retrieve the vector as a dictionary (with the features as keys)
-vec_dict = parse("t", vectorize=False)
-print(vec_dict)
+# From such an object, you can cast to more readable feature strings or sets
+vec_set = vec_obj.as_set()
+print(f"Vector set for [t]: \n{vec_set}\n\n")
+print(f"Vector string for [t]: \n{str(vec_obj)}\n\n")
