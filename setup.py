@@ -1,11 +1,10 @@
 from setuptools import setup, find_packages
 
-
 setup(
     name='clts2vec',
-    version='0.1.0',
-    license='Apache 2.0',
-    description='Adding phonological feature vectors to CLTS',
+    version='1.0.dev0',
+    license='MIT',
+    description='Vectorizing Speech Sounds in Phonetic Transcription',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     classifiers=[
@@ -19,7 +18,7 @@ setup(
     author='Arne Rubehn',
     author_email='arne.rubehn@uni-passau.de',
     url='https://github.com/calc-project/clts2vec',
-    keywords='data',
+    keywords='speech sounds, feature vectors, CLTS',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     py_modules=['clts2vec'],
@@ -31,6 +30,7 @@ setup(
     extras_require={
         'dev': ['pyclts', 'cltoolkit', 'scikit-learn', 'seaborn', 'numpy', 'matplotlib', 'lingpy'],
         'test': [
+            "linse>=0.1.0",
             'pytest>=4.3',
             'pytest-cov',
             'coverage>=4.2',
