@@ -384,12 +384,16 @@ class SoundVectors:
         """
         if is_valid_sound(sound):
             return sound
-        if sound and self.ts:
-            sound = self.ts([sound])[0]
-            if hasattr(sound, "name"):
-                sound = sound.name
-            if is_valid_sound(sound):
-                return sound
+        if sound and hasattr(sound, "name"):
+            if is_valid_sound(sound.name):
+                return sound.name
+        elif sound and self.ts:
+            sound_transcribed = self.ts([sound])[0]
+            if is_valid_sound(sound_transcribed):
+                return sound_transcribed
+            if hasattr(sound_transcribed, "name"):
+                if is_valid_sound(sound_transcribed.name):
+                    return sound_transcribed.name
         raise ValueError("Invalid sound encountered.")
 
     def get_vec(self, sound, vectorize=True):

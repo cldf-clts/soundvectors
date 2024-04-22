@@ -1,7 +1,6 @@
 from lingpy import *
 from pathlib import Path
 from pyclts import CLTS
-from clts2vec.parse import PATH_TO_CLTS
 
 
 ### DECLARE IMPORTANT INFORMATION HERE ###
@@ -12,7 +11,7 @@ outfile = Path(__file__).parent / f"clines/kor.html"
 
 wl = Wordlist.from_cldf(Path(__file__).parent / "lexibank-analysed/cldf/wordlist-metadata.json")
 colors = ["red", "darkgreen", "darkblue"]
-bipa = CLTS(PATH_TO_CLTS).bipa
+bipa = CLTS().bipa
 sounds = [bipa[s].s for s in sounds]
 
 relevant_forms = []

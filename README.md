@@ -39,17 +39,18 @@ clts2vec$ make clear
 The core of this package is the `parse` function, which translates a valid IPA symbol to its corresponding feature vector:
 
 ```python
->>> from clts2vec.parse import parse
->>> parse("t")
-(1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+>> > from soundvectors.parse import parse
+>> > parse("t")
+(1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0)
 ```
 
 A more readable string representation of the feature vector can be obtained with the `vec_to_str` function:
 
 ```python
->>> from clts2vec.parse import parse
->>> from clts2vec.utils import vec_to_str
->>> vec_to_str(parse("t"))
+>> > from soundvectors.parse import parse
+>> > from soundvectors.utils import vec_to_str
+>> > vec_to_str(parse("t"))
 '+cons,-syl,-son,-cont,-delrel,-lat,-nas,-voi,-sg,-cg,-pharyngeal,-laryngeal,+cor,-dorsal,-lab,-hi,-lo,-back,0_front,0_tense,-round,-velaric,-long,+ant,-distr,0_strid,0_hitone,0_hireg,0_loreg,0_rising,0_falling,0_contour,0_backshift,0_frontshift,0_opening,0_closing,0_centering,0_longdistance,0_secondrounded'
 ```
 

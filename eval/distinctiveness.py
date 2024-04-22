@@ -2,7 +2,7 @@ from cltoolkit import Wordlist
 from pyclts import CLTS
 from pycldf import Dataset
 from pathlib import Path
-from clts2vec.parse import parse, PATH_TO_CLTS
+from soundvectors import SoundVectors
 from collections import defaultdict
 from tabulate import tabulate
 
@@ -16,24 +16,34 @@ metadata_file = data_dir / "cldf" / metadata_fn
 vec_to_sound_per_language = {}
 sound_inventory_sizes = {}
 
-wl = Wordlist([Dataset.from_metadata(metadata_file)], ts=CLTS(PATH_TO_CLTS).bipa)
+bipa = CLTS().bipa
+wl = Wordlist([Dataset.from_metadata(metadata_file)], ts=bipa)
+sv = SoundVectors(ts=bipa)
+
+err = set()
 
 for language in wl.languages:
     language_name = language.id
     sound_inventory = language.sound_inventory.sounds
-    sound_inventory_sizes[language_name] = len(sound_inventory)
+    errors_per_lang = 0  # number of sounds that can not be encoded, should only be '+' in this setting
 
     vec_to_sounds = defaultdict(list)
 
     for sound in sound_inventory:
         # normalize string representation of sound via CLTS
-        sound_vec = parse(sound.obj)
-        if hasattr(sound.obj, "s"):
-            vec_to_sounds[sound_vec].append(sound.obj.s)
-        else:
-            vec_to_sounds[sound_vec].append(sound.grapheme)
+        try:
+            sound_vec = sv.get_vec(sound.obj)
+            if hasattr(sound.obj, "s"):
+                vec_to_sounds[sound_vec].append(sound.obj.s)
+            else:
+                vec_to_sounds[sound_vec].append(sound.grapheme)
+        except ValueError:
+            errors_per_lang += 1
 
+    sound_inventory_sizes[language_name] = len(sound_inventory) - errors_per_lang
     vec_to_sound_per_language[language_name] = vec_to_sounds
+
+print(f"Invalid sounds: {err}")
 
 equivalence_classes_to_langs = defaultdict(list)
 

@@ -37,7 +37,8 @@ def test_parse_simple(c2v):
                 'back': -1, 'front': 1, 'tense': 0, 'round': -1, 'velaric': -1, 'long': -1, 'ant': 1, 'distr': -1,
                 'strid': 0, 'hitone': 0, 'hireg': 0, 'loreg': 0, 'rising': 0, 'falling': 0, 'contour': 0, 'backshift': 0,
                 'frontshift': 0, 'opening': 0, 'closing': 0, 'centering': 0, 'longdistance': 0, 'secondrounded': 0}
-    assert c2v.get_vec("t") == c2v.get_vec(clts(["t"])[0]) == vec
+    assert c2v.get_vec("t") == vec
+    assert c2v.get_vec(clts(["t"])[0]) == vec
 
     assert c2v.get_vec("t", vectorize=False) == vec_dict
 
@@ -132,6 +133,7 @@ def test_validate():
     mcts = MockCLTS()
     c2v = SoundVectors(ts=mcts)
     assert c2v.validate("t") == mcts(["t"])[0].name
+
 
 @pytest.fixture
 def vector():

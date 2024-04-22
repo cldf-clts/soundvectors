@@ -1,14 +1,13 @@
-from clts2vec.parse import parse, PATH_TO_CLTS
-from clts2vec.utils import vec_to_str
+from soundvectors import SoundVectors, FeatureBundle, binary_features
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
 from csvw.dsv import UnicodeDictReader
 
 clts_sounds = []
-clts = CLTS(PATH_TO_CLTS)
+clts = CLTS()
 
-all_clts_features = defaultdict(set)  # map feature to set of values
+sv = SoundVectors(ts=clts.bipa)
 
 with UnicodeDictReader(clts.repos / "data" / "sounds.tsv", delimiter="\t") as reader:
     for line in reader:
@@ -16,16 +15,15 @@ with UnicodeDictReader(clts.repos / "data" / "sounds.tsv", delimiter="\t") as re
         clts_sounds.append(sound)
 
 sounds = defaultdict(list)
+processed = 0
 missing = 0
 
 for s in clts_sounds:
+    processed += 1
     try:
         clts_sound = clts.bipa[s]
-        vector = parse(clts_sound)
+        vector = sv.get_vec(clts_sound)
         sounds[vector].append(s)
-        for k, v in clts_sound.featuredict.items():
-            if v:
-                all_clts_features[k].add(v)
     except:
         missing += 1
 
@@ -45,5 +43,8 @@ confused_sounds = {k: v for k, v in sounds.items() if len(v) > 1}
 
 table = []
 for k, v in sorted(confused_sounds.items(), key=lambda x: len(x[1]), reverse=True)[:20]:
-    table += [[len(v), " ".join(v), vec_to_str(list(k))]]
+    features = FeatureBundle(binary_features)
+    for feat, value in zip(binary_features, k):
+        features[feat] = value
+    table += [[len(v), " ".join(v), str(features)]]
 print(tabulate(table))

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='clts2vec',
+    name='soundvectors',
     version='1.0.dev0',
     license='MIT',
     description='Vectorizing Speech Sounds in Phonetic Transcription',

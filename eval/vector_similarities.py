@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from clts2vec.parse import parse
+from pyclts import CLTS
+from soundvectors import SoundVectors
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
@@ -19,10 +20,6 @@ def plot(func):
         plt.clf()
         func(*args)
     return inner
-
-
-def chunk_parse(sounds):
-    return [parse(s) for s in sounds]
 
 
 @plot
@@ -52,13 +49,13 @@ def plot_tsne(vectors, sounds, name):
     plt.savefig(name)
        
 
-
 if __name__ == "__main__":
+    sv = SoundVectors(ts=CLTS().bipa)
     for sample, name in [
             (core_vowels, "corev"), 
             (core_consonants, "corec"), 
             (core_vowels + core_consonants, "corecv")]:
-        vecs = chunk_parse(sample)
+        vecs = sv(sample)
         cos_similarity_heatmap(vecs, sample, name + "-cos.pdf")
         plot_pca(vecs, sample, name + "-pca.pdf")
         plot_tsne(vecs, sample, name + "-tsne.pdf")
