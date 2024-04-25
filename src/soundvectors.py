@@ -445,6 +445,9 @@ class SoundVectors:
         if complex_sound == "diphthong":
             # apply joint diphthong features
             self._apply_joint_feature_defs(diphthong_features, base_vec)
+            # check if second part is rounded
+            if "to_rounded" in diphthong_features:
+                self._apply_positive_features("to_rounded", base_vec)
             # check for duration
             if "long" in sound_to_sound or "short" in sound_to_sound:
                 duration = [f for f in sound_to_sound.split() if ("long" in f

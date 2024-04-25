@@ -9,8 +9,7 @@ bipa = CLTS().bipa
 sv = SoundVectors(ts=bipa)
 
 # You can parse any valid IPA string to obtain a feature vector.
-# vec = sv.get_vec("t")
-vec = sv.get_vec("AAA")
+vec = sv.get_vec("t")
 print(f"Parsed vector for [t]: \n{vec}\n\n")
 
 # Instead of a string, you can also pass a CLTS Sound object.
