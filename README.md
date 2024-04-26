@@ -1,4 +1,4 @@
-# CLTS2Vec
+# SoundVectors
 
 This lightweight Python package provides a robust tool for translating sounds into phonological feature vectors. It is described in detail in our study "A Generative System for Translating Sounds to Phonological Feature Vectors". If you use the package, we ask you kindly to cite this paper.
 
