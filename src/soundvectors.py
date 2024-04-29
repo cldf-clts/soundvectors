@@ -1,6 +1,7 @@
 """
 CLTS2Vec: Vectorize Speech Sounds in Phonetic Transcription.
 """
+import warnings
 from collections import OrderedDict
 
 __version__ = "1.0.dev0"
@@ -376,7 +377,16 @@ class SoundVectors:
         self.binary_features = binary_features or self.binary_features
 
     def __call__(self, sounds, vectorize=True):
-        return [self.get_vec(sound, vectorize=vectorize) for sound in sounds]
+        vectors = []
+
+        for sound in sounds:
+            try:
+                vectors.append(self.get_vec(sound, vectorize=vectorize))
+            except ValueError:
+                warnings.warn(f"Invalid sound encountered: [{sound}]. Returned feature vector is `None`")
+                vectors.append(None)
+
+        return vectors
 
     def validate(self, sound):
         """
