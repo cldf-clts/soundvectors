@@ -79,7 +79,8 @@ Finally, you can `__call__` the `SoundVectors` object to process a `Collection` 
 
 ```python
 >> > sv(["s", "v"])
-[(1, -1, -1, ..., 0), (1, -1, -1, ..., 0)]
+[(1, -1, -1, ..., 0),
+ (1, -1, -1, ..., 0)]
 ```
 
 
