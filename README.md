@@ -41,11 +41,11 @@ The core of this package is the `SoundVectors` class, which translates valid IPA
 The recommended usage of `SoundVectors` is passing a callable transcription system via the keyword argument `ts`:
 
 ```python
->> > from soundvectors import SoundVectors
->> > from pyclts import CLTS
->> > bipa = CLTS().bipa
->> > sv = SoundVectors(ts=bipa)
->> > sv.get_vec("t")
+>>> from soundvectors import SoundVectors
+>>> from pyclts import CLTS
+>>> bipa = CLTS().bipa
+>>> sv = SoundVectors(ts=bipa)
+>>> sv.get_vec("t")
 (1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0)
 ```
@@ -53,21 +53,24 @@ The recommended usage of `SoundVectors` is passing a callable transcription syst
 Alternatively, the `get_vec` function can be called passing a `Sound` object (derived from `pyclts`), or a string describing the sound according to IPA conventions. The resulting vectors are the same:
 
 ```python
->> > sv.get_vec("voiceless alveolar stop consonant") == sv.get_vec("t") == sv.get_vec(bipa["t"])
+>>> sv.get_vec("voiceless alveolar stop consonant") == sv.get_vec("t") == sv.get_vec(bipa["t"])
 True
 ```
 
 Instead of obtaining a vector directly, the function can also return a dictionary-like `FeatureBundle` object. This object extends `OrderedDict` and offers some convenience methods for improving the readability of the generated feature vector:
 
 ```python
->> > feature_bundle = sv.get_vec("t", vectorize=False)  # set vectorize=False to return an object
->> > feature_bundle["cons"]  # feature values can be retrieved by indexing
+>>> feature_bundle = sv.get_vec("t", vectorize=False)  # set vectorize=False to return an object
+>>> feature_bundle["cons"]  # feature values can be retrieved by indexing
 1
->> > feature_bundle.as_set()  # represent feature bundle as set of non-zero feature strings
+
+>>> feature_bundle.as_set()  # represent feature bundle as set of non-zero feature strings
 frozenset({'-son', '-distr', '-cont', '-lab', '-lo', '-long', '+front', '-laryngeal', '-syl', '-delrel', '-voi', '-round', '+cons', '-velaric', '-dorsal', '-back', '-nas', '-pharyngeal', '+ant', '+cor', '-cg', '-sg', '-lat', '-hi'})
->> > str(feature_bundle)  # string representation
+
+>>> str(feature_bundle)  # string representation
 '+cons,-syl,-son,-cont,-delrel,-lat,-nas,-voi,-sg,-cg,-pharyngeal,-laryngeal,+cor,-dorsal,-lab,-hi,-lo,-back,+front,0_tense,-round,-velaric,-long,+ant,-distr,0_strid,0_hitone,0_hireg,0_loreg,0_rising,0_falling,0_contour,0_backshift,0_frontshift,0_opening,0_closing,0_centering,0_longdistance,0_secondrounded'
->> > feature_bundle.as_vec()  # raw vector representation (equal to the return value with vectorize=True)
+
+>>> feature_bundle.as_vec()  # raw vector representation (equal to the return value with vectorize=True)
 (1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, -1, -1, 1, 0, -1, -1, -1, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0,
  0, 0, 0, 0, 0, 0)
 ```
