@@ -421,7 +421,7 @@ class SoundVectors:
             >>> from soundvectors import SoundVectors
             >>> sv = SoundVectors()
             >>> vec = sv.get_vec("t", vectorize=False)
-            >>> print(vec["cont"]
+            >>> print(vec["cont"])
             - 1
         """
         sound = self.validate(sound)
@@ -455,17 +455,16 @@ class SoundVectors:
         if complex_sound == "diphthong":
             # apply joint diphthong features
             self._apply_joint_feature_defs(diphthong_features, base_vec)
+            # extract secondary features for second segment
+            to_sound_features = [f for df in sound_to_sound.split() for f in df.split("-and-")]
+            _, to_secondary_features = self._get_features(to_sound_features)
+            for f in to_secondary_features:
+                if (self.feature_values.get(f, {"domain": ""})["domain"] not in
+                            ["raising", "relative_articulation", "rounding"]):
+                    secondary_features.append(f)
             # check if second part is rounded
             if "to_rounded" in diphthong_features:
                 self._apply_positive_features("to_rounded", base_vec)
-            # check for duration
-            if "long" in sound_to_sound or "short" in sound_to_sound:
-                duration = [f for f in sound_to_sound.split() if ("long" in f
-                                                                  or "short" in f)][0]
-                self._apply_positive_features(duration, base_vec)
-            # assign [+nas] if second part of the diphthong is nasalized
-            if "nasalized" in sound_to_sound:
-                self._apply_positive_features("nasalized", base_vec)
         elif complex_sound == "cluster":
             from_vec = self.get_vec(sound, vectorize=False)
             to_vec = self.get_vec(sound_to_sound, vectorize=False)
@@ -480,7 +479,10 @@ class SoundVectors:
         self._apply_joint_feature_defs(features, base_vec)
 
         for feature in secondary_features:
-            self._apply_feature(feature, base_vec)
+            if complex_sound == "diphthong":
+                self._apply_positive_features(feature, base_vec)
+            else:
+                self._apply_feature(feature, base_vec)
 
         if not vectorize:
             return base_vec
