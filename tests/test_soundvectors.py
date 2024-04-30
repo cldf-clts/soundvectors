@@ -101,17 +101,20 @@ def test_parse_tone(c2v):
 
 
 def test_parse_non_sound(c2v):
-    with pytest.raises(ValueError):
-        c2v.get_vec("AAA")
+    with pytest.warns(UserWarning):
+        with pytest.raises(ValueError):
+            c2v.get_vec("AAA")
 
-    with pytest.raises(ValueError):
-        c2v.get_vec(clts(["AAA"])[0])
+    with pytest.warns(UserWarning):
+        with pytest.raises(ValueError):
+            c2v.get_vec(clts(["AAA"])[0])
 
     with pytest.raises(ValueError):
         c2v.get_vec("")
 
-    with pytest.raises(ValueError):
-        c2v.get_vec(clts([""]))
+    with pytest.warns(UserWarning):
+        with pytest.raises(ValueError):
+            c2v.get_vec(clts([""]))
 
     with pytest.raises(ValueError):
         c2v.get_vec(None)
