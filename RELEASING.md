@@ -1,5 +1,5 @@
 
-# Releasing clts2vec
+# Releasing soundvectors
 
 - Do platform test via tox:
 ```
@@ -14,7 +14,7 @@ flake8 src
 
 - Update the version number, by removing the trailing `.dev0` in:
   - `setup.py`
-  - `src/clts2vec.py`
+  - `src/soundvectors.py`
 
 - Create the release commit:
 ```shell
@@ -45,7 +45,7 @@ git push --tags
 - Change version for the next release cycle, i.e. incrementing and adding .dev0
 
   - `setup.py`
-  - `src/clts2vec.py`
+  - `src/soundvectors.py`
 
 - Commit/push the version change:
 ```shell
