@@ -76,7 +76,8 @@ def test_parse_diphthong_nas(c2v):
 
 
 def test_parse_cluster(c2v):
-    # [kp] should have features for both places of articulation (labial & velar), but not for other ones (e.g. coronal)
+    # [kp] should have features for both places of articulation (labial & velar), but not for
+    # other ones (e.g. coronal)
     vec_dict = c2v.get_vec("kp", vectorize=False)
     assert vec_dict["hi"] == 1
     assert vec_dict["lab"] == 1
@@ -87,17 +88,18 @@ def test_parse_cluster(c2v):
     assert vec_dict["voi"] == 1
 
 
-def test_parse_tone(c2v):
+@pytest.mark.parametrize(
+    'sound,as_set',
+    [
+        ('5', {"+hitone", "+hireg", "-loreg", "-rising", "-falling", "-contour"}),
+        ('51', {"+hitone", "+hireg", "-loreg", "-rising", "+falling", "-contour"}),
+        ('513', {"+hitone", "+hireg", "-loreg", "-rising", "+falling", "+contour"}),
+    ]
+)
+def test_parse_tone(sound, as_set, c2v):
     # for tones, ONLY the six tonal features should have actual (non-zero) values:
     # ["hitone", "hireg", "loreg", "rising", "falling", "contour"]
-    vec_set = frozenset({{1: "+", -1: "-"}[v] + k for k, v in c2v.get_vec("5", vectorize=False).items() if v})
-    assert vec_set == frozenset({"+hitone", "+hireg", "-loreg", "-rising", "-falling", "-contour"})
-
-    vec_set = frozenset({{1: "+", -1: "-"}[v] + k for k, v in c2v.get_vec("51", vectorize=False).items() if v})
-    assert vec_set == frozenset({"+hitone", "+hireg", "-loreg", "-rising", "+falling", "-contour"})
-
-    vec_set = frozenset({{1: "+", -1: "-"}[v] + k for k, v in c2v.get_vec("513", vectorize=False).items() if v})
-    assert vec_set == frozenset({"+hitone", "+hireg", "-loreg", "-rising", "+falling", "+contour"})
+    assert c2v[sound].as_set() == as_set
 
 
 def test_parse_non_sound(c2v):

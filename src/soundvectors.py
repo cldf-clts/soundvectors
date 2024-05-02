@@ -40,24 +40,24 @@ class FeatureBundle:
     front: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     tense: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     round: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    velaric: int = dataclasses.field(default=0, metadata={'dc:description': ''})
+    velaric: int = dataclasses.field(default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
     long: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     ant: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     distr: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     strid: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    hitone: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    hireg: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    loreg: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    rising: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    falling: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    contour: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    backshift: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    frontshift: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    opening: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    closing: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    centering: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    longdistance: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    secondrounded: int = dataclasses.field(default=0, metadata={'dc:description': ''})
+    hitone: int = dataclasses.field(default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
+    hireg: int = dataclasses.field(default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
+    loreg: int = dataclasses.field(default=0, metadata={'dc:description': 'Supplements hireg'})
+    rising: int = dataclasses.field(default=0, metadata={'dc:description': 'CLTS tone representation'})
+    falling: int = dataclasses.field(default=0, metadata={'dc:description': 'CLTS tone representation'})
+    contour: int = dataclasses.field(default=0, metadata={'dc:description': 'CLTS tone representation'})
+    backshift: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
+    frontshift: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
+    opening: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
+    closing: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
+    centering: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
+    longdistance: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
+    secondrounded: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
 
     def __post_init__(self):
         assert all(v in {0, 1, -1} for v in dataclasses.astuple(self))
@@ -84,7 +84,10 @@ class FeatureBundle:
             k: v for k, v in dataclasses.asdict(self).items()
             if valid_values is None or (v in valid_values)}
 
-    def as_set(self):
+    def as_set(self) -> frozenset:
+        """
+        The set of applicable features and their values.
+        """
         return frozenset(
             {'{}{}'.format('+' if v > 0 else '-', k) for k, v in self.as_dict({1, -1}).items()})
 
@@ -107,16 +110,15 @@ class FeatureBundle:
         return dataclasses.fields(cls)
 
 
-clts_feature_hierarchy = {
-    "type": 0,
-    "manner": 1,
-    "height": 1,
-    "roundedness": 1,
-    "centrality": 1,
-    "place": 2,
-    "phonation": 2, }
-
-max_hierarchy_level = max(clts_feature_hierarchy.values()) + 1
+clts_feature_hierarchy = [  # CLTS feature domains ordered from least to most specific.
+    "type",
+    "manner",
+    "height",
+    "roundedness",
+    "centrality",
+    "place",
+    "phonation",
+]
 
 clts_features = {
     "type": {
@@ -587,6 +589,11 @@ class SoundVectors:
         base_vec = self[sound]
         return base_vec.as_vector() if vectorize else base_vec.as_dict()
 
+    def _get_hierarchy_level(self, domain):
+        if domain in self.feature_hierarchy:
+            return self.feature_hierarchy.index(domain)
+        return len(self.feature_hierarchy)
+
     def _get_features(self, featureset):
         primary_features, secondary_features = [], []
         for feature in featureset:
@@ -596,8 +603,8 @@ class SoundVectors:
                 secondary_features.append(feature)
         primary_features = sorted(
             primary_features,
-            key=lambda x: self.feature_hierarchy.get(
-                self.feature_values.get(x, {"domain": ""})["domain"], max_hierarchy_level))
+            key=lambda x: self._get_hierarchy_level(
+                self.feature_values.get(x, {"domain": ""})["domain"]))
 
         return primary_features, secondary_features
 
