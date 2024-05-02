@@ -1,19 +1,8 @@
+import types
+
 import pytest
 from soundvectors import SoundVectors, is_valid_sound, FeatureBundle
 from linse.annotate import clts
-from collections import namedtuple
-
-
-class MockCLTS:
-    def __init__(self):
-        pass
-
-    def __call__(self, item):
-        sound = namedtuple("sound", "name")
-        out = []
-        for item in item:
-            out += [sound(clts([item])[0])]
-        return out
 
 
 @pytest.fixture
@@ -21,12 +10,23 @@ def c2v():
     return SoundVectors(ts=clts)
 
 
-def test_is_valid_sound():
-    assert is_valid_sound("voiceless alveolar stop consonant")
-    assert is_valid_sound("some vowel")
-    assert not is_valid_sound("???")
-    assert not is_valid_sound(None)
-    assert not is_valid_sound(1)
+@pytest.mark.parametrize(
+    'sound,expected',
+    [
+        ('voiceless alveolar stop consonant', True),
+        ('some vowel', True),
+        ('???', False),
+        (None, False),
+        (1, False),
+    ]
+)
+def test_is_valid_sound(sound, expected):
+    assert is_valid_sound(sound) is expected
+
+
+def test_call_invalid(c2v):
+    with pytest.warns(UserWarning):
+        c2v([None])
 
 
 def test_parse_simple(c2v):
@@ -44,9 +44,9 @@ def test_parse_simple(c2v):
 
 
 def test_parse_diacritics(c2v):
-    vec_dict = c2v.get_vec("long devoiced voiced labio-dental fricative consonant", vectorize=False)
-    assert vec_dict["voi"] == -1
-    assert vec_dict["long"] == 1
+    res = c2v["long devoiced voiced labio-dental fricative consonant"]
+    assert res.voi == -1
+    assert res.long == 1
 
 
 def test_parse_diphthong(c2v):
@@ -90,13 +90,13 @@ def test_parse_cluster(c2v):
 def test_parse_tone(c2v):
     # for tones, ONLY the six tonal features should have actual (non-zero) values:
     # ["hitone", "hireg", "loreg", "rising", "falling", "contour"]
-    vec_set = c2v.get_vec("5", vectorize=False).as_set()
+    vec_set = frozenset({{1: "+", -1: "-"}[v] + k for k, v in c2v.get_vec("5", vectorize=False).items() if v})
     assert vec_set == frozenset({"+hitone", "+hireg", "-loreg", "-rising", "-falling", "-contour"})
 
-    vec_set = c2v.get_vec("51", vectorize=False).as_set()
+    vec_set = frozenset({{1: "+", -1: "-"}[v] + k for k, v in c2v.get_vec("51", vectorize=False).items() if v})
     assert vec_set == frozenset({"+hitone", "+hireg", "-loreg", "-rising", "+falling", "-contour"})
 
-    vec_set = c2v.get_vec("513", vectorize=False).as_set()
+    vec_set = frozenset({{1: "+", -1: "-"}[v] + k for k, v in c2v.get_vec("513", vectorize=False).items() if v})
     assert vec_set == frozenset({"+hitone", "+hireg", "-loreg", "-rising", "+falling", "+contour"})
 
 
@@ -132,29 +132,25 @@ def test_call(c2v):
 
 
 def test_validate():
-    
+    class MockCLTS:
+        def __call__(self, item):
+            return [types.SimpleNamespace(name=clts([i])[0]) for i in item]
+
     mcts = MockCLTS()
     c2v = SoundVectors(ts=mcts)
     assert c2v.validate("t") == mcts(["t"])[0].name
+    assert c2v.validate(mcts(["t"])[0]) == mcts(["t"])[0].name
 
 
 @pytest.fixture
 def vector():
-    v = FeatureBundle(["cons", "syl", "cont"])
-    v["cons"] = 1
-    v["syl"] = -1
-    v["cont"] = 0
-
-    return v
+    return FeatureBundle(cons=1, syl=-1)
 
 
 def test_vector_as_set(vector):
     assert frozenset({"+cons", "-syl"}) == vector.as_set()
 
 
-def test_vec_as_str(vector):
-    assert "+cons,-syl,0_cont" == str(vector)
-
-
-def test_vec_as_vec(vector):
-    assert (1, -1, 0) == vector.as_vec()
+@pytest.mark.parametrize('substr', ['+cons', '-syl', '0_cont'])
+def test_vec_as_str(substr, vector):
+    assert substr in str(vector)
