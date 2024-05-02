@@ -1,8 +1,12 @@
 """
 soundvectors: Vectorize Speech Sounds in Phonetic Transcription.
 """
+import enum
 import typing
 import warnings
+import functools
+import itertools
+import collections
 import dataclasses
 
 __version__ = "1.0.dev0"
@@ -19,6 +23,9 @@ class Sound(typing.Protocol):  # Sound objects are expected to have a name attri
 
 @dataclasses.dataclass(frozen=True, order=True)  # Make instances immutable and orderable.
 class FeatureBundle:
+    """
+    A bundle of ordered, binary features.
+    """
     cons: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     syl: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     son: int = dataclasses.field(default=0, metadata={'dc:description': ''})
@@ -40,17 +47,23 @@ class FeatureBundle:
     front: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     tense: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     round: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    velaric: int = dataclasses.field(default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
+    velaric: int = dataclasses.field(
+        default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
     long: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     ant: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     distr: int = dataclasses.field(default=0, metadata={'dc:description': ''})
     strid: int = dataclasses.field(default=0, metadata={'dc:description': ''})
-    hitone: int = dataclasses.field(default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
-    hireg: int = dataclasses.field(default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
+    hitone: int = dataclasses.field(
+        default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
+    hireg: int = dataclasses.field(
+        default=0, metadata={'dc:description': 'Mortensen et al. (2016)'})
     loreg: int = dataclasses.field(default=0, metadata={'dc:description': 'Supplements hireg'})
-    rising: int = dataclasses.field(default=0, metadata={'dc:description': 'CLTS tone representation'})
-    falling: int = dataclasses.field(default=0, metadata={'dc:description': 'CLTS tone representation'})
-    contour: int = dataclasses.field(default=0, metadata={'dc:description': 'CLTS tone representation'})
+    rising: int = dataclasses.field(
+        default=0, metadata={'dc:description': 'CLTS tone representation'})
+    falling: int = dataclasses.field(
+        default=0, metadata={'dc:description': 'CLTS tone representation'})
+    contour: int = dataclasses.field(
+        default=0, metadata={'dc:description': 'CLTS tone representation'})
     backshift: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
     frontshift: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
     opening: int = dataclasses.field(default=0, metadata={'dc:description': 'Rubehn 2022'})
@@ -96,11 +109,10 @@ class FeatureBundle:
             '{}{}'.format('+' if v > 0 else ('-' if v < 0 else '0_'), k)
             for k, v in self.as_dict().items())
 
-    def replace(self, **changes):
+    def updated(self, other, valid_values=(1, -1)):
         """
-        Shortcut for `dataclasses.replace`.
         """
-        return dataclasses.replace(self, **changes)
+        return dataclasses.replace(self, **other.as_dict(valid_values=valid_values))
 
     @classmethod
     def fields(cls):
@@ -110,225 +122,418 @@ class FeatureBundle:
         return dataclasses.fields(cls)
 
 
-clts_feature_hierarchy = [  # CLTS feature domains ordered from least to most specific.
-    "type",
-    "manner",
-    "height",
-    "roundedness",
-    "centrality",
-    "place",
-    "phonation",
-]
+class CLTSDomainHierarchy(enum.Enum):
+    """
+    CLTS feature domains ordered from least to most specific.
+    """
+    type = 1
+    manner = 2
+    height = 3
+    roundedness = 4
+    centrality = 5
+    place = 6
+    phonation = 7
+    aspiration = 8
+    creakiness = 9
+    release = 10
+    ejection = 11
+    pharyngealization = 12
+    voicing = 13
+    nasalization = 14
+    preceding = 15
+    labialization = 16
+    syllabicity = 17
+    palatalization = 18
+    duration = 19
+    stress = 20
+    airstream = 21
+    velarization = 22
+    laminality = 23
+    articulation = 24
+    breathiness = 25
+    glottalization = 26
+    raising = 27
+    relative_articulation = 28
+    rhotacization = 29
+    friction = 30
+    rounding = 31
+    start = 32
+    contour = 33
+    to_roundedness = 34
 
-clts_features = {
-    "type": {
-        "consonant": FeatureBundle.from_positive_and_negative(
+    @classmethod
+    def primary_domains(cls):
+        return {i for i in itertools.takewhile(lambda i: i.value < 8, cls)}
+
+    @classmethod
+    def exclude_for_to_sound(cls):
+        return {cls.raising, cls.relative_articulation, cls.rounding}
+
+
+@functools.total_ordering
+class HierarchicalFeature:
+    """
+    A HierarchicalFeature is a feature that can be ordered via its domain.
+    """
+    def __init__(self,
+                 name: str,
+                 domain: typing.Union[typing.Any, str],  # An enum.Enum member.
+                 featurebundle: FeatureBundle):
+        self.name = name
+        self.domain = getattr(CLTSDomainHierarchy, domain) if isinstance(domain, str) else domain
+        self.featurebundle = featurebundle
+
+    def __eq__(self, other):
+        return self.domain == other.domain and self.name == other.name
+
+    def __lt__(self, other):
+        return (self.domain.value, self.name) < (other.domain.value, other.name)
+
+
+clts_features = [
+    HierarchicalFeature(
+        "consonant", "type",
+        FeatureBundle.from_positive_and_negative(
             ['cons'],
             ['syl', 'son', 'cont', 'delrel', 'lat', 'nas', 'voi', 'sg', 'cg', 'pharyngeal',
              'laryngeal', 'cor', 'dorsal', 'lab', 'hi', 'lo', 'back', 'front', 'round',
-             'velaric', 'long']),
-        "vowel": FeatureBundle.from_positive_and_negative(
+             'velaric', 'long'])),
+    HierarchicalFeature(
+        "vowel", "type",
+        FeatureBundle.from_positive_and_negative(
             ["syl", "son", "cont", "voi"],
             ["cons", "lat", "nas", "sg", "cg", "pharyngeal", "laryngeal", "hi", "lo",
-             "back", "front", "tense", "round", "velaric", "long"]),
-        "tone": FeatureBundle.from_positive_and_negative(
+             "back", "front", "tense", "round", "velaric", "long"])),
+    HierarchicalFeature(
+        "tone", "type",
+        FeatureBundle.from_positive_and_negative(
             [],
-            ["hitone", "hireg", "loreg", "rising", "falling", "contour"]),
-        "diphthong": FeatureBundle.from_positive_and_negative(
+            ["hitone", "hireg", "loreg", "rising", "falling", "contour"])),
+    HierarchicalFeature(
+        "diphthong", "type",
+        FeatureBundle.from_positive_and_negative(
             [],
             ["backshift", "frontshift", "opening", "closing", "centering", "longdistance",
-             "secondrounded"]),
-    },
-    "aspiration": {
-        "aspirated": FeatureBundle.from_positive_and_negative(
-            ["sg"], []),
-    },
-    "creakiness": {
-        "creaky": FeatureBundle.from_positive_and_negative(
-            ["cg"], []),
-    },
-    "release": {
-        "unreleased": FeatureBundle.from_positive_and_negative(
-            [], []),
-        "with-lateral-release": FeatureBundle.from_positive_and_negative(
-            ["lat"], []),
-        "with-mid-central-vowel-release":
-            FeatureBundle.from_positive_and_negative([], []),
-        "with-nasal-release": FeatureBundle.from_positive_and_negative(
-            ["nas"], []),
-    },
-    "ejection": {
-        "ejective": FeatureBundle.from_positive_and_negative(["cg"], []),
-    },
-    "place": {
-        "alveolar": FeatureBundle.from_positive_and_negative(["cor", "ant", "front"], ["distr"]),
-        "alveolo-palatal": FeatureBundle.from_positive_and_negative(
-            ["cor", "dorsal", "hi", "distr", "front"], ["ant"]),
-        "bilabial": FeatureBundle.from_positive_and_negative(["lab", "front"], []),
-        "dental": FeatureBundle.from_positive_and_negative(["cor", "ant", "distr", "front"], []),
-        "epiglottal": FeatureBundle.from_positive_and_negative(["lo"], []),
-        "glottal": FeatureBundle.from_positive_and_negative(["laryngeal", "lo"], []),
-        "labial": FeatureBundle.from_positive_and_negative(["lab", "front"], []),
-        "linguolabial": FeatureBundle.from_positive_and_negative(
-            ["cor", "lab", "ant", "front"], ["distr"]),
-        "labio-palatal": FeatureBundle.from_positive_and_negative(
-            ["cor", "dorsal", "hi", "round", "distr", "front"], ["ant"]),
-        "labio-velar": FeatureBundle.from_positive_and_negative(
-            ["dorsal", "hi", "back", "round", "front"], []),
-        "labio-dental": FeatureBundle.from_positive_and_negative(["lab", "front"], []),
-        "palatal": FeatureBundle.from_positive_and_negative(
-            ["cor", "dorsal", "hi", "distr"], ["ant"]),
-        "palatal-velar": FeatureBundle.from_positive_and_negative(
-            ["cor", "dorsal", "hi", "back", "distr"], ["ant"]),
-        "pharyngeal": FeatureBundle.from_positive_and_negative(["pharyngeal", "lo", "back"], []),
-        "post-alveolar": FeatureBundle.from_positive_and_negative(
-            ["cor", "distr", "front"], ["ant"]),
-        "retroflex": FeatureBundle.from_positive_and_negative(["cor"], ["ant", "distr"]),
-        "uvular": FeatureBundle.from_positive_and_negative(["dorsal", "lo", "back"], []),
-        "velar": FeatureBundle.from_positive_and_negative(["dorsal", "hi", "back"], []),
-    },
-    "pharyngealization": {
-        "pharyngealized": FeatureBundle.from_positive_and_negative(["pharyngeal"], []),
-    },
-    "voicing": {
-        "devoiced": FeatureBundle.from_positive_and_negative([], ["voi"]),
-        "revoiced": FeatureBundle.from_positive_and_negative(["voi"], []),
-    },
-    "nasalization": {
-        "nasalized": FeatureBundle.from_positive_and_negative(["nas"], []),
-    },
-    "preceding": {
-        "pre-aspirated": FeatureBundle.from_positive_and_negative(["sg"], []),
-        "pre-breathy-aspirated": FeatureBundle.from_positive_and_negative(["sg"], []),
-        "pre-glottalized": FeatureBundle.from_positive_and_negative(["cg", "lo"], []),
-        "pre-labialized": FeatureBundle.from_positive_and_negative(["dorsal", "hi", "round"], []),
-        "pre-nasalized": FeatureBundle.from_positive_and_negative(["nas"], []),
-        "pre-palatalized": FeatureBundle.from_positive_and_negative(["cor", "dorsal", "hi"], []),
-    },
-    "labialization": {
-        "labialized": FeatureBundle.from_positive_and_negative(
-            ["dorsal", "hi", "back", "round"], []),
-    },
-    "syllabicity": {
-        "syllabic": FeatureBundle.from_positive_and_negative(["syl"], []),
-        "non-syllabic": FeatureBundle.from_positive_and_negative([], ["syl"]),
-    },
-    "palatalization": {
-        "labio-palatalized": FeatureBundle.from_positive_and_negative(
-            ["cor", "dorsal", "hi", "round"], []),
-        "palatalized": FeatureBundle.from_positive_and_negative(["cor", "dorsal", "hi"], []),
-    },
-    "phonation": {
-        "voiced": FeatureBundle.from_positive_and_negative(["voi"], []),
-        "voiceless": FeatureBundle.from_positive_and_negative([], ["voi"]),
-    },
-    "duration": {
-        "long": FeatureBundle.from_positive_and_negative(["long"], []),
-        "mid-long": FeatureBundle.from_positive_and_negative(["long"], []),
-        "ultra-long": FeatureBundle.from_positive_and_negative(["long"], []),
-        "ultra-short": FeatureBundle.from_positive_and_negative([], ["long"]),
-    },
-    "stress": {
-        "primary-stress": FeatureBundle.from_positive_and_negative([], []),
-        "secondary-stress": FeatureBundle.from_positive_and_negative([], []),
-    },
-    "airstream": {
-        "lateral": FeatureBundle.from_positive_and_negative(["cons", "lat"], []),
-        "sibilant": FeatureBundle.from_positive_and_negative([], []),
-    },
-    "velarization": {
-        "velarized": FeatureBundle.from_positive_and_negative(["dorsal", "hi", "back"], []),
-    },
-    "manner": {
-        "affricate": FeatureBundle.from_positive_and_negative(["delrel"], ["strid"]),
-        "approximant": FeatureBundle.from_positive_and_negative(["son", "cont"], ["cons"]),
-        "click": FeatureBundle.from_positive_and_negative(["velaric"], []),
-        "fricative": FeatureBundle.from_positive_and_negative(["cont"], ["strid"]),
-        "implosive": FeatureBundle.from_positive_and_negative(["cg"], []),
-        "nasal": FeatureBundle.from_positive_and_negative(["son", "nas"], []),
-        "nasal-click": FeatureBundle.from_positive_and_negative(["nas", "velaric"], []),
-        "stop": FeatureBundle.from_positive_and_negative([], ["son", "cont"]),
-        "tap": FeatureBundle.from_positive_and_negative(["son"], ["cont"]),
-        "trill": FeatureBundle.from_positive_and_negative(["son", "cont"], []),
-    },
-    "laminality": {
-        "apical": FeatureBundle.from_positive_and_negative([], ["distr"]),
-        "laminal": FeatureBundle.from_positive_and_negative(["distr"], []),
-    },
-    "articulation": {
-        "strong": FeatureBundle.from_positive_and_negative(["tense"], []),
-    },
-    "breathiness": {
-        "breathy": FeatureBundle.from_positive_and_negative(["sg"], []),
-    },
-    "glottalization": {
-        "glottalized": FeatureBundle.from_positive_and_negative(["cg"], []),
-    },
-    "raising": {
-        "lowered": FeatureBundle.from_positive_and_negative(["lo"], []),
-        "raised": FeatureBundle.from_positive_and_negative(["hi"], []),
-    },
-    "relative_articulation": {
-        "centralized": FeatureBundle.from_positive_and_negative([], []),
-        "mid-centralized": FeatureBundle.from_positive_and_negative([], []),
-        "advanced": FeatureBundle.from_positive_and_negative([], []),
-        "retracted": FeatureBundle.from_positive_and_negative([], []),
-    },
-    "centrality": {
-        "back": FeatureBundle.from_positive_and_negative(["back"], []),
-        "central": FeatureBundle.from_positive_and_negative([], []),
-        "front": FeatureBundle.from_positive_and_negative(["front"], []),
-        "near-back": FeatureBundle.from_positive_and_negative(["back"], []),
-        "near-front": FeatureBundle.from_positive_and_negative(["front"], []),
-    },
-    "rhotacization": {
-        "rhotacized": FeatureBundle.from_positive_and_negative([], []),
-    },
-    "height": {
-        "close": FeatureBundle.from_positive_and_negative(["hi", "tense"], []),
-        "close-mid": FeatureBundle.from_positive_and_negative(["tense"], []),
-        "mid": FeatureBundle.from_positive_and_negative([], []),
-        "near-close": FeatureBundle.from_positive_and_negative(["hi"], []),
-        "near-open": FeatureBundle.from_positive_and_negative(["lo"], []),
-        "open": FeatureBundle.from_positive_and_negative(["lo", "tense"], []),
-        "open-mid": FeatureBundle.from_positive_and_negative([], []),
-    },
-    "friction": {
-        "with-friction": FeatureBundle.from_positive_and_negative([], ["son"]),
-    },
-    "roundedness": {
-        "rounded": FeatureBundle.from_positive_and_negative(["round"], []),
-        "unrounded": FeatureBundle.from_positive_and_negative([], ["round"]),
-    },
-    "rounding": {
-        "less-rounded": FeatureBundle.from_positive_and_negative(["round"], []),
-        "more-rounded": FeatureBundle.from_positive_and_negative(["round"], []),
-    },
-    "start": {
-        "from-high": FeatureBundle.from_positive_and_negative(["hireg", "hitone"], []),
-        "from-low": FeatureBundle.from_positive_and_negative(["loreg"], []),
-        "from-mid": FeatureBundle.from_positive_and_negative([], []),
-        "from-mid-high": FeatureBundle.from_positive_and_negative(["hireg"], []),
-        "from-mid-low": FeatureBundle.from_positive_and_negative(["loreg", "hitone"], []),
-    },
-    "contour": {
-        "contour": FeatureBundle.from_positive_and_negative(["contour"], []),
-        "falling": FeatureBundle.from_positive_and_negative(["falling"], []),
-        "rising": FeatureBundle.from_positive_and_negative(["rising"], []),
-        "flat": FeatureBundle.from_positive_and_negative([], []),
-        "short": FeatureBundle.from_positive_and_negative([], []),
-    },
-    "to_roundedness": {
-        "to_rounded": FeatureBundle.from_positive_and_negative(["secondrounded"], []),
-        "to_unrounded": FeatureBundle.from_positive_and_negative([], ["secondrounded"]),
-    }
-}
-
-clts_feature_values = {}
-
-for domain, value_dict in clts_features.items():
-    for value, feature_dict in value_dict.items():
-        clts_feature_values[value] = {"features": feature_dict, "domain": domain}
+             "secondrounded"])),
+    HierarchicalFeature(
+        "aspirated", "aspiration",
+        FeatureBundle.from_positive_and_negative(["sg"], [])),
+    HierarchicalFeature(
+        "creaky", "creakiness",
+        FeatureBundle.from_positive_and_negative(["cg"], [])),
+    HierarchicalFeature(
+        "unreleased", "release",
+        FeatureBundle.from_positive_and_negative(
+            [], [])),
+    HierarchicalFeature(
+        "with-lateral-release", "release",
+        FeatureBundle.from_positive_and_negative(
+            ["lat"], [])),
+    HierarchicalFeature(
+        "with-mid-central-vowel-release", "release",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "with-nasal-release", "release",
+        FeatureBundle.from_positive_and_negative(["nas"], [])),
+    HierarchicalFeature(
+        "ejective", "ejection",
+        FeatureBundle.from_positive_and_negative(["cg"], [])),
+    HierarchicalFeature(
+        "alveolar", "place",
+        FeatureBundle.from_positive_and_negative(["cor", "ant", "front"], ["distr"])),
+    HierarchicalFeature(
+        "alveolo-palatal", "place",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "dorsal", "hi", "distr", "front"], ["ant"])),
+    HierarchicalFeature(
+        "bilabial", "place",
+        FeatureBundle.from_positive_and_negative(["lab", "front"], [])),
+    HierarchicalFeature(
+        "dental", "place",
+        FeatureBundle.from_positive_and_negative(["cor", "ant", "distr", "front"], [])),
+    HierarchicalFeature(
+        "epiglottal", "place",
+        FeatureBundle.from_positive_and_negative(["lo"], [])),
+    HierarchicalFeature(
+        "glottal", "place",
+        FeatureBundle.from_positive_and_negative(["laryngeal", "lo"], [])),
+    HierarchicalFeature(
+        "labial", "place",
+        FeatureBundle.from_positive_and_negative(["lab", "front"], [])),
+    HierarchicalFeature(
+        "linguolabial", "place",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "lab", "ant", "front"], ["distr"])),
+    HierarchicalFeature(
+        "labio-palatal", "place",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "dorsal", "hi", "round", "distr", "front"], ["ant"])),
+    HierarchicalFeature(
+        "labio-velar", "place", FeatureBundle.from_positive_and_negative(
+            ["dorsal", "hi", "back", "round", "front"], [])),
+    HierarchicalFeature(
+        "labio-dental", "place",
+        FeatureBundle.from_positive_and_negative(["lab", "front"], [])),
+    HierarchicalFeature(
+        "palatal", "place",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "dorsal", "hi", "distr"], ["ant"])),
+    HierarchicalFeature(
+        "palatal-velar", "place",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "dorsal", "hi", "back", "distr"], ["ant"])),
+    HierarchicalFeature(
+        "pharyngeal", "place",
+        FeatureBundle.from_positive_and_negative(["pharyngeal", "lo", "back"], [])),
+    HierarchicalFeature(
+        "post-alveolar", "place",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "distr", "front"], ["ant"])),
+    HierarchicalFeature(
+        "retroflex", "place",
+        FeatureBundle.from_positive_and_negative(["cor"], ["ant", "distr"])),
+    HierarchicalFeature(
+        "uvular", "place",
+        FeatureBundle.from_positive_and_negative(["dorsal", "lo", "back"], [])),
+    HierarchicalFeature(
+        "velar", "place",
+        FeatureBundle.from_positive_and_negative(["dorsal", "hi", "back"], [])),
+    HierarchicalFeature(
+        "pharyngealized", "pharyngealization",
+        FeatureBundle.from_positive_and_negative(["pharyngeal"], [])),
+    HierarchicalFeature(
+        "devoiced", "voicing",
+        FeatureBundle.from_positive_and_negative([], ["voi"])),
+    HierarchicalFeature(
+        "revoiced", "voicing",
+        FeatureBundle.from_positive_and_negative(["voi"], [])),
+    HierarchicalFeature(
+        "nasalized", "nasalization",
+        FeatureBundle.from_positive_and_negative(["nas"], [])),
+    HierarchicalFeature(
+        "pre-aspirated", "preceding",
+        FeatureBundle.from_positive_and_negative(["sg"], [])),
+    HierarchicalFeature(
+        "pre-breathy-aspirated", "preceding",
+        FeatureBundle.from_positive_and_negative(["sg"], [])),
+    HierarchicalFeature(
+        "pre-glottalized", "preceding",
+        FeatureBundle.from_positive_and_negative(["cg", "lo"], [])),
+    HierarchicalFeature(
+        "pre-labialized", "preceding",
+        FeatureBundle.from_positive_and_negative(["dorsal", "hi", "round"], [])),
+    HierarchicalFeature(
+        "pre-nasalized", "preceding",
+        FeatureBundle.from_positive_and_negative(["nas"], [])),
+    HierarchicalFeature(
+        "pre-palatalized", "preceding",
+        FeatureBundle.from_positive_and_negative(["cor", "dorsal", "hi"], [])),
+    HierarchicalFeature(
+        "labialized", "labialization",
+        FeatureBundle.from_positive_and_negative(
+            ["dorsal", "hi", "back", "round"], [])),
+    HierarchicalFeature(
+        "syllabic", "syllabicity",
+        FeatureBundle.from_positive_and_negative(["syl"], [])),
+    HierarchicalFeature(
+        "non-syllabic", "syllabicity",
+        FeatureBundle.from_positive_and_negative([], ["syl"])),
+    HierarchicalFeature(
+        "labio-palatalized", "palatalization",
+        FeatureBundle.from_positive_and_negative(
+            ["cor", "dorsal", "hi", "round"], [])),
+    HierarchicalFeature(
+        "palatalized", "palatalization",
+        FeatureBundle.from_positive_and_negative(["cor", "dorsal", "hi"], [])),
+    HierarchicalFeature(
+        "voiced", "phonation",
+        FeatureBundle.from_positive_and_negative(["voi"], [])),
+    HierarchicalFeature(
+        "voiceless", "phonation",
+        FeatureBundle.from_positive_and_negative([], ["voi"])),
+    HierarchicalFeature(
+        "long", "duration",
+        FeatureBundle.from_positive_and_negative(["long"], [])),
+    HierarchicalFeature(
+        "mid-long", "duration",
+        FeatureBundle.from_positive_and_negative(["long"], [])),
+    HierarchicalFeature(
+        "ultra-long", "duration",
+        FeatureBundle.from_positive_and_negative(["long"], [])),
+    HierarchicalFeature(
+        "ultra-short", "duration",
+        FeatureBundle.from_positive_and_negative([], ["long"])),
+    HierarchicalFeature(
+        "primary-stress", "stress",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "secondary-stress", "stress",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "lateral", "airstream",
+        FeatureBundle.from_positive_and_negative(["cons", "lat"], [])),
+    HierarchicalFeature(
+        "sibilant", "airstream",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "velarized", "velarization",
+        FeatureBundle.from_positive_and_negative(["dorsal", "hi", "back"], [])),
+    HierarchicalFeature(
+        "affricate", "manner",
+        FeatureBundle.from_positive_and_negative(["delrel"], ["strid"])),
+    HierarchicalFeature(
+        "approximant", "manner",
+        FeatureBundle.from_positive_and_negative(["son", "cont"], ["cons"])),
+    HierarchicalFeature(
+        "click", "manner",
+        FeatureBundle.from_positive_and_negative(["velaric"], [])),
+    HierarchicalFeature(
+        "fricative", "manner",
+        FeatureBundle.from_positive_and_negative(["cont"], ["strid"])),
+    HierarchicalFeature(
+        "implosive", "manner",
+        FeatureBundle.from_positive_and_negative(["cg"], [])),
+    HierarchicalFeature(
+        "nasal", "manner",
+        FeatureBundle.from_positive_and_negative(["son", "nas"], [])),
+    HierarchicalFeature(
+        "nasal-click", "manner",
+        FeatureBundle.from_positive_and_negative(["nas", "velaric"], [])),
+    HierarchicalFeature(
+        "stop", "manner",
+        FeatureBundle.from_positive_and_negative([], ["son", "cont"])),
+    HierarchicalFeature(
+        "tap", "manner",
+        FeatureBundle.from_positive_and_negative(["son"], ["cont"])),
+    HierarchicalFeature(
+        "trill", "manner",
+        FeatureBundle.from_positive_and_negative(["son", "cont"], [])),
+    HierarchicalFeature(
+        "apical", "laminality",
+        FeatureBundle.from_positive_and_negative([], ["distr"])),
+    HierarchicalFeature(
+        "laminal", "laminality",
+        FeatureBundle.from_positive_and_negative(["distr"], [])),
+    HierarchicalFeature(
+        "strong", "articulation",
+        FeatureBundle.from_positive_and_negative(["tense"], [])),
+    HierarchicalFeature(
+        "breathy", "breathiness",
+        FeatureBundle.from_positive_and_negative(["sg"], [])),
+    HierarchicalFeature(
+        "glottalized", "glottalization",
+        FeatureBundle.from_positive_and_negative(["cg"], [])),
+    HierarchicalFeature(
+        "lowered", "raising",
+        FeatureBundle.from_positive_and_negative(["lo"], [])),
+    HierarchicalFeature(
+        "raised", "raising",
+        FeatureBundle.from_positive_and_negative(["hi"], [])),
+    HierarchicalFeature(
+        "centralized", "relative_articulation",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "mid-centralized", "relative_articulation",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "advanced", "relative_articulation",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "retracted", "relative_articulation",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "back", "centrality",
+        FeatureBundle.from_positive_and_negative(["back"], [])),
+    HierarchicalFeature(
+        "central", "centrality",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "front", "centrality",
+        FeatureBundle.from_positive_and_negative(["front"], [])),
+    HierarchicalFeature(
+        "near-back", "centrality",
+        FeatureBundle.from_positive_and_negative(["back"], [])),
+    HierarchicalFeature(
+        "near-front", "centrality",
+        FeatureBundle.from_positive_and_negative(["front"], [])),
+    HierarchicalFeature(
+        "rhotacized", "rhotacization",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "close", "height",
+        FeatureBundle.from_positive_and_negative(["hi", "tense"], [])),
+    HierarchicalFeature(
+        "close-mid", "height",
+        FeatureBundle.from_positive_and_negative(["tense"], [])),
+    HierarchicalFeature(
+        "mid", "height",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "near-close", "height",
+        FeatureBundle.from_positive_and_negative(["hi"], [])),
+    HierarchicalFeature(
+        "near-open", "height",
+        FeatureBundle.from_positive_and_negative(["lo"], [])),
+    HierarchicalFeature(
+        "open", "height",
+        FeatureBundle.from_positive_and_negative(["lo", "tense"], [])),
+    HierarchicalFeature(
+        "open-mid", "height",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "with-friction", "friction",
+        FeatureBundle.from_positive_and_negative([], ["son"])),
+    HierarchicalFeature(
+        "rounded", "roundedness",
+        FeatureBundle.from_positive_and_negative(["round"], [])),
+    HierarchicalFeature(
+        "unrounded", "roundedness",
+        FeatureBundle.from_positive_and_negative([], ["round"])),
+    HierarchicalFeature(
+        "less-rounded", "rounding",
+        FeatureBundle.from_positive_and_negative(["round"], [])),
+    HierarchicalFeature(
+        "more-rounded", "rounding",
+        FeatureBundle.from_positive_and_negative(["round"], [])),
+    HierarchicalFeature(
+        "from-high", "start",
+        FeatureBundle.from_positive_and_negative(["hireg", "hitone"], [])),
+    HierarchicalFeature(
+        "from-low", "start",
+        FeatureBundle.from_positive_and_negative(["loreg"], [])),
+    HierarchicalFeature(
+        "from-mid", "start",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "from-mid-high", "start",
+        FeatureBundle.from_positive_and_negative(["hireg"], [])),
+    HierarchicalFeature(
+        "from-mid-low", "start",
+        FeatureBundle.from_positive_and_negative(["loreg", "hitone"], [])),
+    HierarchicalFeature(
+        "contour", "contour",
+        FeatureBundle.from_positive_and_negative(["contour"], [])),
+    HierarchicalFeature(
+        "falling", "contour",
+        FeatureBundle.from_positive_and_negative(["falling"], [])),
+    HierarchicalFeature(
+        "rising", "contour",
+        FeatureBundle.from_positive_and_negative(["rising"], [])),
+    HierarchicalFeature(
+        "flat", "contour",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "short", "contour",
+        FeatureBundle.from_positive_and_negative([], [])),
+    HierarchicalFeature(
+        "to_rounded", "to_roundedness",
+        FeatureBundle.from_positive_and_negative(["secondrounded"], [])),
+    HierarchicalFeature(
+        "to_unrounded", "to_roundedness",
+        FeatureBundle.from_positive_and_negative([], ["secondrounded"])),
+]
+assert len(clts_features) == len({f.name for f in clts_features}), "Duplicate clts feature name"
+clts_features = collections.OrderedDict((o.name, o) for o in sorted(clts_features))
 
 joint_feature_definitions = {
     ("glottal", "stop"): FeatureBundle(cg=1),
@@ -443,9 +648,9 @@ class SoundVectors:
         >>> c2v
     """
 
-    feature_values = clts_feature_values
+    feature_values = clts_features
     joint_defs = joint_feature_definitions
-    feature_hierarchy = clts_feature_hierarchy
+    feature_hierarchy = CLTSDomainHierarchy
     ts = None
 
     def __init__(
@@ -460,6 +665,7 @@ class SoundVectors:
         self.feature_values = feature_values or self.feature_values
         self.joint_defs = joint_defs or self.joint_defs
         self.feature_hierarchy = feature_hierarchy or self.feature_hierarchy
+        self.primary_domains = self.feature_hierarchy.primary_domains()
 
     def clts_compatibility(self, clts):
         """
@@ -469,13 +675,13 @@ class SoundVectors:
         clts_features = json.loads(
             clts.transcriptionsystems_dir.joinpath('features.json').read_text(encoding='utf8'))
         for k, d in self.feature_values.items():
-            if d['domain'] not in ['type', 'to_roundedness']:
+            if d.domain not in ['type', 'to_roundedness']:
                 # Make sure, k appears as feature for the domain for at least one type in CLTS:
                 for dd in clts_features.values():
-                    if d['domain'] in dd and (k in dd[d['domain']]):
+                    if d.domain in dd and (k in dd[d.domain]):
                         break
                 else:
-                    raise AssertionError('{}: {}'.format(d['domain'], k))
+                    raise AssertionError('{}: {}'.format(d.domain, k))
 
     def __call__(self, sounds, vectorize=True):
         vectors = []
@@ -521,7 +727,7 @@ class SoundVectors:
             sound = '{} {}'.format(from_sound, COMPLEX_SOUNDS[complex_sound])
 
             if complex_sound == "diphthong":
-                base_vec = self._apply_feature("diphthong", base_vec)
+                base_vec = base_vec.updated(self.feature_values["diphthong"].featurebundle)
                 # set up feature pairs for diphthong trajectory
                 diphthong_features = (["from_" + f for f in sound.split()[:-1]] +  # noqa: W504
                                       ["to_" + f for f in sound_to_sound.split()[:-1]])
@@ -530,8 +736,8 @@ class SoundVectors:
 
         primary_features, secondary_features = self._get_features(features)
 
-        for feature in primary_features:
-            base_vec = self._apply_feature(feature, base_vec)
+        for feature, hf in primary_features:
+            base_vec = base_vec.updated(hf.featurebundle)
 
         # diphthongs take their core vowel features from their first vowel,
         # diphthong-specific features are then applied afterwards
@@ -541,13 +747,17 @@ class SoundVectors:
             # extract secondary features for second segment
             to_sound_features = [f for df in sound_to_sound.split() for f in df.split("-and-")]
             _, to_secondary_features = self._get_features(to_sound_features)
-            for f in to_secondary_features:
-                if (self.feature_values.get(f, {"domain": ""})["domain"] not in
-                        ["raising", "relative_articulation", "rounding"]):
-                    secondary_features.append(f)
+            for f, fv in to_secondary_features:
+                if fv and fv.domain in self.feature_hierarchy.exclude_for_to_sound():
+                    continue
+                secondary_features.append((f, fv))
             # check if second part is rounded
+            #
+            # FIXME: That's an assumption based on the CLTS feature system!
+            #
             if "to_rounded" in diphthong_features:
-                base_vec = self._apply_feature("to_rounded", base_vec, valid={1})
+                base_vec = base_vec.updated(
+                    self.feature_values["to_rounded"].featurebundle, valid_values={1})
         elif complex_sound == "cluster":
             from_vec = self.get_vec(sound, vectorize=False)
             to_vec = self.get_vec(sound_to_sound, vectorize=False)
@@ -561,11 +771,9 @@ class SoundVectors:
 
         base_vec = self._apply_joint_feature_defs(features, base_vec)
 
-        for feature in secondary_features:
-            if complex_sound == "diphthong":
-                base_vec = self._apply_feature(feature, base_vec, valid={1})
-            else:
-                base_vec = self._apply_feature(feature, base_vec)
+        for feature, fv in secondary_features:
+            base_vec = base_vec.updated(
+                fv.featurebundle, valid_values={1} if complex_sound == 'diphthong' else {1, -1})
         return base_vec
 
     def get_vec(self, sound, vectorize=True):
@@ -589,32 +797,19 @@ class SoundVectors:
         base_vec = self[sound]
         return base_vec.as_vector() if vectorize else base_vec.as_dict()
 
-    def _get_hierarchy_level(self, domain):
-        if domain in self.feature_hierarchy:
-            return self.feature_hierarchy.index(domain)
-        return len(self.feature_hierarchy)
+    def _get_features(self, featureset) -> typing.Tuple[typing.List, typing.List]:
+        primary, secondary = [], []
+        # Augment the featureset with matching HierarchicalFeatures if they are defined:
+        featureset = [
+            (feature, self.feature_values.get(feature))
+            for feature in featureset if feature in self.feature_values]
+        for feature, hf in sorted(featureset, key=lambda i: i[1]):
+            (primary if hf.domain in self.primary_domains else secondary).append((feature, hf))
 
-    def _get_features(self, featureset):
-        primary_features, secondary_features = [], []
-        for feature in featureset:
-            if self.feature_values.get(feature, {"domain": ""})["domain"] in self.feature_hierarchy:
-                primary_features.append(feature)
-            else:
-                secondary_features.append(feature)
-        primary_features = sorted(
-            primary_features,
-            key=lambda x: self._get_hierarchy_level(
-                self.feature_values.get(x, {"domain": ""})["domain"]))
-
-        return primary_features, secondary_features
-
-    def _apply_feature(self, feature, base_vec, valid=(1, -1)):
-        bin_feature_vec = self.feature_values.get(
-            feature, {"features": FeatureBundle()})["features"]
-        return base_vec.replace(**bin_feature_vec.as_dict(valid_values=valid))
+        return primary, secondary
 
     def _apply_joint_feature_defs(self, sound_features, base_vec):
         for features, bin_feature_vec in self.joint_defs.items():
             if set(features).issubset(set(sound_features)):
-                base_vec = base_vec.replace(**bin_feature_vec.as_dict(valid_values={1, -1}))
+                base_vec = base_vec.updated(bin_feature_vec)
         return base_vec
