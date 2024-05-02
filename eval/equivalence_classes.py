@@ -1,4 +1,4 @@
-from soundvectors import SoundVectors, FeatureBundle, binary_features
+from soundvectors import SoundVectors, FeatureBundle
 from pyclts import CLTS
 from tabulate import tabulate
 from collections import defaultdict
@@ -43,8 +43,6 @@ confused_sounds = {k: v for k, v in sounds.items() if len(v) > 1}
 
 table = []
 for k, v in sorted(confused_sounds.items(), key=lambda x: len(x[1]), reverse=True)[:20]:
-    features = FeatureBundle(binary_features)
-    for feat, value in zip(binary_features, k):
-        features[feat] = value
+    features = FeatureBundle(**dict(zip([f.name for f in FeatureBundle.fields()], k)))
     table += [[len(v), " ".join(v), str(features)]]
 print(tabulate(table))
