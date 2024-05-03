@@ -9,9 +9,9 @@ import itertools
 import collections
 import dataclasses
 
-try:
+try:  # pragma: no cover
     from pyclts import CLTS, TranscriptionSystem
-except ImportError:
+except ImportError:  # pragma: no cover
     CLTS = typing.Any
     TranscriptionSystem = None
 
@@ -25,6 +25,16 @@ COMPLEX_SOUNDS = {
 
 class Sound(typing.Protocol):  # Sound objects are expected to have a name attribute.
     name: str
+
+
+class DomainHierarchyType(typing.Protocol):
+    @classmethod
+    def primary_domains(cls) -> typing.Set:
+        pass
+
+    @classmethod
+    def exclude_for_to_sound(cls) -> typing.Set:
+        pass
 
 
 @dataclasses.dataclass(frozen=True, order=True)  # Make instances immutable and orderable.
@@ -653,27 +663,20 @@ class SoundVectors:
         >>> c2v = soundvectors.SoundVectors()
         >>> c2v
     """
-
-    feature_values = clts_features
-    joint_defs = joint_feature_definitions
-    feature_hierarchy = CLTSDomainHierarchy
-    ts = None
-
     def __init__(
             self,
             ts: typing.Optional[typing.Union[
                 TranscriptionSystem,  # A pyclts.TranscriptionSystem
                 typing.Callable[[typing.List[str]], typing.List[str]]  # A soundclasses-like func
             ]] = None,
-            feature_values=None,
-            feature_hierarchy=None,
-            joint_defs=None
+            feature_values: typing.Dict[str, HierarchicalFeature] = clts_features,
+            feature_hierarchy: typing.Optional[DomainHierarchyType] = CLTSDomainHierarchy,
+            joint_defs=joint_feature_definitions
     ):
-
         self.ts = ts
-        self.feature_values = feature_values or self.feature_values
-        self.joint_defs = joint_defs or self.joint_defs
-        self.feature_hierarchy = feature_hierarchy or self.feature_hierarchy
+        self.feature_values = feature_values
+        self.joint_defs = joint_defs
+        self.feature_hierarchy = feature_hierarchy
         self.primary_domains = self.feature_hierarchy.primary_domains()
 
     def clts_compatibility(self, clts):

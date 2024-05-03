@@ -8,10 +8,10 @@ FIXTURES = pathlib.Path(__file__).parent / 'fixtures'
 
 
 def pytest_addoption(parser):
-    parser.addoption("--all", action="store_true", help="run all CLTS sound checks")
+    parser.addoption("--all", action="store_true", help="run all CLTS sound checks (~25secs)")
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def bipa():
     return CLTS(FIXTURES / 'clts').bipa
 
@@ -25,7 +25,7 @@ def pytest_generate_tests(metafunc):
 
     sounds = list(iter_sounds())
     if not metafunc.config.getoption("all"):
-        sounds = random.sample(sounds, 100)
+        sounds = random.sample(sounds, 200)
 
     if "clts_sound_and_vector" in metafunc.fixturenames:
         metafunc.parametrize("clts_sound_and_vector", sounds)
