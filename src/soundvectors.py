@@ -27,7 +27,7 @@ class Sound(typing.Protocol):  # Sound objects are expected to have a name attri
     name: str
 
 
-class DomainHierarchyType(typing.Protocol):
+class DomainHierarchyType(typing.Protocol):  # pragma: no cover
     @classmethod
     def primary_domains(cls) -> typing.Set:
         pass
@@ -199,7 +199,7 @@ class HierarchicalFeature:
         self.domain = getattr(CLTSDomainHierarchy, domain) if isinstance(domain, str) else domain
         self.featurebundle = featurebundle
 
-    def __eq__(self, other):
+    def __eq__(self, other):  # pragma: no cover
         return self.domain == other.domain and self.name == other.name
 
     def __lt__(self, other):
@@ -687,13 +687,14 @@ class SoundVectors:
         clts_features = json.loads(
             clts.transcriptionsystems_dir.joinpath('features.json').read_text(encoding='utf8'))
         for k, d in self.feature_values.items():
-            if d.domain not in ['type', 'to_roundedness']:
+            if d.domain.name not in ['type', 'to_roundedness']:
                 # Make sure, k appears as feature for the domain for at least one type in CLTS:
                 for dd in clts_features.values():
-                    if d.domain in dd and (k in dd[d.domain]):
+                    if d.domain.name in dd and (k in dd[d.domain.name]):
                         break
-                else:
-                    raise AssertionError('{}: {}'.format(d.domain, k))
+                else:  # pragma: no cover
+                    raise AssertionError('{}: {}'.format(d.domain.name, k))
+        return True
 
     def __call__(self, sounds, vectorize=True):
         vectors = []

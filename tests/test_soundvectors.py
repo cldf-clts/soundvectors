@@ -1,4 +1,5 @@
 import types
+import pathlib
 
 import pytest
 from soundvectors import SoundVectors, is_valid_sound, FeatureBundle
@@ -27,6 +28,14 @@ def test_is_valid_sound(sound, expected):
 def test_call_invalid(sv):
     with pytest.warns(UserWarning):
         sv([None])
+
+
+def test_clts_compat(sv):
+    from pyclts import CLTS
+
+    clts = CLTS(pathlib.Path(__file__).parent / 'fixtures' / 'clts')
+    assert sv.clts_compatibility(clts)
+    assert SoundVectors(ts=clts.bipa).get_vec('a')
 
 
 def test_parse_simple(sv):
