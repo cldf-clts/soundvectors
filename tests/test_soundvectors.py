@@ -1,4 +1,3 @@
-import pathlib
 import types
 
 import pytest
@@ -159,19 +158,7 @@ def test_vec_as_str(substr, vector):
     assert substr in str(vector)
 
 
-def read_test_sound():
-    sounds = []
-
-    with open(pathlib.Path(__file__).parent / 'fixtures' / 'sounds.tsv', encoding='utf-8') as f:
-        for line in f:
-            if not line:
-                continue
-            sound, vec = line.strip().split("\t")
-            sounds.append((sound, eval(vec)))
-
-    return sounds
-
-
-@pytest.mark.parametrize('sound,expected', read_test_sound())
-def test_clts_sounds(sound, expected, sv):
-    assert sv.get_vec(sound) == expected
+def test_clts_sounds(clts_sound_and_vector, bipa):
+    sound, expected = clts_sound_and_vector
+    sv = SoundVectors()
+    assert sv.get_vec(bipa[sound]) == expected

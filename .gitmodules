@@ -1,0 +1,3 @@
+[submodule "clts"]
+    path = tests/fixtures/clts
+    url = https://github.com/cldf-clts/clts

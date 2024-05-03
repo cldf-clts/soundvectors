@@ -9,6 +9,12 @@ import itertools
 import collections
 import dataclasses
 
+try:
+    from pyclts import CLTS, TranscriptionSystem
+except ImportError:
+    CLTS = typing.Any
+    TranscriptionSystem = None
+
 __version__ = "1.0.dev0"
 
 COMPLEX_SOUNDS = {
@@ -655,7 +661,10 @@ class SoundVectors:
 
     def __init__(
             self,
-            ts=None,
+            ts: typing.Optional[typing.Union[
+                TranscriptionSystem,  # A pyclts.TranscriptionSystem
+                typing.Callable[[typing.List[str]], typing.List[str]]  # A soundclasses-like func
+            ]] = None,
             feature_values=None,
             feature_hierarchy=None,
             joint_defs=None
@@ -706,7 +715,10 @@ class SoundVectors:
             if is_valid_sound(sound.name):
                 return sound.name
         elif sound and self.ts:
-            sound_transcribed = self.ts([sound])[0]
+            if isinstance(self.ts, TranscriptionSystem):
+                sound_transcribed = self.ts[sound]
+            else:
+                sound_transcribed = self.ts([sound])[0]
             if is_valid_sound(sound_transcribed):
                 return sound_transcribed
             if hasattr(sound_transcribed, "name"):
