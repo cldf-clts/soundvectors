@@ -2,6 +2,7 @@
 soundvectors: Vectorize Speech Sounds in Phonetic Transcription.
 """
 import enum
+import json
 import typing
 import warnings
 import functools
@@ -683,7 +684,6 @@ class SoundVectors:
         """
         Check compatibility with a particular CLTS release
         """
-        import json
         clts_features = json.loads(
             clts.transcriptionsystems_dir.joinpath('features.json').read_text(encoding='utf8'))
         for k, d in self.feature_values.items():
@@ -694,6 +694,13 @@ class SoundVectors:
                         break
                 else:  # pragma: no cover
                     raise AssertionError('{}: {}'.format(d.domain.name, k))
+        clts_feature_names = set()
+        for d in clts_features.values():
+            for names in d.values():
+                clts_feature_names |= set(names)
+        for key in self.joint_defs:
+            key = {k.replace('from_', '').replace('to_', '') for k in key}
+            assert key.issubset(clts_feature_names), 'Unknown features in {}'.format(key)
         return True
 
     def __call__(self, sounds, vectorize=True):
