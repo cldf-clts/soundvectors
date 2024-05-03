@@ -167,6 +167,11 @@ def test_vec_as_str(substr, vector):
     assert substr in str(vector)
 
 
+def test_rare_clts_sounds(bipa):
+    sv = SoundVectors()
+    assert sv[bipa['äu̽'].name]
+
+
 def test_clts_sounds(clts_sound_and_vector, bipa):
     sound, expected = clts_sound_and_vector
     sv = SoundVectors()

@@ -771,7 +771,7 @@ class SoundVectors:
             #
             # FIXME: That's an assumption based on the CLTS feature system!
             #
-            if "to_rounded" in diphthong_features:
+            if "to_rounded" in diphthong_features and "to_rounded" in self.feature_values:
                 base_vec = base_vec.updated(
                     self.feature_values["to_rounded"].featurebundle, valid_values={1})
         elif complex_sound == "cluster":
