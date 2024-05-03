@@ -29,6 +29,11 @@ class Sound(typing.Protocol):  # Sound objects are expected to have a name attri
 
 
 class DomainHierarchyType(typing.Protocol):  # pragma: no cover
+    """
+    A feature domain hierarchy is expected to be an `enum.Enum` subclass mapping domain names to
+    hierarchy levels, ordered from least to most specific, which implements the two methods
+    specified here.
+    """
     @classmethod
     def primary_domains(cls) -> typing.Set:
         pass
@@ -740,6 +745,7 @@ class SoundVectors:
     def __getitem__(self, sound: typing.Union[str, Sound]) -> FeatureBundle:
         sound = self.validate(sound)
         base_vec = FeatureBundle()
+        diphthong_features, sound_to_sound = [], ''
 
         # check if sound is complex
         complex_sound = sound.split()[-1] if sound.split()[-1] in COMPLEX_SOUNDS else False
@@ -756,7 +762,6 @@ class SoundVectors:
                                       ["to_" + f for f in sound_to_sound.split()[:-1]])
 
         features = [f for df in sound.split() for f in df.split("-and-")]
-
         primary_features, secondary_features = self._get_features(features)
 
         for feature, hf in primary_features:
