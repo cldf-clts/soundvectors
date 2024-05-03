@@ -679,7 +679,7 @@ class SoundVectors:
         self.feature_hierarchy = feature_hierarchy
         self.primary_domains = self.feature_hierarchy.primary_domains()
 
-    def clts_compatibility(self, clts):
+    def clts_compatibility(self, clts: CLTS) -> bool:
         """
         Check compatibility with a particular CLTS release
         """
