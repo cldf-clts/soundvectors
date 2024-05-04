@@ -1,0 +1,6 @@
+[submodule "clts"]
+    path = tests/fixtures/clts
+    url = https://github.com/cldf-clts/clts
+[submodule "tests/fixtures/clts"]
+	path = tests/fixtures/clts
+	url = https://github.com/cldf-clts/clts

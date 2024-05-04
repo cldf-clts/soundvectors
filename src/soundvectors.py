@@ -2,12 +2,19 @@
 soundvectors: Vectorize Speech Sounds in Phonetic Transcription.
 """
 import enum
+import json
 import typing
 import warnings
 import functools
 import itertools
 import collections
 import dataclasses
+
+try:  # pragma: no cover
+    from pyclts import CLTS, TranscriptionSystem
+except ImportError:  # pragma: no cover
+    CLTS = typing.Any
+    TranscriptionSystem = None
 
 __version__ = "1.0.dev0"
 
@@ -19,6 +26,21 @@ COMPLEX_SOUNDS = {
 
 class Sound(typing.Protocol):  # Sound objects are expected to have a name attribute.
     name: str
+
+
+class DomainHierarchyType(typing.Protocol):  # pragma: no cover
+    """
+    A feature domain hierarchy is expected to be an `enum.Enum` subclass mapping domain names to
+    hierarchy levels, ordered from least to most specific, which implements the two methods
+    specified here.
+    """
+    @classmethod
+    def primary_domains(cls) -> typing.Set:
+        pass
+
+    @classmethod
+    def exclude_for_to_sound(cls) -> typing.Set:
+        pass
 
 
 @dataclasses.dataclass(frozen=True, order=True)  # Make instances immutable and orderable.
@@ -183,7 +205,7 @@ class HierarchicalFeature:
         self.domain = getattr(CLTSDomainHierarchy, domain) if isinstance(domain, str) else domain
         self.featurebundle = featurebundle
 
-    def __eq__(self, other):
+    def __eq__(self, other):  # pragma: no cover
         return self.domain == other.domain and self.name == other.name
 
     def __lt__(self, other):
@@ -647,41 +669,44 @@ class SoundVectors:
         >>> c2v = soundvectors.SoundVectors()
         >>> c2v
     """
-
-    feature_values = clts_features
-    joint_defs = joint_feature_definitions
-    feature_hierarchy = CLTSDomainHierarchy
-    ts = None
-
     def __init__(
             self,
-            ts=None,
-            feature_values=None,
-            feature_hierarchy=None,
-            joint_defs=None
+            ts: typing.Optional[typing.Union[
+                TranscriptionSystem,  # A pyclts.TranscriptionSystem
+                typing.Callable[[typing.List[str]], typing.List[str]]  # A soundclasses-like func
+            ]] = None,
+            feature_values: typing.Dict[str, HierarchicalFeature] = clts_features,
+            feature_hierarchy: typing.Optional[DomainHierarchyType] = CLTSDomainHierarchy,
+            joint_defs=joint_feature_definitions
     ):
-
         self.ts = ts
-        self.feature_values = feature_values or self.feature_values
-        self.joint_defs = joint_defs or self.joint_defs
-        self.feature_hierarchy = feature_hierarchy or self.feature_hierarchy
+        self.feature_values = feature_values
+        self.joint_defs = joint_defs
+        self.feature_hierarchy = feature_hierarchy
         self.primary_domains = self.feature_hierarchy.primary_domains()
 
-    def clts_compatibility(self, clts):
+    def clts_compatibility(self, clts: CLTS) -> bool:
         """
         Check compatibility with a particular CLTS release
         """
-        import json
         clts_features = json.loads(
             clts.transcriptionsystems_dir.joinpath('features.json').read_text(encoding='utf8'))
         for k, d in self.feature_values.items():
-            if d.domain not in ['type', 'to_roundedness']:
+            if d.domain.name not in ['type', 'to_roundedness']:
                 # Make sure, k appears as feature for the domain for at least one type in CLTS:
                 for dd in clts_features.values():
-                    if d.domain in dd and (k in dd[d.domain]):
+                    if d.domain.name in dd and (k in dd[d.domain.name]):
                         break
-                else:
-                    raise AssertionError('{}: {}'.format(d.domain, k))
+                else:  # pragma: no cover
+                    raise AssertionError('{}: {}'.format(d.domain.name, k))
+        clts_feature_names = set()
+        for d in clts_features.values():
+            for names in d.values():
+                clts_feature_names |= set(names)
+        for key in self.joint_defs:
+            key = {k.replace('from_', '').replace('to_', '') for k in key}
+            assert key.issubset(clts_feature_names), 'Unknown features in {}'.format(key)
+        return True
 
     def __call__(self, sounds, vectorize=True):
         vectors = []
@@ -706,7 +731,10 @@ class SoundVectors:
             if is_valid_sound(sound.name):
                 return sound.name
         elif sound and self.ts:
-            sound_transcribed = self.ts([sound])[0]
+            if isinstance(self.ts, TranscriptionSystem):
+                sound_transcribed = self.ts[sound]
+            else:
+                sound_transcribed = self.ts([sound])[0]
             if is_valid_sound(sound_transcribed):
                 return sound_transcribed
             if hasattr(sound_transcribed, "name"):
@@ -717,6 +745,7 @@ class SoundVectors:
     def __getitem__(self, sound: typing.Union[str, Sound]) -> FeatureBundle:
         sound = self.validate(sound)
         base_vec = FeatureBundle()
+        diphthong_features, sound_to_sound = [], ''
 
         # check if sound is complex
         complex_sound = sound.split()[-1] if sound.split()[-1] in COMPLEX_SOUNDS else False
@@ -733,7 +762,6 @@ class SoundVectors:
                                       ["to_" + f for f in sound_to_sound.split()[:-1]])
 
         features = [f for df in sound.split() for f in df.split("-and-")]
-
         primary_features, secondary_features = self._get_features(features)
 
         for feature, hf in primary_features:
@@ -755,7 +783,7 @@ class SoundVectors:
             #
             # FIXME: That's an assumption based on the CLTS feature system!
             #
-            if "to_rounded" in diphthong_features:
+            if "to_rounded" in diphthong_features and "to_rounded" in self.feature_values:
                 base_vec = base_vec.updated(
                     self.feature_values["to_rounded"].featurebundle, valid_values={1})
         elif complex_sound == "cluster":
