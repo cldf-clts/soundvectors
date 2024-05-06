@@ -1,6 +1,12 @@
 
 # Releasing soundvectors
 
+- Make sure to initiate and update the submodule in tests:
+  ```shell
+  git submodule init
+  git submodule update
+  ```
+
 - Do platform test via tox:
   ```shell
   tox -r
@@ -17,7 +23,7 @@
   ```
 
 - Update the version number, by removing the trailing `.dev0` in:
-  - `setup.py`
+  - `setup.cfg`
   - `src/soundvectors.py`
 
 - Create the release commit:
