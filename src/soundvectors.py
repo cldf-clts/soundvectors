@@ -16,7 +16,7 @@ except ImportError:  # pragma: no cover
     CLTS = typing.Any
     TranscriptionSystem = None
 
-__version__ = "1.0"
+__version__ = "1.1.dev0"
 
 COMPLEX_SOUNDS = {
     'diphthong': 'vowel',
