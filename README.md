@@ -2,7 +2,7 @@
 
 This lightweight Python package provides a robust tool for translating sounds into phonological feature vectors. It is described in detail in our forthcoming study "A Generative System for Translating Sounds to Phonological Feature Vectors". If you use the package, we ask you kindly to cite this paper.
 
-> Rubehn, Arne, Jessica Nieder, Robert Forkel and Johann-Mattis List (forthcoming): A Generative System for Translating Sounds to Phonological Feature Vectors. Proceedings of the Society for Computation in Linguistics. Volume 7. 
+> Rubehn, Arne, Jessica Nieder, Robert Forkel, and Johann-Mattis List (2024): [A Generative System for Translating Sounds to Phonological Feature Vectors](https://doi.org/10.7275/scil.2144). *Proceedings of the Society for Computation in Linguistics (SCiL) 2024*. Volume 7, Issue 1, pages 205-216. 
 
 [![Build Status](https://github.com/cldf-clts/soundvectors/workflows/tests/badge.svg)](https://github.com/cldf-clts/soundvectors/actions?query=workflow%3Atests)
 [![PyPI](https://img.shields.io/pypi/v/soundvectors.svg)](https://pypi.org/project/soundvectors)
